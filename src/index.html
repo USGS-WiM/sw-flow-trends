@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Water-Quality Changes in the Nation's Streams and Rivers</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- build:css styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="bower_components/lobipanel/dist/css/lobipanel.min.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap-sidebar/dist/css/sidebar.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap-map-js/dist/css/bootstrapmap.min.css" />
+    <link rel="stylesheet" href="bower_components/handsontable/dist/handsontable.full.min.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- CSS for the mapping components -->
+    <link rel="stylesheet" href="https://js.arcgis.com/3.13/esri/css/esri.css">
+
+    <!-- CSS for USGS Geosearch -->
+    <link rel="stylesheet" href="https://txpub.usgs.gov/DSS/search_api/2.1/api/search_api.css" />
+
+    <!-- build:css styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/custom.css">
+    <!-- endbuild -->
+    <!-- <link rel="stylesheet" href="styles/base.css"> -->
+    <!-- build:css styles/base.css -->
+    <link rel="stylesheet" href="bower_components/wim-styles/template/css/base.css">
+    <!-- endbuild -->
+    
+
+    <link rel="shortcut icon" id="favicon" type="image/ico" href="images/favicon-dark.png" />
+
+    <!-- USGS Geosearch -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="https://txpub.usgs.gov/DSS/search_api/2.1/api/search_api.min.js"></script>
+
+    <!-- build:js scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/jquery-ui/jquery-ui.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/jquery-ui-touch-punch-improved/jquery.ui.touch-punch-improved.js"></script>
+    <script src="bower_components/lobipanel/dist/js/lobipanel.min.js"></script>
+    <script src="bower_components/jquery.nicescroll/jquery.nicescroll.min.js"></script>
+    <script src="bower_components/bootstrap-sidebar/dist/js/sidebar.js"></script>
+    <script src="bower_components/bootstrap-map-js/dist/js/bootstrapmap.min.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js scripts/handsontable.js -->
+    <!-- bower:js -->
+    <script src="bower_components/handsontable/dist/handsontable.full.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <script src="https://js.arcgis.com/3.13/"></script>
+
+
+    <!-- build:js scripts/combined.js -->
+    <script src="scripts/utilities.js"></script>
+    <script src="scripts/layers.js"></script>
+    <script src="scripts/core.js"></script>
+    <!-- endbuild -->
+
+    <!-- Google Analytics -->
+
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-61219868-19', 'auto');
+    ga('send', 'pageview');
+
+    </script>
+
+    <!--Federated Analytics -->
+    <!-- We participate in the US government's analytics program. See the data at analytics.usa.gov. -->
+    <script async type="text/javascript" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=DOI&subagency=FWS" id="_fed_an_ua_tag"></script>
+
+</head>
+<body>
+
+<div class="alert-box">
+  <b>No sites are available for this constituent and trend period. Please select another option.</b>
+</div>
+
+<div id="navbar" class="navbar navbar-static navbar-default navbar-fixed-top navbar-dark">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle toggle-left hidden-md hidden-lg" data-toggle="sidebar" data-target=".sidebar-left">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://usgs.gov">
+                <span>
+                    <img alt="USGS logo" height="38px" src="images/USGS_ID_white.png">
+                    <span class='hidden-xs header-longtitle'>
+                        Water-Quality Changes
+                        <small>in the Nation's Streams and Rivers</small>
+                    </span>
+                </span>
+            </a>
+        </div>
+
+        <button id="geosearchNav" type="button" class="btn btn-primary navbar-btn pull-right" onclick="ga('send','event','navbar','click','Find Location Modal Opened');">
+            <span class="glyphicon glyphicon-search"></span>
+            <span id="geosearchButtonText"> Find Location</span>
+        </button>
+        <button id="printNavButton" type="button" class="btn btn-primary navbar-btn pull-right" onclick="ga('send','event','navbar','click','Print Modal Opened');">
+            <span class="glyphicon glyphicon-print"></span>
+            <span id="printButtonText"> Print</span>
+        </button>
+
+        <button id="faqNav" class="pull-right" onclick="ga('send','event','navbar','click','FAQ', 1);">
+            <i class="fa fa-question-circle"></i><span class="hidden-xs">&nbsp;&nbsp;FAQ</span>
+        </button>
+        <button id="userGuideNav" class="pull-right" onclick="ga('send','event','navbar','click','User Guide', 1);">
+            <i class="fa fa-book"></i><span class="hidden-xs">&nbsp;&nbsp;User Guide</span>
+        </button>
+        <button id="aboutNav" class="pull-right" onclick="ga('send','event','navbar','click','About', 1);">
+            <i class="fa fa-info-circle"></i><span class="hidden-xs">&nbsp;&nbsp;About</span>
+        </button>
+        <!-- comment -->
+        <!-- legend buttton for navbar. to be removed if we like the in-map legend toggle -->
+        <!--<button id="legendButtonNavBar" type="button" class="btn btn-primary navbar-btn pull-right" style="margin-right: 1em;"><span class="glyphicon glyphicon-list"></span> Legend</button>-->
+        <!-- toggle for a right sidebar (currently not in use) -->
+        <!--<button type="button" class="navbar-toggle toggle-right" data-toggle="sidebar" data-target=".sidebar-right">-->
+        <!--<span class="icon-bar"></span>-->
+        <!--<span class="icon-bar"></span>-->
+        <!--<span class="icon-bar"></span>-->
+        <!--</button>-->
+    </div>
+</div>
+
+<div class="modal" id="IEwarningModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                <!--<h4 class="modal-title">{Event Name} Data Viewer</h4>-->
+                <h4><i class="fa fa-exclamation-triangle fa-lg"></i> Web browser warning</h4>
+            </div>
+            <div class="modal-body">
+                <p>This web application does not support use of Microsoft Internet Explorer. It is not designed or tested for use with IE and functionality may be limited or impaired.</p>
+                <p>Please use this application in a modern, standards-compliant browser, such as Google Chrome, Microsoft Edge, or Mozilla Firefox.</p>
+
+            </div>
+            <div class="modal-footer">
+                <button id="IEwarnContinue" type="button" class="btn btn-danger" data-dismiss="modal">Continue Anyway (Not recommended)</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<!-- Modal for Graphs. Kept from sw trends mapper as an example. -->
+<div class="modal fade overflow-y-hidden" id="chartModal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title">
+                    Graphs
+                    <div class="charts-model-loading">
+                        <img src="images/loader.gif"/>
+                    </div>
+                </h4>
+            </div>
+            <div class="modal-body charts-modal">
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade overflow-y-hidden" id="tableModal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close table-close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title">Trend results <i id="trendResultHelp" class="fa fa-question-circle"></i> <button class="btn btn-primary download-table-btn">Download <i class="fa fa-cloud-download"></i></button></h4>
+            </div>
+            <div class="modal-body">
+                <small>Hover boxes with a "?" for more information.</small>
+                <div id="tableDiv" style="overflow: auto; height: 100%; width: 100%;">Loading...</div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade overflow-y-hidden" id="geosearchModal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title">Find Location</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div id="geosearch" align="center"></div>
+                    <br>
+                    <div align="center">
+                        <p>Supported Search Strings:</p>
+                            <div id="supportedSearchText">
+                                <ul style="list-style:none;">
+                                    <li>GNIS Locations</li>
+                                    <li>Lat/Long (ie. '43.9, -72.1')</li>
+                                    <li>States</li>
+                                    <li>Street Address</li>
+                                    <li>USGS Sites</li> 
+                                    <li>Zip Codes</li>
+                                </ul>
+                            </div>
+                        <hr>
+                        <p>Search provided by <a href="https://txpub.usgs.gov/dss/search_api/2.0/" target="_blank">USGS Search Javascript API</a></p>
+                    </div>
+                </div>
+                <form id="geosearch-form" class="form-inline geosearch-buttons">
+                    <button id="btnDismiss" type="submit" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <!-- <button id="btnGeosearch" type="button" class="btn btn-success" data-dismiss="modal" onclick="ga('send','event','navbar','click','Find Location Search Performed');"> Search </button> -->
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade overflow-y-hidden" id="printModal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title"><span class="glyphicon glyphicon-print"></span> Print Map</h4>
+            </div>
+            <div id="printModalBody" class="modal-body">
+
+                <form id="print-title-form" class="form-group">
+                    <h3>Document ready for printing:</h3>
+                    <label id="printTitle" for="printTitle">Title </label><br/><br/>
+                    <!--</form>
+
+                    <form id="print-form" class="form-inline">-->
+                    <button id="printExecuteButton" type="submit" class="btn btn-success btn-fixed" data-loading-text="Printing..." onclick="ga('send','event','navbar','click','Print Job Performed');"> Print </button>
+                    <button id="printDismissButton" type="button" class="btn btn-default btn-fixed" data-dismiss="modal"> Dismiss</button>
+                </form>
+
+                <div id="printJobsDiv" style="margin-top: 5px;"><label>Print Jobs </label><p class="toRemove"> No print jobs yet</p></div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<div id="aboutModal" class="modal fade" tabindex="-1" role="dialog" >
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal" aria-hidden="true" style="color:gray;">&times;</button>
+                <h4 class="modal-title">Surface Water Flow Trends</h4>
+            </div>
+            <div id="aboutModalBody" class="modal-body">
+                <ul class="nav nav-tabs" id="aboutModalTabs">
+                    <li role="presentation" class="active"><a id="aboutTab" href="#aboutTabPane" data-toggle="tab"><i class="fa fa-question-circle"></i>&nbsp;About</a></li>
+                    <li role="presentation"><a id="learnMoreTab" href="#learnMoreTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Learn More');"><i class="fa fa-exclamation-circle"></i>&nbsp;Learn More</a></li>
+                    <li role="presentation"><a id="partnerTab" href="#partnerTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Partner Organizations');"><i class="fa fa-id-card-o"></i>&nbsp;Partner Organizations</a></li>
+                    <li role="presentation"><a id="waterResourcesTab" href="#waterResourcesTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Related Resources');"><i class="fa fa-tint"></i>&nbsp;Related Resources</a></li>
+                    <li role="presentation"><a id="disclaimerTab" href="#disclaimerTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Disclaimer');"><i class="fa fa-check-circle-o"></i>&nbsp;Disclaimer</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="aboutTabPane">
+                        <div class="abouttab-inner">
+                            <p>
+                                <!-- about content here-->
+                            </p>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="learnMoreTabPane">
+                        <!-- learn more info -->
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="waterResourcesTabPane">
+                        <!-- related resources info-->
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="partnerTabPane">
+                        <!-- partner organization info-->
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="disclaimerTabPane">
+                        <p>Any use of trade, firm, or product names is for descriptive purposes only and does not imply endorsement by the U.S. Government.</p>
+                        <p>Version x.x.x</p>
+                    </div>
+                </div>
+            </div>
+
+            <form id="disclaimerButtons" id="disclaimer-form" class="form-inline" style="text-align:center;">
+                <!--<button id="otherButton" type="button" class="btn btn-success btn-fixed" data-dismiss="modal"> More Info?</button>-->
+                <button id="enterMapper" type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </form>
+
+        </div><!-- /.modal-content -->
+    </div> <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+
+<div id="userGuideModal" class="modal fade"  tabindex="-1" role="dialog" >
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal" aria-hidden="true" style="color:gray;">&times;</button>
+                <h4 class="modal-title">Map Interface User Guide</h4>
+            </div>
+            <div id="aboutModalBody" class="modal-body">
+                <ul class="nav nav-tabs" id="aboutModalTabs">
+                    <li role="presentation" class="active"><a id="searchTab" href="#searchTabPane" data-toggle="tab"><i class="fa fa-search"></i>&nbsp;Search, Zoom, Print</a></li>
+                    <li role="presentation"><a id="iconTab" href="#iconTabPane" data-toggle="tab"><i class="fa fa-list"></i>&nbsp;Explanation</a></li>
+                    <li role="presentation"><a id="layersTab" href="#layersTabPane" data-toggle="tab"><i class="fa fa-map"></i>&nbsp;Map selection options</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="searchTabPane">
+                        <span class="user-guide-header">Search, zoom, and print capabilities</span>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/search.png"/></div>
+                            <p><b>Searching</b>The search option allows the user to search for a location such as a city, state, zip code, or general place name.</p>
+                        </div>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/zoom.png"/></div>
+                            <p><b>Navigating the map</b>The scroll wheel on the mouse can be used to zoom, and in the upper left area of the tool are "+" and "&#45;" icons to zoom in and out, respectively.</p>
+                        </div>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/home.png"/></div>
+                            <p><b>Home Location</b>The crosshair button will zoom the map to your location, and the home button will center the US on the map.</p>
+                        </div>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/mappoints.png"/></div>
+                            <p><b>Opening a site</b>Clicking on an arrow or circle at a site will bring up a window with details about the site, graphs of the original data and model predictions (for some constituents), and a table of the other trend results at the same site.</p>
+                        </div>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/siteinfo.png"/></div>
+                            <p><b>Moving site window</b>Reposition the site info pop-up window with the mouse see the rest of the underlying map if necessary.</p>
+                        </div>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/faq.png"/></div>
+                            <p><b>More site details</b>Additional details about the graphs are available in the FAQs. Additional details about the column headers in the table are available by hovering on the help button for each column header.</p>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="iconTabPane">
+                        <span class="user-guide-header">Explanation</span>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/legend.png"/></div>
+                            <p><b>Explanation display</b>The Explanation box can be collapsed to display more of the mapped area.</p>
+                        </div>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/legendfull.png"/></div>
+                            <p><b>Using the Explanation</b>The expanded Explanation box explains the arrows and circles that appear for each site, displaying the results from the statistical analysis of trends.</p>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="layersTabPane">
+                        <span class="user-guide-header">Map selection options</span>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/basemaps.png"/></div>
+                            <p><b>Changing the basemap style</b>The "Basemaps" sidebar allows a user to show various geographic information or landscape imagery as a background layer beneath the trend results.</p>
+                        </div>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/maplayers.png"/></div>
+                            <p><b>Changing or adding map layers</b>The "Map Layers" sidebar allows a user to show land use for 1974, 1982, 1992, 2002, or 2012 as a background layer beneath the trend results.</p>
+                        </div>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/constituent.png"/></div>
+                            <p><b>Selecting a constituent</b>The Constituent group selection allows a user to choose a constituent group and then choose a specific constituent from within that group. See About -&gt; Learn More for a list of constituents.</p>
+                        </div>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/trendtype.png"/></div>
+                            <p><b>Selecting a trend type</b>Based on the constituent selection, a user can choose from among the available trend types. Concentration is the amount of the constituent in the stream. Load is the mass of the constituent transported past the sampling point in a stream during a period of time. A metric is an index calculated to represent a specific characteristic of aquatic communities. Changes over time in water-quality concentration and load and changes in aquatic ecology-metrics can be strongly influenced by random and systematic variations in streamflow. Flow normalization removes the variation in concentration, load, or metric that is due to variations in streamflow. As a result, concentration and load trends are flow normalized and aquatic ecology metric trends are flow normalized. See FAQ #18 for more information. Note not all trend types are available for every constituent.</p>
+                        </div>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/trendperiod.png"/></div>
+                            <p><b>Selecting a trend period</b>Based on the constituent selection, a user can choose from among the available trend periods. Once the constituent, trend type, and trend period have been selected, the map will automatically update. Note not all trend periods are available for every constituent.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <form id="disclaimerButtons" id="disclaimer-form" class="form-inline" style="text-align:center;">
+                <button id="enterMapper" type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </form>
+
+        </div><!-- /.modal-content -->
+    </div> <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+<div id="trendResultHelpModal" class="modal fade"  tabindex="-1" role="dialog" >
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal" aria-hidden="true" style="color:gray;">&times;</button>
+                <h4 class="modal-title">Trend Results Help</h4>
+            </div>
+            <div id="trendResultHelpModalBody" class="modal-body">
+                <h4>Hello</h4>
+            </div>
+
+            <form id="disclaimerButtons" id="disclaimer-form" class="form-inline" style="text-align:center;">
+                <button id="enterMapper" type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </form>
+
+        </div><!-- /.modal-content -->
+    </div> <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+<div id="faqModal" class="modal fade"  tabindex="-1" role="dialog" >
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal" aria-hidden="true" style="color:gray;">&times;</button>
+                <h4 class="modal-title">Frequently Asked Questions</h4>
+            </div>
+            <div class="faq-modal-body">
+                <h4 style="margin-bottom: 15px; font-weight: 600;">Study scope</h4>
+                <div class="faq-header" id="faq1header">1. What is the purpose of this study? <div id="angle1" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
+                <div class="faq-body" id="faq1body">
+                    <!-- FAQ 1 Body -->
+                </div>
+
+                <div class="faq-header" id="faq2header">2. Where can I get more information on this study? <div id="angle2" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
+                <div class="faq-body" id="faq2body">
+                    <!-- FAQ 2 Body -->    
+                </div>
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div> <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+<!-- Begin page content -->
+<div class="container-fluid keepit100">
+    <div class="row keepit100">
+        <!--<div id="sidebar" class="col-xs-7 col-sm-3 col-md-3 sidebar sidebar-left sidebar-animate sidebar-md-show no-col-padding">-->
+        <div id="sidebar" class="col-xs-11 col-sm-10 col-md-3 col-lg-2 sidebar sidebar-left sidebar-animate sidebar-md-show no-col-padding">
+            <!-- # include line below to get accordion effect with panels - opening one closes the others. remember closing div tag at bottom -->
+            <!--<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">-->
+            <!-- include btn-toolbar below to put legend and geosearch buttons next to eachother -->
+            <!--<div class="btn-toolbar" style="margin-bottom: 2px;">-->
+            <!--<div class="btn-group no-col-padding">-->
+            <!-- sidebar legend button. to be rmoved if we like the in-map legend toggle -->
+            <!--<button id="legendButtonSidebar" type="button" class="btn btn-default" ><span class="glyphicon glyphicon-list"></span> Legend</button>-->
+            <!--<button id="geosearchButtonSidebar" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Geosearch</button>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<button id="legendButtonSidebar" type="button" class="btn btn-default" ><span class="glyphicon glyphicon-list"></span> Legend</button>-->
+            <div class="panel panel-default wim-sidebar-panel">
+                <div class="panel-heading" id="basemapsHeader">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse"  href="#basemapsPanel" aria-expanded="false" aria-controls="basemapsPanel">
+                            Basemaps
+                        </a>
+                    </h4>
+                </div>
+                <div id="basemapsPanel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="basemapsHeader">
+                    <div class="panel-body collapse in">
+                        <button id="btnStreets" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/streets.jpg"><br class="basemapThumb">Streets</button>
+                        <button id="btnSatellite" class="btn btn-default basemapBtn equalize" ><img class="basemapThumb" alt="" src="images/satellite.jpg"><br class="basemapThumb">Satellite</button>
+                        <button id="btnHybrid" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/imagery_labels.jpg"><br class="basemapThumb">Hybrid</button>
+                        <button id="btnTopo" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/topo.jpg"><br class="basemapThumb">Topo</button>
+                        <button id="btnTerrain" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/terrain.jpg"><br class="basemapThumb">Terrain</button>
+                        <button id="btnGray" class="btn btn-default basemapBtn equalize" ><img class="basemapThumb" alt="" src="images/gray.jpg"><br class="basemapThumb">Gray</button>
+                        <button id="btnOSM" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/osm.jpg"><br class="basemapThumb">OSM</button>
+                        <button id="btnNatGeo" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/natgeo.jpg"><br class="basemapThumb">NatGeo</button>
+                        <button id="btnNatlMap" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/national_map.jpg"><br class="basemapThumb">Nat'l Map</button>
+                    </div>
+
+                </div>
+            </div>
+            
+            <div class="panel panel-default wim-sidebar-panel">
+                <div class="panel-heading" id="layersPanelHeader">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" href="#layersPanel" aria-expanded="true" aria-controls="layersPanel">
+                            Map Layers
+                        </a>
+                    </h4>
+                </div>
+                <div id="layersPanel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="layersPanelHeader">
+                    <div id="toggle" style="padding: 2px 2px;"></div>
+                </div>
+            </div>
+            <!-- panel for constituent and trend selections -->
+            <div class="panel panel-default wim-sidebar-panel">
+                <div class="panel-heading" id="constPanelHeader">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" href="#constPanel" aria-expanded="true" aria-controls="constDropdowns">
+                            Constituent Select
+                        </a>
+                    </h4>
+                </div>
+                <div id="constPanel" class="panel-collapse collapse in constituent-panel" role="tabpanel" aria-labelledby="constPanelHeader">
+                    <div id="constDropdowns" style="padding: 2px 2px;">
+                        <label for="typeSelect">Constituent group:</label>
+                        <span>
+                            <select id="typeSelect">
+                                <option value="Algae" select="#algaeSelect">Algae (Diatoms)</option>
+                                <option value="Carbon" select="#carbonSelect">Carbon</option>
+                                <option value="Fish" select="#fishSelect">Fish</option>
+                                <option value="Macroinvertebrates" select="#macroinvertSelect">Invertebrates</option>
+                                <option value="Major ions" select="#majorIonsSelect">Major ions</option>
+                                <option value="Nutrients" select="#nutrientsSelect">Nutrients</option>
+                                <option value="Pesticides" select="#pesticideSelect">Pesticides</option>
+                                <option value="Salinity" select="#salinitySelect">Salinity</option>
+                                <option value="Sediment" select="#sedimentSelect">Sediment</option>
+                            </select>
+                        </span>
+                    </div>
+                    <div>
+                        <label>Constituent:</label>
+                        <span>
+                            <select id="nutrientsSelect" class="constSelect wrtdsSelect">
+
+                            </select>
+                            <small style="font-size: 7pt;">For more information, see <a class="showUserGuide3" onclick="ga('send','event','navbar','click','User Guide');">User Guide</a></small>
+                        </span><!-- -->
+                        <span>
+                            <select id="carbonSelect" class="constSelect wrtdsSelect">
+
+                            </select>
+                        </span>
+                        <span>
+                            <select id="majorIonsSelect" class="constSelect wrtdsSelect">
+
+                            </select>
+                        </span>
+                        <span>
+                            <select id="salinitySelect" class="constSelect wrtdsSelect">
+
+                            </select>
+                        </span>
+                        <span>
+                            <select id="sedimentSelect" class="constSelect wrtdsSelect">
+
+                            </select>
+                        </span>
+                        <span>
+                            <select id="pesticideSelect" class="constSelect pestSelect">
+
+                            </select>
+                        </span>
+                        <span>
+                            <select id="algaeSelect" class="constSelect ecoSelect">
+
+                            </select>
+                        </span>
+                        <span>
+                            <select id="fishSelect" class="constSelect ecoSelect">
+
+                            </select>
+                        </span>
+                        <span>
+                            <select id="macroinvertSelect" class="constSelect ecoSelect">
+
+                            </select>
+                        </span>
+                    </div>
+
+                    <div id="trendTypes" style="align-content: center; width: 100%; padding-top: 20px; text-align: left;">
+                        <label>Trend type</label>
+                        <span class="sidebar-radio-wrapper">
+                            <input id="cocentration" name="trendType" class="trendType" type="radio" value="concentration" checked> Concentration
+                        </span>
+                        <span class="sidebar-radio-wrapper">
+                            <input id="load" name="trendType" class="trendType" type="radio" value="load"> Load
+                        </span>
+                    </div>
+                    <div style="width: 100%; padding-top: 20px; text-align: left;">
+                        <label>Trend period</label>
+                        <span id="trend4" class="sidebar-radio-wrapper">
+                            <input id="trend4input" name="trendPeriod" class="trendPeriod" type="radio" value="P40"> 1972-2012
+                        </span>
+                        <span id="trend3" class="sidebar-radio-wrapper">
+                            <input id="trend3input" name="trendPeriod" class="trendPeriod" type="radio" value="P30"> 1982-2012
+                        </span>
+                        <span id="trend2" class="sidebar-radio-wrapper">
+                            <input id="trend2input" name="trendPeriod" class="trendPeriod" type="radio" value="P20"> 1992-2012
+                        </span>
+                        <span id="trend1" class="sidebar-radio-wrapper">
+                            <input id="trend1input" name="trendPeriod" class="trendPeriod" type="radio" value="P10" checked> 2002-2012
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- # closing div tag for accordion style panels -->
+            <!--</div>-->
+            <div class="footer-links">
+                <div class="identification"><a href="https://wim.usgs.gov/" target="_blank">Powered by WiM</a></div>
+                <a href="https://usgs.gov" target="_blank">USGS Home</a>
+                <a href="https://answers.usgs.gov" target="_blank">Contact USGS</a>
+                <a href="https://search.usgs.gov" target="_blank">Search USGS</a>
+                <a href="https://www2.usgs.gov/laws/accessibility.html" target="_blank">Accessibility</a>
+                <a href="https://www2.usgs.gov/foia/" target="_blank">FOIA</a>
+                <a href="https://www2.usgs.gov/laws/privacy.html" target="_blank">Privacy</a>
+                <a href="https://www2.usgs.gov/laws/policies_notices.html" target="_blank">Policies & Notices</a>
+            </div>
+        </div>
+        <div class="col-md-9 col-lg-10 col-md-offset-3 col-lg-offset-2 no-col-padding keepit100">
+            <!-- legend, associated with legend buttons. to be removed if we stick with the in-map legend toggle -->
+            <!--<div id="legend" class="legend" style="display: none" >-->
+            <!--<button id="legendClose" type="button" class="close" data-dismiss="legend" aria-label="Close" aria-hidden="true">x</button>-->
+            <!--<h4><b>Explanation</b></h4>-->
+            <!--<div id="legendDiv"></div>-->
+            <!--</div>-->
+
+            <div id="mapDiv">
+
+                <div id="siteInfoDiv" class="panel panel-defaults siteInfoClass">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h4 id="siteInfoPanelHeader">Site Information</h4>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div id="siteInfoPanel" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="siteInfoPanelHeader">
+                            <ul class="nav nav-tabs" id="siteInfoTabs">
+                                <li role="presentation" class="active"><a id="siteInfoTab" href="#siteInfoTabPane" data-toggle="tab"><i class="fa fa-info-circle"></i>&nbsp;Site Information</a></li>
+                                <!--<button id="charts" type="button" class="btn btn-primary"><i class="fa fa-line-chart"></i>Graphs</button>
+                                <button id="table" type="button" class="btn btn-primary"><i class="fa fa-table"></i>&nbsp;Trend Results</button>-->
+                            </ul>
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="siteInfoTabPane"></br>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="legendElement" class="panel panel-default legendClass">
+                    <div id="legendHeading" class=" legendHeading" role="tab">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" id="legendButton" style="text-decoration: none"  href="#legendCollapse" aria-expanded="true" aria-controls="collapseOne">
+                                <span class="glyphicon glyphicon-list"></span>
+                                Explanation
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="legendCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                        <small style="display: block; text-align: center; font-size: 8pt; color: rgba(0,0,0,0.65); font-weight: 400; padding: 5px 0;">For more information, see <a class="showUserGuide2" onclick="ga('send','event','navbar','click','User Guide');">User Guide</a>.</small>
+                        <div id="legendDiv" class="panel-body">
+                            <!-- <p class="legendSpacing"><div class="squareDiv huc8"></div>HUC8 Watershed Boundary</p> -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div onclick="ga('send','event','Map Button','click','Home icon');"><div id="homeButton"></div></div>
+            <div  onclick="ga('send','event','Map Button','click','Location icon');"><div id="locateButton"></div></div>
+
+            <div id="latLngScale" class="latLngScale">
+                <span class="hover-content"> <b>Map scale </b></span>
+                1:<span id="scale"></span> <br>
+                <span class="hover-content"><b>Latitude</b></span>
+                <span id="latitude">y</span> |
+                <span class="hover-content"> <b>Longitude</b></span>
+                <span id="longitude">x</span>
+                <span id="mapCenterLabel"  class="hover-content"> (center)</span>
+            </div>
+
+        </div>
+        <div class="col-xs-7 col-sm-3 col-md-3 sidebar sidebar-right sidebar-animate"></div>
+    </div>
+</div>
+</body>
+</html>
