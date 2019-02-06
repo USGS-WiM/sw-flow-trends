@@ -503,23 +503,25 @@
                 </div>
                 <div id="constPanel" class="panel-collapse collapse in constituent-panel" role="tabpanel" aria-labelledby="constPanelHeader">
                     <div id="constDropdowns" style="padding: 2px 2px;">
-                        <label for="typeSelect">Constituent group:</label>
+                        <label for="layerSelect">Available Layers:</label>
                         <span>
-                            <select id="typeSelect">
-                                <option value="Algae" select="#algaeSelect">Algae (Diatoms)</option>
-                                <option value="Carbon" select="#carbonSelect">Carbon</option>
-                                <option value="Fish" select="#fishSelect">Fish</option>
-                                <option value="Macroinvertebrates" select="#macroinvertSelect">Invertebrates</option>
-                                <option value="Major ions" select="#majorIonsSelect">Major ions</option>
-                                <option value="Nutrients" select="#nutrientsSelect">Nutrients</option>
-                                <option value="Pesticides" select="#pesticideSelect">Pesticides</option>
-                                <option value="Salinity" select="#salinitySelect">Salinity</option>
-                                <option value="Sediment" select="#sedimentSelect">Sediment</option>
+                            <select id="layerSelect">
+                                <option value="Q2_scaled_deficit" selected>Scaled Deficit</option>
+                                <option value="Q2_nDays_Layer">Q2 nDays</option>
+                                <option value="JD_Last">JD Last</option>
+                                <option value="JD_First">JD First</option>
+                                <option value="JD_Diff_Q2">JD Difference Q2</option>
+                                <option value="Peaks_Square_Data">Peaks Square Data</option>
+                                <option value="Mean_AnnualQ">Mean Annual Q</option>
+                                <option value="lowQ_7day" >LowQ 7day</option>
+                                <option value="lowQ_3day" >LowQ 3Day</option>
+                                <option value="lowQ_1day" >LowQ 1Day</option>
+                                <option value="ZeroQ_nDay">ZeroQ</option>
                             </select>
                         </span>
                     </div>
                     <div>
-                        <label>Constituent:</label>
+                        <label>Measurements:</label>
                         <span>
                             <select id="nutrientsSelect" class="constSelect wrtdsSelect">
 
