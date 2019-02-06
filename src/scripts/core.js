@@ -1736,9 +1736,9 @@ require([
             //sub-loop over layers within this groupType
             $.each(group.layers, function (layerName,layerDetails) {
 
-                var legendLayerName = layerName;
-                if (legendLayerName == "pest layer" || legendLayerName == "Eco Sites layer" || legendLayerName == "WRTDS Concentration Sites" || legendLayerName == "WRTDS Flux Sites") {
-                    legendLayerName = "Trend results";
+                var legendLayerName = layerName; 
+                if (legendLayerName == "lowQ_1Day" || legendLayerName == "lowQ_3Days" || legendLayerName == "lowQ_7Day" || legendLayerName == "mean_annual" || legendLayerName == "peak_square_data" || legendLayerName == "zeroQ_nDays") {
+                  legendLayerName = layerName; 
                 }
                 //check for exclusiveGroup for this layer
                 var exclusiveGroupName = '';

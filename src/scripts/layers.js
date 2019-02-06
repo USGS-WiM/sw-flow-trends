@@ -18,20 +18,20 @@ require([
     SimpleMarkerSymbol
 ) {
 
-    allLayers = [//
+    allLayers = [
         {
             "groupHeading": "sites",
-            "showGroupHeading": false,
-            "includeInLayerList": false,
+            "showGroupHeading": true,
+            "includeInLayerList": true,
             "layers": {
-                "pest layer": {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWTrends/swTrendSites/MapServer/0",
+                "lowQ_1Day": {
+                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/0",
                     "options": {
-                        "id": "pestSites",
+                        "id": "0",
                         "opacity": 1.00,
                         "mode": FeatureLayer.MODE_SNAPSHOT,
                         "outFields": ["*"],
-                        "visible": false
+                        "visible": true
                     },
                     "wimOptions": {
                         "type": "layer",
@@ -41,14 +41,14 @@ require([
                         "includeLegend": true
                     }
                 },
-                "Eco Sites layer" : {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWTrends/swTrendSites/MapServer/1",
+                "lowQ_3Days" : {
+                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/1",
                     "options": {
-                        "id": "ecoSites",
+                        "id": "1",
                         "opacity": 1.00,
                         "mode": FeatureLayer.MODE_SNAPSHOT,
                         "outFields": ["*"],
-                        "visible": false
+                        "visible": true
                     },
                     "wimOptions": {
                         "type": "layer",
@@ -58,14 +58,14 @@ require([
                         "includeLegend" : true
                     }
                 },
-                "WRTDS Concentration Sites" : {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWTrends/swTrendSites/MapServer/2",
+                "lowQ_7Day" : {
+                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/2",
                     "options": {
-                        "id": "wrtdsSites",
+                        "id": "2",
                         "opacity": 1.00,
                         "mode": FeatureLayer.MODE_SNAPSHOT,
-                        "outFields": ["wrtds_sites.Station_nm","wrtds_sites.Site_no","wrtds_sites.staAbbrev","wrtds_sites.agency1","wrtds_trends_wm_new.agency_1_full","wrtds_trends_wm_new.agency_2_full","wrtds_sites.db_source","wrtds_sites.dec_lat_va","wrtds_sites.dec_long_va","wrtds_sites.drainSqKm","wrtds_sites.huc_cd","wrtds_trends_wm_new.DA"],
-                        "visible": false
+                        "outFields": ["*"],
+                        "visible": true
                     },
                     "wimOptions": {
                         "type": "layer",
@@ -75,14 +75,48 @@ require([
                         "includeLegend" : true
                     }
                 },
-                "WRTDS Flux Sites" : {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWTrends/swTrendSites/MapServer/3",
+                "mean_annual" : {
+                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/3",
                     "options": {
-                        "id": "wrtdsFluxSites",
+                        "id": "3",
                         "opacity": 1.00,
                         "mode": FeatureLayer.MODE_SNAPSHOT,
-                        "outFields": ["wrtds_sites.Station_nm","wrtds_sites.Site_no","wrtds_sites.staAbbrev","wrtds_sites.agency1","wrtds_trends_wm_new.agency_1_full","wrtds_trends_wm_new.agency_2_full","wrtds_sites.db_source","wrtds_sites.dec_lat_va","wrtds_sites.dec_long_va","wrtds_sites.drainSqKm","wrtds_sites.huc_cd","wrtds_trends_wm_new.DA"],
-                        "visible": false
+                        "outFields": ["*"],
+                        "visible": true
+                    },
+                    "wimOptions": {
+                        "type": "layer",
+                        "layerType": "agisFeature",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": true,
+                        "includeLegend" : true
+                    }
+                },
+                "peak_square_data" : {
+                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/4",
+                    "options": {
+                        "id": "4",
+                        "opacity": 1.00,
+                        "mode": FeatureLayer.MODE_SNAPSHOT,
+                        "outFields": ["*"],
+                        "visible": true
+                    },
+                    "wimOptions": {
+                        "type": "layer",
+                        "layerType": "agisFeature",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": true,
+                        "includeLegend" : true
+                    }
+                },
+                "zeroQ_nDays" : {
+                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/5",
+                    "options": {
+                        "id": "5",
+                        "opacity": 1.00,
+                        "mode": FeatureLayer.MODE_SNAPSHOT,
+                        "outFields": ["*"],
+                        "visible": true
                     },
                     "wimOptions": {
                         "type": "layer",
