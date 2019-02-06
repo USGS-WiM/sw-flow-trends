@@ -369,7 +369,7 @@ require([
         return printTitle;
     }
 
-    var layers_all = ["pestSites","ecoSites","wrtdsSites","wrtdsFluxSites"];
+    var layers_all = ["Q2_scaled_deficit","Q2_nDays_Layer","JD_Last","JD_First","JD_Diff_Q2","Peaks_Square_Data","Mean_AnnualQ","lowQ_7day","lowQ_3day","lowQ_1day","ZeroQ_nDay"];
 
     $("#typeSelect").on('change', function (event) {
 
@@ -541,7 +541,7 @@ require([
         layerUpdateListener("ecoSites");
     });
 
-    $(".wrtdsSelect").on("change", function(event) {
+   /* $(".wrtdsSelect").on("change", function(event) {
         $("#siteInfoDiv").css("visibility", "hidden");
         map.graphics.clear();
         var val = event.currentTarget.value;
@@ -586,6 +586,16 @@ require([
         var expression = "wrtds_trends_wm_new.id_unique LIKE '%" + val + "%" + trendPeriod + "%' OR wrtds_trends_wm_new.id_unique LIKE '%" + val + "%" + trendPeriod2 + "%'";
         layer.setDefinitionExpression(expression);
         layerUpdateListener(layerID);
+    });*/
+
+    $('#layerSelect').change(function(item){ 
+        const layerArray = ["Q2_scaled_deficit","Q2_nDays_Layer","JD_Last","JD_First","JD_Diff_Q2","Peaks_Square_Data","Mean_AnnualQ","lowQ_7day","lowQ_3day","lowQ_1day","ZeroQ_nDay"];
+        for(var i = 0; i < layerArray.length-1; ++i){ 
+            console.log(i,layerArray[i]);
+            map.getLayer(layerArray[i]).setVisibility(false);
+             //For Loop to go through each of the layers
+        }; 
+        map.getLayer(item.currentTarget.value).setVisibility(true);
     });
 
     $(".trendPeriod").on("change", function(event) {

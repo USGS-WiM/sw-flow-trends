@@ -18,16 +18,16 @@ require([
     SimpleMarkerSymbol
 ) {
 
-    allLayers = [
+    allLayers = [//
         {
             "groupHeading": "sites",
-            "showGroupHeading": true,
-            "includeInLayerList": true,
+            "showGroupHeading": false,
+            "includeInLayerList": false,
             "layers": {
-                "lowQ_1Day": {
+                "Q2_scaled_deficit": {
                     "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/0",
                     "options": {
-                        "id": "0",
+                        "id": "Q2_scaled_deficit",
                         "opacity": 1.00,
                         "mode": FeatureLayer.MODE_SNAPSHOT,
                         "outFields": ["*"],
@@ -41,10 +41,10 @@ require([
                         "includeLegend": true
                     }
                 },
-                "lowQ_3Days" : {
+                "Q2_nDays_Layer" : {
                     "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/1",
                     "options": {
-                        "id": "1",
+                        "id": "Q2_nDays_Layer",
                         "opacity": 1.00,
                         "mode": FeatureLayer.MODE_SNAPSHOT,
                         "outFields": ["*"],
@@ -58,14 +58,14 @@ require([
                         "includeLegend" : true
                     }
                 },
-                "lowQ_7Day" : {
+                "JD_Last" : {
                     "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/2",
                     "options": {
-                        "id": "2",
+                        "id": "JD_Last",
                         "opacity": 1.00,
                         "mode": FeatureLayer.MODE_SNAPSHOT,
                         "outFields": ["*"],
-                        "visible": true
+                        "visible": false
                     },
                     "wimOptions": {
                         "type": "layer",
@@ -75,14 +75,14 @@ require([
                         "includeLegend" : true
                     }
                 },
-                "mean_annual" : {
+                "JD_First" : {
                     "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/3",
                     "options": {
-                        "id": "3",
+                        "id": "JD_First",
                         "opacity": 1.00,
                         "mode": FeatureLayer.MODE_SNAPSHOT,
                         "outFields": ["*"],
-                        "visible": true
+                        "visible": false
                     },
                     "wimOptions": {
                         "type": "layer",
@@ -91,15 +91,15 @@ require([
                         "hasOpacitySlider": true,
                         "includeLegend" : true
                     }
-                },
-                "peak_square_data" : {
+                }, 
+                "JD_Diff_Q2" : {
                     "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/4",
                     "options": {
-                        "id": "4",
+                        "id": "JD_Diff_Q2",
                         "opacity": 1.00,
                         "mode": FeatureLayer.MODE_SNAPSHOT,
                         "outFields": ["*"],
-                        "visible": true
+                        "visible": false
                     },
                     "wimOptions": {
                         "type": "layer",
@@ -109,14 +109,14 @@ require([
                         "includeLegend" : true
                     }
                 },
-                "zeroQ_nDays" : {
+                "Peaks_Square_Data" : {
                     "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/5",
                     "options": {
-                        "id": "5",
+                        "id": "Peaks_Square_Data",
                         "opacity": 1.00,
                         "mode": FeatureLayer.MODE_SNAPSHOT,
                         "outFields": ["*"],
-                        "visible": true
+                        "visible": false
                     },
                     "wimOptions": {
                         "type": "layer",
@@ -125,7 +125,87 @@ require([
                         "hasOpacitySlider": true,
                         "includeLegend" : true
                     }
-                }
+                }, "Mean_AnnualQ" : {
+                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/6",
+                    "options": {
+                        "id": "Mean_AnnualQ",
+                        "opacity": 1.00,
+                        "mode": FeatureLayer.MODE_SNAPSHOT,
+                        "outFields": ["*"],
+                        "visible": false
+                    },
+                    "wimOptions": {
+                        "type": "layer",
+                        "layerType": "agisFeature",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": true,
+                        "includeLegend" : true
+                    }
+                }, "lowQ_7day" : {
+                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/7",
+                    "options": {
+                        "id": "lowQ_7day",
+                        "opacity": 1.00,
+                        "mode": FeatureLayer.MODE_SNAPSHOT,
+                        "outFields": ["*"],
+                        "visible": false
+                    },
+                    "wimOptions": {
+                        "type": "layer",
+                        "layerType": "agisFeature",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": true,
+                        "includeLegend" : true
+                    }
+                }, "lowQ_3day" : {
+                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/8",
+                    "options": {
+                        "id": "lowQ_3day",
+                        "opacity": 1.00,
+                        "mode": FeatureLayer.MODE_SNAPSHOT,
+                        "outFields": ["*"],
+                        "visible": false
+                    },
+                    "wimOptions": {
+                        "type": "layer",
+                        "layerType": "agisFeature",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": true,
+                        "includeLegend" : true
+                    }
+                }, "lowQ_1day" : {
+                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/9",
+                    "options": {
+                        "id": "lowQ_1day",
+                        "opacity": 1.00,
+                        "mode": FeatureLayer.MODE_SNAPSHOT,
+                        "outFields": ["*"],
+                        "visible": false
+                    },
+                    "wimOptions": {
+                        "type": "layer",
+                        "layerType": "agisFeature",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": true,
+                        "includeLegend" : true
+                    }
+                }, "ZeroQ_nDay" : {
+                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/10",
+                    "options": {
+                        "id": "ZeroQ_nDay",
+                        "opacity": 1.00,
+                        "mode": FeatureLayer.MODE_SNAPSHOT,
+                        "outFields": ["*"],
+                        "visible": false
+                    },
+                    "wimOptions": {
+                        "type": "layer",
+                        "layerType": "agisFeature",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": true,
+                        "includeLegend" : true
+                    }
+                },
             }
         }
     ]
