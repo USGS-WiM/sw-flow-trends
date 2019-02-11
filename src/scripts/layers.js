@@ -25,7 +25,7 @@ require([
             "includeInLayerList": false,
             "layers": {
                 "Q2_scaled_deficit": {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/0",
+                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/3",
                     "options": {
                         "id": "Q2_scaled_deficit",
                         "opacity": 1.00,
@@ -42,7 +42,7 @@ require([
                     }
                 },
                 "Q2_nDays_Layer" : {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/1",
+                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/4",
                     "options": {
                         "id": "Q2_nDays_Layer",
                         "opacity": 1.00,
@@ -59,7 +59,7 @@ require([
                     }
                 },
                 "JD_Last" : {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/2",
+                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/1",
                     "options": {
                         "id": "JD_Last",
                         "opacity": 1.00,
@@ -76,7 +76,7 @@ require([
                     }
                 },
                 "JD_First" : {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/3",
+                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/2",
                     "options": {
                         "id": "JD_First",
                         "opacity": 1.00,
@@ -93,7 +93,7 @@ require([
                     }
                 }, 
                 "JD_Diff_Q2" : {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/4",
+                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/10",
                     "options": {
                         "id": "JD_Diff_Q2",
                         "opacity": 1.00,
@@ -190,7 +190,7 @@ require([
                         "includeLegend" : true
                     }
                 }, "ZeroQ_nDay" : {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/10",
+                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/0",
                     "options": {
                         "id": "ZeroQ_nDay",
                         "opacity": 1.00,
