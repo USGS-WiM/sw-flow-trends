@@ -655,7 +655,7 @@ require([
             var selectVal = $($("#typeSelect")[0][$("#typeSelect")[0].selectedIndex].attributes["select"].value).val();
             currentConst = selectVal;
             var expression = "wrtds_trends_wm_new.id_unique LIKE '%" + selectVal + "%" + trendPeriod + "%' OR wrtds_trends_wm_new.id_unique LIKE '%" + selectVal + "%" + trendPeriod2 + "%'";
-            layer.setDefinitionExpression(expression);
+            layer.setDefinitionExpression(expression); 
             layerUpdateListener(layerID);
         }
     });
@@ -802,7 +802,7 @@ require([
 
     //end code for adding draggability to infoWindow
 
-    on(map, "click", function(evt) {
+    on(map, "click", function(event) {
         /*var graphic = new Graphic();
 
         var feature = graphic;
@@ -851,11 +851,11 @@ require([
 
     var pestPDFs = "";
 
-    map.on('layer-add', function (evt) {
-        var layer = evt.layer.id;
-        var actualLayer = evt.layer;
+    map.on('layer-add', function (event) {
+        var layer = event.layer.id;
+        var actualLayer = event.layer;
 
-        if (layer == "pestSites" || layer == "wrtdsSites" || layer == "ecoSites" || layer == "wrtdsFluxSites") {
+        if (layer == "Q2_scaled_deficit" || layer == "Q2_nDays_Layer" || layer == "JD_Last" || layer == "JD_First" || layer == "JD_Diff_Q2" || layer=="Peaks_Square_Data" || layer=="Mean_AnnualQ" || layer == "lowQ_7day"|| layer=="lowQ_3day" || layer=="lowQ_1day" ||layer=="ZeroQ_nDay") {
 
             /*var layerUpdate = on(map.getLayer(layer), 'update-end', function(evt) {
                 if (layer != currentLayer) {
@@ -870,7 +870,7 @@ require([
                 map.getLayer("wrtdsSites").setVisibility(true);
             }
 
-            map.getLayer(layer).on('click', function (evt) {
+            map.getLayer(layer).on('click', function (event) {
 
                 /*var hucLayer;
                 hucLayer = map.getLayer("huc8");
@@ -889,8 +889,8 @@ require([
                 );
                 symbol.setOutline(outline);
 
-                var pt = new Point(evt.mapPoint.x,evt.mapPoint.y,map.spatialReference)
-                var newGraphic = new Graphic(evt.graphic.geometry, symbol);
+                var pt = new Point(event.mapPoint.x,event.mapPoint.y,map.spatialReference)
+                var newGraphic = new Graphic(event.graphic.geometry, symbol);
 
                 //newGraphic.setSymbol(symbol);
                 //map.graphics.add(evt.graphic)
@@ -963,15 +963,15 @@ require([
 
                 //var instanceX = docWidth*0.5-$("#siteInfoDiv").width()*0.5;
                 //var instanceY = docHeight*0.5-$("#siteInfoDiv").height()*0.5;
-                var instanceX = evt.x;
-                var instanceY = evt.y;
+                var instanceX = event.x;
+                var instanceY = event.y;
 
                 instance.setPosition(instanceX, instanceY);
                 if (instance.isPinned() == true) {
                     instance.unpin();
                 }
 
-                var attr = evt.graphic.attributes;
+                var attr = event.graphic.attributes;
 
                 $("#siteInfoTabPane").empty();
 
@@ -979,16 +979,17 @@ require([
 
 
 
-                if (layer == "ecoSites") {
-                    currentSiteNo = attr.EcoTrendResults_EcoSiteID;
-                    $("#siteInfoTabPane").append("<br/><b>Site name: </b>" + attr.EcoSiteSummary_no_headers_csv_Ecology_site_name + "<br/>" +
-                        "<b>Site number: </b>" + attr.EcoTrendResults_EcoSiteID + "<br/>" +
+                if (layer == "Q2_scaled_deficit") {
+                    currentSiteNo = attr.Q2_scaled_deficit;
+                    $("#siteInfoTabPane").append("<br/><b>Station Name: </b>" + attr.station_nm + "<br/>" +
+                        "<b>Site number: </b>" + attr.site_id + "<br/>" +
                         /*"<b>State: </b>" +  + "<br/>" +*/
                         "<b>Agency: </b>U.S. Geological Survey<br/>" +
                         "<b>Data source: </b>BioData<br/>" +
-                        "<b>Latitude: </b>" + attr.EcoSiteSummary_no_headers_csv_LatDD + "<br/>" +
-                        "<b>Longitude: </b>" + attr.EcoSiteSummary_no_headers_csv_LngDD + "<br/>" +
-                        "<b>Drainage area: </b>" + attr.DA + " (km<sup>2</sup>)<br/>"/* +
+                        "<b>Latitude: </b>" + attr.dec_lat_va + "<br/>" +
+                        "<b>Longitude: </b>" + attr.dec_long_v + "<br/>" +
+                        "<b>Drainage area: </b>" + attr.drainSqKm + " (km<sup>2</sup>)<br/>" +
+                        "<b> PValue1916 </b>" + attr.pvalue_AR1_1916 + "</br>"/*
                         "<b>HUC2: </b>" +  + "<br/>" +
                         "<b>HUC4: </b>" +  + "<br/>" +
                         "<b>HUC6: </b>" +  + "<br/>" +
@@ -996,11 +997,30 @@ require([
                         "<b>Matched streamgage name: </b>" +  + "<br/>" +
                         "<b>Matched streamgage number: </b>" +  + "<br/>" +
                         "<b>Matched streamgage agency: </b>"*/);
-                } else if (layer == "pestSites") {
-                    currentSiteNo = attr["pstaid"];
-                    $("#siteInfoTabPane #charts").click(function (evt) {
-                        console.log("event" + evt.toString());
+                } else if (layer == "Q2_nDays_Layer"){
+                    currentSiteNo = attr.Q2_nDays_Layer;
+                    $("#siteInfoTabPane").append("<br/><b>Station Name: </b>" + attr.station_nm + "<br/>" +
+                        "<b>Site number: </b>" + attr.site_id + "<br/>" +
+                        /*"<b>State: </b>" +  + "<br/>" +*/
+                        "<b>Agency: </b>U.S. Geological Survey<br/>" +
+                        "<b>Data source: </b>BioData<br/>" +
+                        "<b>Latitude: </b>" + attr.dec_lat_va + "<br/>" +
+                        "<b>Longitude: </b>" + attr.dec_long_v + "<br/>" +
+                        "<b>Drainage area: </b>" + attr.drainSqKm + " (km<sup>2</sup>)<br/>" +
+                        "<b> PValue1916 </b>" + attr.pvalue_AR1_1916 + "</br>"/*
+                        "<b>HUC2: </b>" +  + "<br/>" +
+                        "<b>HUC4: </b>" +  + "<br/>" +
+                        "<b>HUC6: </b>" +  + "<br/>" +
+                        "<b>HUC8: </b>" +  + "<br/>" +
+                        "<b>Matched streamgage name: </b>" +  + "<br/>" +
+                        "<b>Matched streamgage number: </b>" +  + "<br/>" +
+                "<b>Matched streamgage agency: </b>"*/);
+
+            
+                    $("#siteInfoTabPane #charts").click(function (event) {
+                        console.log("event" + event.toString());
                         //<a target='_blank' href='https://wim.usgs.gov/sw-trends-data/pest_charts/" + resultDir + "/" + attr["period"] + "_" + attr["pstaid"] + "_FirstRun" + pname + ".pdf'>click here</a>
+
                     });
                     var resultDir = "";
                     if (attr["period"] == "P10") {
@@ -1013,41 +1033,196 @@ require([
                         pname = "0" + pname;
                     }
                     pestPDFs = "https://wim.usgs.gov/sw-trends-data/pest_charts/" + resultDir + "/" + attr["period"] + "_" + attr["pstaid"] + "_FinalRun" + pname + ".pdf";
-                    $("#siteInfoTabPane").append("<br/><b>Site name: </b>" + attr["Site"] + "<br/>" +
-                        "<b>Site number: </b>" + attr["pstaid"] + "<br/>" +
-                         /*"<b>State: </b>" +  + "<br/>" +*/
-                        "<b>Agency: </b>U.S. Geological Survey<br/>" +
-                        "<b>Data source: </b>NWIS<br/>" +
-                        "<b>Latitude: </b>" + attr["LAT"] + "<br/>" +
-                        "<b>Longitude: </b>" + attr["LONG_"] + "<br/>" +
-                        "<b>Drainage area: </b>" + attr["DA"] + " (km<sup>2</sup>)<br/>");
-                        /*"<b>First run charts: </b><a target='_blank' href='https://wim.usgs.gov/sw-trends-data/pest_charts/" + resultDir + "/" +
-                            attr["period"] + "_" + attr["pstaid"] + "_FinalRun" + pname + ".pdf'>click here</a><br/>"+*/
-                        /*+
-                        "<b>trend pct: </b>" + attr["trend_pct_yr"] + "<br/>" +
-                        "<b>HUC2: </b>" +  + "<br/>" +
-                        "<b>HUC4: </b>" +  + "<br/>" +
-                        "<b>HUC6: </b>" +  + "<br/>" +
-                        "<b>HUC8: </b>" +  + "<br/>" +
-                        "<b>Matched streamgage name: </b>" +  + "<br/>" +
-                        "<b>Matched streamgage number: </b>" +  + "<br/>" +
-                        "<b>Matched streamgage agency: </b>"*/
-                } else if (layer == "wrtdsSites" || layer == "wrtdsFluxSites") {
-                    currentSiteNo = attr["wrtds_sites.Site_no"];
+                  }  else if (layer == "JD_Last") {
+                    currentSiteNo = attr["JD_Last.site_id"];
                     var agency = "";
                     if (attr["wrtds_trends_wm_new.agency_2_full"] == null) {
                         agency = attr["wrtds_trends_wm_new.agency_1_full"]
                     } else {
                         agency = attr["wrtds_trends_wm_new.agency_1_full"] + "/" + attr["wrtds_trends_wm_new.agency_2_full"];
                     }
-                    $("#siteInfoTabPane").append("<br/><b>Site name: </b>" + attr["wrtds_sites.Station_nm"] + "<br/>" +
-                        "<b>Site number: </b>" + attr["wrtds_sites.Site_no"] + "<br/>" +
-                        "<b>State: </b>" + attr["wrtds_sites.staAbbrev"] + "<br/>" +
+                    $("#siteInfoTabPane").append("<br/><b>Site name: </b>" + attr.station_nm + "<br/>" +
+                        "<b>Site number: </b>" + attr.site_id + "<br/>" +
+                        "<b>Station Name: </b>" + attr.station_nm + "<br/>" +
                         "<b>Agency: </b>" + agency + "<br/>" +
-                        "<b>Data source: </b>" + attr["wrtds_sites.db_source"] + "<br/>" +
-                        "<b>Latitude: </b>" + attr["wrtds_sites.dec_lat_va"] + "<br/>" +
-                        "<b>Longitude: </b>" + attr["wrtds_sites.dec_long_va"] + "<br/>" +
-                        "<b>Drainage area: </b>" + attr["wrtds_trends_wm_new.DA"] + " (km<sup>2</sup>)<br/>"
+                        "<b>Latitude: </b>" + attr.dec_lat_va + "<br/>" +
+                        "<b>Longitude: </b>" + attr.dec_long_v + "<br/>" +
+                        "<b>Drainage area: </b>" + attr.drainSqKm + " (km<sup>2</sup>)<br/>"+
+                        "<b> PValue1916 </b>" + attr.pvalue_AR1_1916 + "</br>"
+                        /*"<b>HUC2: </b>" +  + "<br/>" +
+                        "<b>HUC4: </b>" +  + "<br/>" +
+                        "<b>HUC6: </b>" +  + "<br/>" +
+                        "<b>HUC8: </b>" + attr["wrtds_sites.huc_cd"] + "<br/>" +
+                        "<b>Matched streamgage name: </b>" +  + "<br/>" +
+                        "<b>Matched streamgage number: </b>" +  + "<br/>" +
+                        "<b>Matched streamgage agency: </b>"*/);
+                } else if (layer == "JD_First"){
+                        currentSiteNo = attr.JD_First;
+                        $("#siteInfoTabPane").append("<br/><b>Station Name: </b>" + attr.station_nm + "<br/>" +
+                            "<b>Site number: </b>" + attr.site_id + "<br/>" +
+                            /*"<b>State: </b>" +  + "<br/>" +*/
+                            "<b>Agency: </b>U.S. Geological Survey<br/>" +
+                            "<b>Data source: </b>BioData<br/>" +
+                            "<b>Latitude: </b>" + attr.dec_lat_va + "<br/>" +
+                            "<b>Longitude: </b>" + attr.dec_long_v + "<br/>" +
+                            "<b>Drainage area: </b>" + attr.drainSqKm + " (km<sup>2</sup>)<br/>" +
+                            "<b> PValue1916 </b>" + attr.pvalue_AR1_1916 + "</br>"/*
+                            "<b>HUC2: </b>" +  + "<br/>" +
+                            "<b>HUC4: </b>" +  + "<br/>" +
+                            "<b>HUC6: </b>" +  + "<br/>" +
+                            "<b>HUC8: </b>" +  + "<br/>" +
+                            "<b>Matched streamgage name: </b>" +  + "<br/>" +
+                            "<b>Matched streamgage number: </b>" +  + "<br/>" +
+                            "<b>Matched streamgage agency: </b>"*/);
+
+                } else if (layer == "JD_Diff_Q2") {
+                    currentSiteNo = attr.site_id;
+                    var agency = "";
+                    if (attr["wrtds_trends_wm_new.agency_2_full"] == null) {
+                        agency = attr["wrtds_trends_wm_new.agency_1_full"]
+                    } else {
+                        agency = attr["wrtds_trends_wm_new.agency_1_full"] + "/" + attr["wrtds_trends_wm_new.agency_2_full"];
+                    }
+                    $("#siteInfoTabPane").append("<br/><b>Station Name: </b>" + attr.station_nm + "<br/>" +
+                        "<b>Site number: </b>" + attr.site_id + "<br/>" +
+                        "<b>Agency: </b>" + agency + "<br/>" +
+                        "<b>Latitude: </b>" + attr.dec_lat_va + "<br/>" +
+                        "<b>Longitude: </b>" + attr.dec_long_v + "<br/>" +
+                        "<b>Drainage area: </b>" + attr.drainSqKm + " (km<sup>2</sup>)<br/>"+
+                        "<b> PValue1916 </b>" + attr.pvalue_AR1_1916 + "</br>"
+                        /*"<b>HUC2: </b>" +  + "<br/>" +
+                        "<b>HUC4: </b>" +  + "<br/>" +
+                        "<b>HUC6: </b>" +  + "<br/>" +
+                        "<b>HUC8: </b>" + attr["wrtds_sites.huc_cd"] + "<br/>" +
+                        "<b>Matched streamgage name: </b>" +  + "<br/>" +
+                        "<b>Matched streamgage number: </b>" +  + "<br/>" +
+                        "<b>Matched streamgage agency: </b>"*/);
+                } else if (layer == "Peaks_Square_Data") {
+                    currentSiteNo = attr.site_id;
+                    var agency = "";
+                    if (attr["wrtds_trends_wm_new.agency_2_full"] == null) {
+                        agency = attr["wrtds_trends_wm_new.agency_1_full"]
+                    } else {
+                        agency = attr["wrtds_trends_wm_new.agency_1_full"] + "/" + attr["wrtds_trends_wm_new.agency_2_full"];
+                    }
+                    $("#siteInfoTabPane").append("<br/><b>Site name: </b>" + attr.station_nm + "<br/>" +
+                        "<b>Site number: </b>" + attr.site_id + "<br/>" +
+                        "<b>Agency: </b>" + agency + "<br/>" +
+                        "<b>Latitude: </b>" + attr.dec_lat_va + "<br/>" +
+                        "<b>Longitude: </b>" + attr.dec_long_v + "<br/>" +
+                        "<b>Drainage area: </b>" + attr.drainSqKm + " (km<sup>2</sup>)<br/>"+
+                        "<b> PValue1916 </b>" + attr.pvalue_AR1_1916 + "</br>"
+                        /*"<b>HUC2: </b>" +  + "<br/>" +
+                        "<b>HUC4: </b>" +  + "<br/>" +
+                        "<b>HUC6: </b>" +  + "<br/>" +
+                        "<b>HUC8: </b>" + attr["wrtds_sites.huc_cd"] + "<br/>" +
+                        "<b>Matched streamgage name: </b>" +  + "<br/>" +
+                        "<b>Matched streamgage number: </b>" +  + "<br/>" +
+                        "<b>Matched streamgage agency: </b>"*/);
+                } else if (layer == "Mean_AnnualQ") {
+                    currentSiteNo = attr.site_id;
+                    var agency = "";
+                    if (attr["wrtds_trends_wm_new.agency_2_full"] == null) {
+                        agency = attr["wrtds_trends_wm_new.agency_1_full"]
+                    } else {
+                        agency = attr["wrtds_trends_wm_new.agency_1_full"] + "/" + attr["wrtds_trends_wm_new.agency_2_full"];
+                    }
+                    $("#siteInfoTabPane").append("<br/><b>Station Name: </b>" + attr.station_nm + "<br/>" +
+                        "<b>Site number: </b>" + attr.site_id + "<br/>" +
+                        "<b>Agency: </b>" + agency + "<br/>" +
+                        "<b>Latitude: </b>" + attr.dec_lat_va + "<br/>" +
+                        "<b>Longitude: </b>" + attr.dec_long_v + "<br/>" +
+                        "<b>Drainage area: </b>" + attr.drainSqKm + " (km<sup>2</sup>)<br/>"+
+                        "<b> PValue1916 </b>" + attr.pvalue_AR1_1916 + "</br>"
+                        /*"<b>HUC2: </b>" +  + "<br/>" +
+                        "<b>HUC4: </b>" +  + "<br/>" +
+                        "<b>HUC6: </b>" +  + "<br/>" +
+                        "<b>HUC8: </b>" + attr["wrtds_sites.huc_cd"] + "<br/>" +
+                        "<b>Matched streamgage name: </b>" +  + "<br/>" +
+                        "<b>Matched streamgage number: </b>" +  + "<br/>" +
+                        "<b>Matched streamgage agency: </b>"*/);
+                } 
+                else if (layer == "lowQ_7day") {
+                    currentSiteNo = attr.site_id;
+                    var agency = "";
+                    if (attr["wrtds_trends_wm_new.agency_2_full"] == null) {
+                        agency = attr["wrtds_trends_wm_new.agency_1_full"]
+                    } else {
+                        agency = attr["wrtds_trends_wm_new.agency_1_full"] + "/" + attr["wrtds_trends_wm_new.agency_2_full"];
+                    }
+                    $("#siteInfoTabPane").append("<br/><b>Station Name: </b>" + attr.station_nm + "<br/>" +
+                        "<b>Site number: </b>" + attr.site_id + "<br/>" +
+                        "<b>Agency: </b>" + agency + "<br/>" +
+                        "<b>Latitude: </b>" + attr.dec_lat_va + "<br/>" +
+                        "<b>Longitude: </b>" + attr.dec_long_v + "<br/>" +
+                        "<b>Drainage area: </b>" + attr.drainSqKm + " (km<sup>2</sup>)<br/>"+
+                        "<b> PValue1916 </b>" + attr.pvalue_AR1_1916 + "</br>"
+                        /*"<b>HUC2: </b>" +  + "<br/>" +
+                        "<b>HUC4: </b>" +  + "<br/>" +
+                        "<b>HUC6: </b>" +  + "<br/>" +
+                        "<b>HUC8: </b>" + attr["wrtds_sites.huc_cd"] + "<br/>" +
+                        "<b>Matched streamgage name: </b>" +  + "<br/>" +
+                        "<b>Matched streamgage number: </b>" +  + "<br/>" +
+                        "<b>Matched streamgage agency: </b>"*/);
+                } else if (layer == "lowQ_3day") {
+                    currentSiteNo = attr.site_id;
+                    var agency = "";
+                    if (attr["wrtds_trends_wm_new.agency_2_full"] == null) {
+                        agency = attr["wrtds_trends_wm_new.agency_1_full"]
+                    } else {
+                        agency = attr["wrtds_trends_wm_new.agency_1_full"] + "/" + attr["wrtds_trends_wm_new.agency_2_full"];
+                    }
+                    $("#siteInfoTabPane").append("<br/><b>Station Name: </b>" + attr.station_nm + "<br/>" +
+                        "<b>Site number: </b>" + attr.site_id + "<br/>" +
+                        "<b>Agency: </b>" + agency + "<br/>" +
+                        "<b>Latitude: </b>" + attr.dec_lat_va + "<br/>" +
+                        "<b>Longitude: </b>" + attr.dec_long_v + "<br/>" +
+                        "<b>Drainage area: </b>" + attr.drainSqKm + " (km<sup>2</sup>)<br/>"+
+                        "<b> PValue1916 </b>" + attr.pvalue_AR1_1916 + "</br>"
+                        /*"<b>HUC2: </b>" +  + "<br/>" +
+                        "<b>HUC4: </b>" +  + "<br/>" +
+                        "<b>HUC6: </b>" +  + "<br/>" +
+                        "<b>HUC8: </b>" + attr["wrtds_sites.huc_cd"] + "<br/>" +
+                        "<b>Matched streamgage name: </b>" +  + "<br/>" +
+                        "<b>Matched streamgage number: </b>" +  + "<br/>" +
+                        "<b>Matched streamgage agency: </b>"*/);
+                } else if (layer == "lowQ_1day") {
+                    currentSiteNo = attr.site_id;
+                    var agency = "";
+                    if (attr["wrtds_trends_wm_new.agency_2_full"] == null) {
+                        agency = attr["wrtds_trends_wm_new.agency_1_full"]
+                    } else {
+                        agency = attr["wrtds_trends_wm_new.agency_1_full"] + "/" + attr["wrtds_trends_wm_new.agency_2_full"];
+                    }
+                    $("#siteInfoTabPane").append("<br/><b>Site name: </b>" + attr.station_nm + "<br/>" +
+                        "<b>Site number: </b>" + attr.site_id + "<br/>" +
+                        "<b>Agency: </b>" + agency + "<br/>" +
+                        "<b>Latitude: </b>" + attr.dec_lat_va + "<br/>" +
+                        "<b>Longitude: </b>" + attr.dec_long_v + "<br/>" +
+                        "<b>Drainage area: </b>" + attr.drainSqKm + " (km<sup>2</sup>)<br/>" +
+                        "<b> PValue1916 </b>" + attr.pvalue_AR1_1916 + "</br>"
+                        /*"<b>HUC2: </b>" +  + "<br/>" +
+                        "<b>HUC4: </b>" +  + "<br/>" +
+                        "<b>HUC6: </b>" +  + "<br/>" +
+                        "<b>HUC8: </b>" + attr["wrtds_sites.huc_cd"] + "<br/>" +
+                        "<b>Matched streamgage name: </b>" +  + "<br/>" +
+                        "<b>Matched streamgage number: </b>" +  + "<br/>" +
+                        "<b>Matched streamgage agency: </b>"*/);
+                } else if (layer == "ZeroQ_nDay") {
+                    currentSiteNo = attr.site_id;
+                    var agency = "";
+                    if (attr["wrtds_trends_wm_new.agency_2_full"] == null) {
+                        agency = attr["wrtds_trends_wm_new.agency_1_full"]
+                    } else {
+                        agency = attr["wrtds_trends_wm_new.agency_1_full"] + "/" + attr["wrtds_trends_wm_new.agency_2_full"];
+                    }
+                    $("#siteInfoTabPane").append("<br/><b>Site name: </b>" + attr.station_nm + "<br/>" +
+                        "<b>Site number: </b>" + attr.site_id + "<br/>" +
+                        "<b>Agency: </b>" + agency + "<br/>" +
+                        "<b>Latitude: </b>" + attr.dec_lat_va + "<br/>" +
+                        "<b>Longitude: </b>" + attr.dec_long_v + "<br/>" +
+                        "<b>Drainage area: </b>" + attr.drainSqKm + " (km<sup>2</sup>)<br/>"+
+                        "<b> PValue1916 </b>" + attr.pvalue_AR1_1916 + "</br>"
                         /*"<b>HUC2: </b>" +  + "<br/>" +
                         "<b>HUC4: </b>" +  + "<br/>" +
                         "<b>HUC6: </b>" +  + "<br/>" +
@@ -1056,6 +1231,7 @@ require([
                         "<b>Matched streamgage number: </b>" +  + "<br/>" +
                         "<b>Matched streamgage agency: </b>"*/);
                 }
+
 
             });
         }
@@ -1551,7 +1727,7 @@ require([
             function trendPeriodFixer(startYear) {
 
                 var startYrNum = Number(startYear);
-                var validTrendStarts = [1972,1982,1992,2002];
+                var validTrendStarts = [1916,1941,1966];
 
                 var distance = 50;
                 var index = 0;

@@ -273,7 +273,18 @@
                     <div role="tabpanel" class="tab-pane active" id="aboutTabPane">
                         <div class="abouttab-inner">
                             <p>
-                                <!-- about content here-->
+                                This mapper provides results from assessments of trends in low and high streamflows in the Nation’s streams and rivers over the past 100, 75, and 50 years (1916–2015, 1941–2015 and 1966–2015). 
+                                Streamflow records from more than 2,000 U.S. Geological Survey (USGS) streamgages across the conterminous U.S. were used in these assessments. 
+                                Tracking changes in streamflow and investigating the reasons for these changes is crucial for informing management decisions to protect and sustain our valuable water resources.
+                                <p>The mapper shows trend slopes and significance for several low-streamflow and related metrics 
+                                for 2,482 USGS streamgages including trends in annual low 1-, 3-, and 7-day low flows, mean annual flows, 
+                                and various trends related to stream-specific low-flow thresholds equal to the daily mean streamflow with 2-percent non-exceedance rank (Q2). 
+                                For high streamflows, the mapper shows peak-streamflow trend and change-point results for 2,683 USGS streamgages 
+                                including trend slopes and significance, peaks-over-threshold counts, trends in the numbers of peaks-over-threshold, 
+                                and change point years and values for median and scale. Trend significance for both high and low-flows is 
+                                reported for three different null hypotheses of the serial structure of the time-series data: independence (INDE), short-term persistence (AR1), 
+                                and long-term persistence (LTP).</p>
+
                             </p>
                         </div>
                     </div>
@@ -418,21 +429,125 @@
     <div class="modal-dialog  modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button class="close" type="button" data-dismiss="modal" aria-hidden="true" style="color:gray;">&times;</button>
+                <button class="close" type="button" data-dismiss="modal" aria-hidden="false" style="color:gray;">&times;</button>
                 <h4 class="modal-title">Frequently Asked Questions</h4>
             </div>
             <div class="faq-modal-body">
                 <h4 style="margin-bottom: 15px; font-weight: 600;">Study scope</h4>
                 <div class="faq-header" id="faq1header">1. What is the purpose of this study? <div id="angle1" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
                 <div class="faq-body" id="faq1body">
-                    <!-- FAQ 1 Body -->
+                    <p>The purpose of these studies is to determine low and high flows in the Nation's streams 
+                        and rivers have changed over time</p>
                 </div>
 
-                <div class="faq-header" id="faq2header">2. Where can I get more information on this study? <div id="angle2" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
+                <div class="faq-header" id="faq2header">2. Why evaluate changes in streamflow? <div id="angle2" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
                 <div class="faq-body" id="faq2body">
-                    <!-- FAQ 2 Body -->    
+                    <p>The Nation's rivers and streams are a valuable resource, providing drinking water, irrigation, habitat, and recreational opportunities. 
+                       Low streamflows play a an important role in water management for wastewater discharge and water withdrawals, and informing operating policies for low-streamflow releases from dams. 
+                       Floods may cause fatalities, and damage property and transportation infrastructure. 
+                       In order to more effectively manage and protect the Nation's people, water resources, and transportation infrastructure in the future we need to know how and why streamflows, both low and high flows, have been changing over time.</p>    
                 </div>
-
+                <div class="faq-header" id="faq3header">3. Who completed this study? <div id="angle3" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
+                <div class="faq-body" id="faq3body">
+                        <p>The U.S. Geological Survey (USGS) in cooperation with EPA and FHWA 
+                        conducted this study using streamflow data collected by the USGS</p>
+                </div>
+                <div class="faq-header" id="faq4header">4. What data were included in your analyses? <div id="angle4" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
+                <div class="faq-body" id="faq4body">
+                        <p>Publicly available streamflow data for streams and rivers were obtained from the U.S. Geological Survey's National Water Information System (NWIS) database at <a href="https://waterdata.usgs.gov/usa/nwis"></a></p> 
+                        <p>Publicly available gage characteristics were obtained from the Geospatial Attributes of Gages for Evaluating Streamflow, version II, (GAGES-II) database: Falcone, J.A., 2011, GAGES–II—Geospatial attributes of gages for evaluating streamflow: U.S. Geological Survey metadata, also available at <a href="http://water.usgs.gov/GIS/metadata/usgswrd/XML/gagesII_Sept2011.xml"></a></p>     
+                </div>
+                <div class="faq-header" id="faq5header">5. What streamflow metrics were included in your analyses? <div id="angle5" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
+                <div class="faq-body" id="faq5body">
+                        <p>Low-flow analyses were computed on the basis of climatic year which begins 
+                        April 1 and ends March 31 and named for the year in which it ends.</p>
+                        <ul>
+                            <li>Lowest annual 1-, 3-, and 7-day average streamflow</li>
+                            <li>Mean annual streamflow</li>
+                            <li>Number of annual zero-flow days</li>
+                            <li>Number of annual days the daily mean streamflow value was less than or equal to the daily mean streamflow with 2-percent non-exceedance rank (Q2)</li>
+                            <li>First annual Julian date when the daily mean streamflow value was less than or equal to Q2</li> 
+                            <li>Last annual Julian date when the daily mean streamflow value was less than or equal to Q2</li>
+                            <li>Difference between the last and first annual Julian date when the daily mean streamflow value was less than or equal to Q2</li>
+                            <li>The Q2 annual deficit computed as the mean of all daily scaled deficits for all days when daily mean streamflows were equal to or lower than the daily mean streamflow with 2-percent non-exceedance rank (Q2). 
+                                Daily deficits were computed as the difference between the Q2 threshold and daily mean streamflows equal to or lower than Q2; 
+                                those differences were then divided by Q2 to yield scaled deficits (dimensionless)</li>
+                        </ul>
+                       <p>High-flow analyses were computed on the basis of water year which begins October 1 and ends September 30 and named for the year in which it ends.</p> 
+                        <ul>
+                            <li>Instantaneous annual peak streamflows</li>
+                            <li>Number of peaks-over-threshold events determined by setting a streamflow threshold resulting in an average of X events per year (0.2 or 2) 
+                                for the base period 1941-1968</li>
+                        </ul>
+                </div>
+                <div class="faq-header" id="faq6header">6. What time periods did you assess in your trend analyses?  <div id="angle6" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
+                <div class="faq-body" id="faq6body">
+                         <p>1916–2015, 1941–2015 and 1966–2015 </p>   
+                
+                </div>
+                <h4 style="margin-bottom: 15px; font-weight: 600;">Features of The Mapper</h4>
+                <div class="faq-header" id="faq7header">1. Where can I find help for navigating this mapper?  <div id="angle7" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
+                <div class="faq-body" id="faq1body">
+                    <p>An explanation of the arrows and icons on the map and what they mean can be found in the User Guide Explanation tab. 
+                        A description of how to activate map layers can be found in the User Guide Map Select Options tab. 
+                        A description of the search, zoom, and print capabilities can be found in the User Guide Search, Zoom, Print tab</p>
+                </div>
+                <div class="faq-header" id="faq8header">2. Are the data used in your trend analyses available for download? <div id ="angle8" style="display: -webkit-inline-box;"><i class = "fa fa-angle-right"></i></div></div>
+                <div class="faq-body" id="faq1body">
+                    <p>Yes. All daily streamflow data and instantaneous peak streamflow data are publicly available and can be downloaded from the U.S. Geological Survey's National Water Information System (NWIS) database at <a href="https://waterdata.usgs.gov/usa/nwis"></a></p>
+                    <p>Streamgage characteristics and trend results can be downloaded from the following USGS Data Releases:</p>
+                    <ul>
+                        <li>Dudley, R.W., Hirsch, R.M., Archfield, S.A., Blum, A.G., and Renard, B., 2019, Low-streamflow trends and basin characteristics for 2,482 
+                            U.S. Geological Survey streamgages in the conterminous U.S. (ver. 2.0, February 2019): U.S. Geological Survey data release, 
+                            <a href="https://doi.org/10.5066/P9LO24MG"></a>.</li>
+                        <li></li>    
+                    </ul>
+                </div> 
+                <div class="faq-header" id="faq9header">3. I am having trouble downloading the trends table for a site. What should I try? ?  <div id="angle9" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
+                <div class="faq-body" id="faq1body">
+                    <p>If you are using Safari, the table will not automatically download. 
+                        When you see the comma-delimited trends table displayed in your browser, go to the "File tab" in Safari, 
+                        select "Save As", enter your desired filename in the "Export As" field, 
+                        and change the "Format" field to "Page Source". Then select save, and you will see the .csv 
+                        file in the location you specified on your local computer. 
+                        The download functionality does not work in Internet Explorer; 
+                        you will need to use a different browser.</p>
+                </div>
+                <h4 style="margin-bottom: 15px; font-weight: 600;">Study methods</h4>
+                <div class="faq-header" id="faq10header">1. What trend methods did you use? <div id="angle1" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
+                <div class="faq-body" id="faq10body">
+                    <p>Magnitude of monotonic trends were computed using the Sen slope
+                        <br>Sen, P.K., 1968. Estimates of the regression coefficient based on Kendall's tau. J. Am. Stat. Assoc. 63, 1379-1389</br>
+                    <p>Significance of monotonic trends were computed using the Mann-Kendall test that included methods that considered the possibility of short- and long-term persistence in the time-series data</p>
+                        <br>R-code for our general Mann-Kendall test can be downloaded from:
+                        <br>Dudley, R.W., Hirsch, R.M., Archfield, S.A., Blum, A.G., and Renard, B., 2019, Low-streamflow trends and basin characteristics for 2,482 U.S. Geological Survey streamgages in the conterminous U.S. (ver. 2.0, February 2019): U.S. Geological Survey data release, <a href="https://doi.org/10.5066/P9LO24MG"></a>
+                        <br>Dudley, R.W., Archfield, S.A., Hodgkins, G.A., Renard, B., and Ryberg, K.R., 2018, Peak-streamflow trends and change-points and basin characteristics for 2,683 U.S. Geological Survey streamgages in the conterminous U.S. (ver. 2.0, October 2018): U.S. Geological Survey data release, <a href="https://doi.org/10.5066/P9AEGXY0"></a>
+                    <p>Change point in median (step change) was computed using the Pettit test</p>
+                        <br>Pettitt, A.N., 1979. A non-parametric approach to the change-point problem. Journal of the Royal Statistical Society. Series C (Applied Statistics) 28, 126–135. <a href="https://doi.org/10.2307/2346729"></a>
+                    <p>Change point in scale (step change) was computed using the Mood test</p>
+                        <br>Mood, A.M., 1954. On the asymptotic efficiency of certain nonparametric two-sample tests. The Annals of Mathematical Statistics 25, 514–522
+                </div>
+                <div class="faq-header" id="faq1header">2. How did you decide which sites were suitable for trend analysis? <div id="angle1" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
+                <div class="faq-body" id="faq1body">
+                    <br>Candidate sites were considered from among the 9,062 gages in the Geospatial Attributes of Gages for Evaluating Streamflow, 
+                    version II, (GAGES-II) database: Falcone, J.A., 2011, GAGES–II—Geospatial attributes of gages for evaluating streamflow: 
+                    U.S. Geological Survey metadata, also available at <a href ="http://water.usgs.gov/GIS/metadata/usgswrd/XML/gagesII_Sept2011.xml"></a>
+                    <br>Data downloaded from the USGS National Water Information System (NWIS) for all candidate gages were then subjected to length and completeness criteria. 
+                    Study gages were required to have complete data for at least 8 out of every 10 years for each decade (e.g. 1990-1999) in the time periods tested.
+                </div>
+                <h4 style="margin-bottom: 15px; font-weight: 600;">Citations</h4>
+                <div class="faq-header" id="faq1header">1. How should this mapper be cited? <div id="angle1" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
+                <div class="faq-body" id="faq1body">
+                    <p>All of the results in the mapper are reported in these USGS Data Releases:</p>
+                        <br>Dudley, R.W., Archfield, S.A., Hodgkins, G.A., Renard, B., and Ryberg, K.R., 2018, Peak-streamflow trends and change-points and basin characteristics for 2,683 U.S. Geological Survey streamgages in the conterminous U.S. (ver. 2.0, October 2018): U.S. Geological Survey data release, <a href="https://doi.org/10.5066/P9AEGXY0"></a>
+                </div>
+                <div class="faq-header" id="faq1header">2. Who can I contact for more information on this mapper? <div id="angle1" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
+                <div class="faq-body" id="faq1body">
+                    <p>For questions related to the operation of the mapper, you can contact:</p>
+                    <br>Hans Vraga
+                    <br>Project Manager, Web Informatics and Mapping (WiM)
+                    <br>Email: <a href="hvraga@usgs.gov"></a>
+                    </div>
             </div>
         </div><!-- /.modal-content -->
     </div> <!-- /.modal-dialog -->
@@ -582,7 +697,7 @@
                     <div style="width: 100%; padding-top: 20px; text-align: left;">
                         <label>Trend period</label>
                         <span id="trend4" class="sidebar-radio-wrapper">
-                            <input id="trend4input" name="trendPeriod" class="trendPeriod" type="radio" value="P40"> 1972-2012
+                            <input id="trend4input" name="trendPeriod" class="trendPeriod" type="radio" value="P40"> 1916-2012
                         </span>
                         <span id="trend3" class="sidebar-radio-wrapper">
                             <input id="trend3input" name="trendPeriod" class="trendPeriod" type="radio" value="P30"> 1982-2012
