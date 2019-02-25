@@ -655,7 +655,7 @@ require([
             var selectVal = $($("#typeSelect")[0][$("#typeSelect")[0].selectedIndex].attributes["select"].value).val();
             currentConst = selectVal;
             var expression = "wrtds_trends_wm_new.id_unique LIKE '%" + selectVal + "%" + trendPeriod + "%' OR wrtds_trends_wm_new.id_unique LIKE '%" + selectVal + "%" + trendPeriod2 + "%'";
-            layer.setDefinitionExpression(expression);
+            layer.setDefinitionExpression(expression); 
             layerUpdateListener(layerID);
         }
     });
@@ -1727,7 +1727,7 @@ require([
             function trendPeriodFixer(startYear) {
 
                 var startYrNum = Number(startYear);
-                var validTrendStarts = [1972,1982,1992,2002];
+                var validTrendStarts = [1916,1941,1966];
 
                 var distance = 50;
                 var index = 0;
