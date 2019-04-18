@@ -24,10 +24,10 @@ require([
             "showGroupHeading": false,
             "includeInLayerList": false,
             "layers": {
-                "Q2_scaled_deficit": {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/3",
+                "Trend Results": {
+                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/swFlowTrends_test/MapServer/3",
                     "options": {
-                        "id": "Q2_scaled_deficit",
+                        "id": "trendResults",
                         "opacity": 1.00,
                         "mode": FeatureLayer.MODE_SNAPSHOT,
                         "outFields": ["*"],
@@ -40,7 +40,7 @@ require([
                         "hasOpacitySlider": true,
                         "includeLegend": true
                     }
-                },
+                }/*z,
                 "Q2_nDays_Layer" : {
                     "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/4",
                     "options": {
@@ -205,7 +205,7 @@ require([
                         "hasOpacitySlider": true,
                         "includeLegend" : true
                     }
-                },
+                },*/
             }
         }
     ]
