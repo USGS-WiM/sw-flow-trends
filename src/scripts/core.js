@@ -339,20 +339,6 @@ require([
         }
     });
 
-    function layerUpdateListener(layer) {
-        var layerUpdate = map.getLayer(layer).on('update-end', function(evt) {
-            var graphicsNum = evt.target.graphics.length;
-            if (graphicsNum == 0) {
-                //alert("No sites are available for this constituent and trend period. Please select another option.");
-                $(".alert-box").show();
-            } else {
-                $(".alert-box").hide();
-            }
-            layerUpdate.remove();
-        });
-        map.getLayer(layer).refresh();
-    }
-
     $('#layerSelect').change(function(){ 
         // Get all info for layer change and update trendLayer with the selected layer/model/trend
         trendLayerInfos = map.getLayer("layerInfo").layerInfos;
