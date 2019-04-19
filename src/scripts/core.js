@@ -1472,6 +1472,17 @@ require([
         // FAQ Modal controls.
         $('#faq1header').click(function(){$('#faq1body').slideToggle(250);});
         $('#faq2header').click(function(){$('#faq2body').slideToggle(250);});
+        $('#faq3header').click(function(){$('#faq3body').slideToggle(250);});
+        $('#faq4header').click(function(){$('#faq4body').slideToggle(250);});
+        $('#faq5header').click(function(){$('#faq5body').slideToggle(250);});
+        $('#faq6header').click(function(){$('#faq6body').slideToggle(250);});
+        $('#faq7header').click(function(){$('#faq7body').slideToggle(250);});
+        $('#faq8header').click(function(){$('#faq8body').slideToggle(250);});
+        $('#faq9header').click(function(){$('#faq9body').slideToggle(250);});
+        $('#faq10header').click(function(){$('#faq10body').slideToggle(250);});
+        $('#faq11header').click(function(){$('#faq11body').slideToggle(250);});
+        $('#faq12header').click(function(){$('#faq12body').slideToggle(250);});
+        $('#faq13header').click(function(){$('#faq13body').slideToggle(250);});
 
         $('.fullsize').click(function(){
             //var data = "<img src='"+$(this).attr('src')+"'/>";
@@ -1494,7 +1505,94 @@ require([
                 $("#angle2").css("transform","" );
             }
         });
-
+        $("#faq3header").click(function () {
+            //alert($( this ).css( "transform" ));
+            if (  $( "#angle3" ).css( "transform" ) == 'none' ){
+                $("#angle3").css("transform","rotate(90deg)");
+            } else {
+                $("#angle3").css("transform","" );
+            }
+        });
+        $("#faq4header").click(function () {
+            //alert($( this ).css( "transform" ));
+            if (  $( "#angle4" ).css( "transform" ) == 'none' ){
+                $("#angle4").css("transform","rotate(90deg)");
+            } else {
+                $("#angle4").css("transform","" );
+            }
+        });
+        $("#faq5header").click(function () {
+            //alert($( this ).css( "transform" ));
+            if (  $( "#angle5" ).css( "transform" ) == 'none' ){
+                $("#angle5").css("transform","rotate(90deg)");
+            } else {
+                $("#angle5").css("transform","" );
+            }
+        });
+        $("#faq6header").click(function () {
+            //alert($( this ).css( "transform" ));
+            if (  $( "#angle6" ).css( "transform" ) == 'none' ){
+                $("#angle6").css("transform","rotate(90deg)");
+            } else {
+                $("#angle6").css("transform","" );
+            }
+        });
+        $("#faq7header").click(function () {
+            //alert($( this ).css( "transform" ));
+            if (  $( "#angle7" ).css( "transform" ) == 'none' ){
+                $("#angle7").css("transform","rotate(90deg)");
+            } else {
+                $("#angle7").css("transform","" );
+            }
+        });
+        $("#faq8header").click(function () {
+            //alert($( this ).css( "transform" ));
+            if (  $( "#angle8" ).css( "transform" ) == 'none' ){
+                $("#angle8").css("transform","rotate(90deg)");
+            } else {
+                $("#angle8").css("transform","" );
+            }
+        });
+        $("#faq9header").click(function () {
+            //alert($( this ).css( "transform" ));
+            if (  $( "#angle9" ).css( "transform" ) == 'none' ){
+                $("#angle9").css("transform","rotate(90deg)");
+            } else {
+                $("#angle9").css("transform","" );
+            }
+        });
+        $("#faq10header").click(function () {
+            //alert($( this ).css( "transform" ));
+            if (  $( "#angle10" ).css( "transform" ) == 'none' ){
+                $("#angle10").css("transform","rotate(90deg)");
+            } else {
+                $("#angle10").css("transform","" );
+            }
+        });
+        $("#faq11header").click(function () {
+            //alert($( this ).css( "transform" ));
+            if (  $( "#angle11" ).css( "transform" ) == 'none' ){
+                $("#angle11").css("transform","rotate(90deg)");
+            } else {
+                $("#angle11").css("transform","" );
+            }
+        });
+        $("#faq12header").click(function () {
+            //alert($( this ).css( "transform" ));
+            if (  $( "#angle12" ).css( "transform" ) == 'none' ){
+                $("#angle12").css("transform","rotate(90deg)");
+            } else {
+                $("#angle12").css("transform","" );
+            }
+        });
+        $("#faq13header").click(function () {
+            //alert($( this ).css( "transform" ));
+            if (  $( "#angle13" ).css( "transform" ) == 'none' ){
+                $("#angle13").css("transform","rotate(90deg)");
+            } else {
+                $("#angle13").css("transform","" );
+            }
+        });
     });
 
     function printMap() {

@@ -25,7 +25,7 @@ require([
             "includeInLayerList": false,
             "layers": {
                 "Trend Results": {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/swFlowTrends_test/MapServer/45",
+                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/swFlowTrends_test/MapServer/33",
                     "options": {
                         "id": "trendResults",
                         "opacity": 1.00,
