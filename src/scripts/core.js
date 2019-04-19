@@ -23,6 +23,8 @@ var currentLayer = "wrtdsSites";
 
 var identifyTask, identifyParams;
 
+var trendLayerInfos = [];
+
 require([
     'esri/arcgis/utils',
     'esri/Color',
@@ -37,6 +39,7 @@ require([
     'esri/geometry/Multipoint',
     'esri/geometry/Point',
     'esri/graphicsUtils',
+    'esri/layers/FeatureLayer',
     'esri/tasks/IdentifyParameters',
     'esri/tasks/IdentifyTask',
     'esri/symbols/PictureMarkerSymbol',
@@ -69,6 +72,7 @@ require([
     Multipoint,
     Point,
     graphicsUtils,
+    FeatureLayer,
     IdentifyParameters,
     IdentifyTask,
     PictureMarkerSymbol,
@@ -178,80 +182,6 @@ require([
     };
 
     jQuery.support.cors = true;
-
-    $.ajax({
-        dataType: 'json',
-        type: 'GET',
-        url: 'https://gis.wim.usgs.gov/arcgis/rest/services/SWTrends/swTrendSites/MapServer/4/query?where=include_in_mapper_+%3D+%27include%27&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=*&returnGeometry=false&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=Model%2CParameter_name&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&resultOffset=&resultRecordCount=&f=json',
-        headers: {'Accept': '*/*'},
-        success: function (data) {
-            constObj = data;
-            $.each(data.features, function(key, value) {
-                if (value.attributes.Model != null) {
-                    if (value.attributes.Model == 'SEAWAVE-Q') {
-                        $('#pesticideSelect')
-                            .append($("<option></option>")
-                                .attr(value.attributes)
-                                .text(value.attributes.Parameter_name));
-                    } else if (value.attributes.Tentative____Parameter_group == 'Algae') { //Eco group
-                        $('#algaeSelect')
-                            .append($("<option title='" + value.attributes.eco_desc + "'></option>")
-                                .attr(value.attributes)
-                                .text(value.attributes.Parameter_name));
-                    } else if (value.attributes.Tentative____Parameter_group == 'Fish') { //Eco group
-                        $('#fishSelect')
-                            .append($("<option title='" + value.attributes.eco_desc + "'></option>")
-                                .attr(value.attributes)
-                                .text(value.attributes.Parameter_name));
-                    } else if (value.attributes.Tentative____Parameter_group == 'Macroinvertebrates') { //Eco group
-                        $('#macroinvertSelect')
-                            .append($("<option title='" + value.attributes.eco_desc + "'></option>")
-                                .attr(value.attributes)
-                                .text(value.attributes.Parameter_name));
-                    } else if (value.attributes.Tentative____Parameter_group == 'Carbon') {
-                        $('#carbonSelect')
-                            .append($("<option></option>")
-                                .attr(value.attributes)
-                                .text(value.attributes.Parameter_name));
-                    } else if (value.attributes.Tentative____Parameter_group == 'Major ions') {
-                        $('#majorIonsSelect')
-                            .append($("<option></option>")
-                                .attr(value.attributes)
-                                .text(value.attributes.Parameter_name));
-                    } else if (value.attributes.Tentative____Parameter_group == 'Nutrients') {
-                        $('#nutrientsSelect')
-                            .append($("<option></option>")
-                                .attr(value.attributes)
-                                .text(value.attributes.Parameter_name));
-                    } else if (value.attributes.Tentative____Parameter_group == 'Salinity') {
-                        $('#salinitySelect')
-                            .append($("<option></option>")
-                                .attr(value.attributes)
-                                .text(value.attributes.Parameter_name));
-                    } else if (value.attributes.Tentative____Parameter_group == 'Sediment') {
-                        $('#sedimentSelect')
-                            .append($("<option></option>")
-                                .attr(value.attributes)
-                                .text(value.attributes.Parameter_name));
-                    }
-                }
-            });
-            $('#typeSelect').val("Nutrients");
-            $('#nutrientsSelect').val("Total Phosphorus");
-            $('#ecologySelect').val("DiaHighMot");
-            $('#pesticideSelect').val("Acetochlor")
-
-            $('#algaeSelect')[0].title = $('#algaeSelect')[0][0].title;
-            $('#fishSelect')[0].title = $('#fishSelect')[0][0].title;
-            $('#macroinvertSelect')[0].title = $('#macroinvertSelect')[0][0].title;
-
-            //document.getElementById("typeSelect").selectedIndex = "1";
-            //document.getElementById("nutrientsSelect").selectedIndex = "17";
-        },
-        error: function (error) {
-            console.log("Error processing the JSON. The error is:" + error);
-        }
-    });
 
     map = Map('mapDiv', {
         basemap: 'topo',
@@ -409,306 +339,68 @@ require([
         }
     });
 
-    function layerUpdateListener(layer) {
-        var layerUpdate = map.getLayer(layer).on('update-end', function(evt) {
-            var graphicsNum = evt.target.graphics.length;
-            if (graphicsNum == 0) {
-                //alert("No sites are available for this constituent and trend period. Please select another option.");
-                $(".alert-box").show();
-            } else {
-                $(".alert-box").hide();
+    $('#layerSelect').change(function(){ 
+        // Get all info for layer change and update trendLayer with the selected layer/model/trend
+        trendLayerInfos = map.getLayer("layerInfo").layerInfos;
+        
+        var newLayerName = document.getElementById("layerSelect").value + "_" + $('input[name=trendType]:checked').val() + "_" + $('input[name=trendPeriod]:checked').val();
+
+        for (var index in trendLayerInfos) {
+            if (trendLayerInfos[index].name == newLayerName) {
+                map.removeLayer(map.getLayer("trendResults"));
+
+                var featureLayer = new FeatureLayer(map.getLayer("layerInfo").url + "/" + index,{
+                    id: "trendResults",
+                    opacity: 1.00,
+                    mode: FeatureLayer.MODE_SNAPSHOT,
+                    outFields: ["*"],
+                    visible: true
+                });
+                map.addLayer(featureLayer)
             }
-            layerUpdate.remove();
-        });
-        map.getLayer(layer).refresh();
-    }
-
-    function pestSelect() {
-        var val = $("#pesticideSelect").val();
-        currentConst = val;
-        var trendPeriod = $('input[name=trendPeriod]:checked').val();
-        var expression = "Pesticide = '" + val + "' AND period = '" + trendPeriod + "'";
-        map.getLayer("pestSites").setDefinitionExpression(expression);
-        map.getLayer("pestSites").setVisibility(true);
-        layerUpdateListener("pestSites");
-    }
-
-    function ecoSelect() {
-        var val = "";
-        var selectVal = $($("#typeSelect")[0][$("#typeSelect")[0].selectedIndex].attributes["select"].value).val();
-        currentConst = selectVal;
-        var trendPeriodVal = $('input[name=trendPeriod]:checked').val();
-        var trendPeriod = "";
-        if (trendPeriodVal == "P10") {
-            trendPeriod = "AND (EcoTrendResults_Nyear = 8 OR EcoTrendResults_Nyear = 9 OR EcoTrendResults_Nyear = 10 OR EcoTrendResults_Nyear = 11)";
-        } else if (trendPeriodVal == "P20") {
-            trendPeriod = "AND (EcoTrendResults_Nyear = 18 OR EcoTrendResults_Nyear = 19 OR EcoTrendResults_Nyear = 20)";
         }
-        var expression = "EcoTrendResults_y = '" + selectVal + "' " + trendPeriod;
-        console.log(expression);
-        map.getLayer("ecoSites").setDefinitionExpression("");
-        map.getLayer("ecoSites").setDefinitionExpression(expression);
-        map.getLayer("ecoSites").setVisibility(true);
-        layerUpdateListener("ecoSites");
-    }
-
-    function wrtdsSelect() {
-        var val = "";
-        var typeSelectVal = $("#typeSelect").val()
-        var constVal = $($("#typeSelect")[0][$("#typeSelect")[0].selectedIndex].attributes["select"].value).val();
-        currentConst = constVal;
-        if (typeSelectVal == "Nutrients") {
-            val = $("#nutrientsSelect").val();
-        } else if (typeSelectVal == "Carbon") {
-            val = $("#carbonSelect").val();
-        } else if (typeSelectVal == "Major ions") {
-            val = $("#majorIonsSelect").val();
-        } else if (typeSelectVal == "Salinity") {
-            val = $("#salinitySelect").val();
-        } else if (typeSelectVal == "Sediment") {
-            val = $("#sedimentSelect").val();
-        }
-
-        if (val == "Specific conductance") {
-            $("#load").prop('disabled', true);
-            $('input:radio[name=trendType]')[0].checked = true;
-        } else {
-            $("#load").prop('disabled', false);
-        }
-
-        var trendTypeVal = $('input[name=trendType]:checked').val();
-        var layer;
-        var layerID;
-        if (trendTypeVal == "concentration") {
-            layer = map.getLayer("wrtdsSites");
-            layerID = "wrtdsSites";
-            layer.setVisibility(true);
-        } else if (trendTypeVal == "load") {
-            layer = map.getLayer("wrtdsFluxSites");
-            layerID = "wrtdsFluxSites";
-            layer.setVisibility(true);
-        }
-
-        var trendPeriodVal = $('input[name=trendPeriod]:checked').val();
-        var trendPeriod = "";
-        var trendPeriod2 = "";
-        if (trendPeriodVal == "P10") {
-            trendPeriod = "2002";
-            trendPeriod2 = "2003"
-        } else if (trendPeriodVal == "P20") {
-            trendPeriod = "1992";
-            trendPeriod2 = "1993"
-        } else if (trendPeriodVal == "P30") {
-            trendPeriod = "1982";
-            trendPeriod2 = "1983"
-        } else if (trendPeriodVal == "P40") {
-            trendPeriod = "1972";
-            trendPeriod2 = "1973"
-        }
-        var expression = "wrtds_trends_wm_new.id_unique LIKE '%" + val + "%" + trendPeriod + "%' OR wrtds_trends_wm_new.id_unique LIKE '%" + val + "%" + trendPeriod2 + "%'";
-        layer.setDefinitionExpression(expression);
-        layerUpdateListener(layerID);
-    }
-
-    $("#pesticideSelect").on("change", function(event) {
-        $("#siteInfoDiv").css("visibility", "hidden");
-        map.graphics.clear();
-        var val = event.currentTarget.value;
-        currentConst = val;
-        var trendPeriod = $('input[name=trendPeriod]:checked').val();
-        var expression = "Pesticide = '" + val + "' AND period = '" + trendPeriod + "'";
-        map.getLayer("pestSites").setDefinitionExpression(expression);
-        layerUpdateListener("pestSites");
-    });
-
-    $(".ecoSelect").on("change", function(event) {
-        $("#siteInfoDiv").css("visibility", "hidden");
-        map.graphics.clear();
-        var val = event.currentTarget.value;
-
-        event.currentTarget.title = event.currentTarget[event.currentTarget.selectedIndex].title
-
-        currentConst = val;
-        var trendPeriodVal = $('input[name=trendPeriod]:checked').val();
-        var trendPeriod = "";
-        if (trendPeriodVal == "P10") {
-            trendPeriod = "AND (EcoTrendResults_Nyear  = 8 OR EcoTrendResults_Nyear  = 9 OR EcoTrendResults_Nyear  = 10 OR EcoTrendResults_Nyear  = 11)";
-        } else if (trendPeriodVal == "P20") {
-            trendPeriod = "AND (EcoTrendResults_Nyear  = 18 OR EcoTrendResults_Nyear  = 19 OR EcoTrendResults_Nyear  = 20)";
-        }
-        var expression = "EcoTrendResults_y = '" + val + "' " + trendPeriod;
-        map.getLayer("ecoSites").setDefinitionExpression(expression);
-        layerUpdateListener("ecoSites");
-    });
-
-   /* $(".wrtdsSelect").on("change", function(event) {
-        $("#siteInfoDiv").css("visibility", "hidden");
-        map.graphics.clear();
-        var val = event.currentTarget.value;
-
-        currentConst = val;
-        var layer;
-        var layerID;
-        if (val == "Specific conductance") {
-            $("#load").prop('disabled', true);
-            $('input:radio[name=trendType]')[0].checked = true;
-        } else {
-            $("#load").prop('disabled', false);
-        }
-
-        var trendTypeVal = $('input[name=trendType]:checked').val();
-        if (trendTypeVal == "concentration") {
-            layer = map.getLayer("wrtdsSites");
-            layerID = "wrtdsSites";
-            layer.setVisibility(true);
-        } else if (trendTypeVal == "load") {
-            layer = map.getLayer("wrtdsFluxSites");
-            layerID = "wrtdsFluxSites";
-            layer.setVisibility(true);
-        }
-
-        var trendPeriodVal = $('input[name=trendPeriod]:checked').val();
-        var trendPeriod = "";
-        var trendPeriod2 = "";
-        if (trendPeriodVal == "P10") {
-            trendPeriod = "2002";
-            trendPeriod2 = "2003"
-        } else if (trendPeriodVal == "P20") {
-            trendPeriod = "1992";
-            trendPeriod2 = "1993"
-        } else if (trendPeriodVal == "P30") {
-            trendPeriod = "1982";
-            trendPeriod2 = "1983"
-        } else if (trendPeriodVal == "P40") {
-            trendPeriod = "1972";
-            trendPeriod2 = "1973"
-        }
-        var expression = "wrtds_trends_wm_new.id_unique LIKE '%" + val + "%" + trendPeriod + "%' OR wrtds_trends_wm_new.id_unique LIKE '%" + val + "%" + trendPeriod2 + "%'";
-        layer.setDefinitionExpression(expression);
-        layerUpdateListener(layerID);
-    });*/
-
-    $('#layerSelect').change(function(item){ 
-        const layerArray = ["Q2_scaled_deficit","Q2_nDays_Layer","JD_Last","JD_First","JD_Diff_Q2","Peaks_Square_Data","Mean_AnnualQ","lowQ_7day","lowQ_3day","lowQ_1day","ZeroQ_nDay"];
-        for(var i = 0; i < layerArray.length-1; ++i){ 
-            console.log(i,layerArray[i]);
-            map.getLayer(layerArray[i]).setVisibility(false);
-             //For Loop to go through each of the layers
-        }; 
-        map.getLayer(item.currentTarget.value).setVisibility(true);
     });
 
     $(".trendPeriod").on("change", function(event) {
-        $("#siteInfoDiv").css("visibility", "hidden");
-        map.graphics.clear();
-        var val = event.currentTarget.value;
-        var selectVal = $($("#typeSelect")[0][$("#typeSelect")[0].selectedIndex].attributes["select"].value).val();
-        if ($("#typeSelect")[0].value == "Pesticides") {
-            var selectVal = $("#pesticideSelect").val();
-            currentConst = selectVal;
-            var expression = "Pesticide = '" + selectVal + "' AND period = '" + val + "'";
-            map.getLayer("pestSites").setDefinitionExpression(expression);
-            layerUpdateListener("pestSites");
-        } else if ($("#typeSelect")[0].value == "Algae" || $("#typeSelect")[0].value == "Fish" || $("#typeSelect")[0].value == "Macroinvertebrates") {
-            var trendPeriod = "";
-            currentConst = selectVal;
-            if (val == "P10") {
-                trendPeriod = "AND (EcoTrendResults_Nyear  = 8 OR EcoTrendResults_Nyear  = 9 OR EcoTrendResults_Nyear  = 10 OR EcoTrendResults_Nyear  = 11)";
-            } else if (val == "P20") {
-                trendPeriod = "AND (EcoTrendResults_Nyear  = 18 OR EcoTrendResults_Nyear  = 19 OR EcoTrendResults_Nyear  = 20)";
-            }
-            var expression = "EcoTrendResults_y = '" + selectVal + "' " + trendPeriod;
-            console.log(expression);
-            map.getLayer("ecoSites").setDefinitionExpression(expression);
-            layerUpdateListener("ecoSites");
-        } else if ($("#typeSelect")[0].value == "Nutrients" || $("#typeSelect")[0].value == "Carbon" || $("#typeSelect")[0].value == "Major ions" || $("#typeSelect")[0].value == "Salinity" || $("#typeSelect")[0].value == "Sediment") {
-            var layer;
-            var layerID;
-            var trendTypeVal = $('input[name=trendType]:checked').val();
-            if (trendTypeVal == "concentration") {
-                layer = map.getLayer("wrtdsSites");
-                layerID = "wrtdsSites";
-                layer.setVisibility(true);
-                map.getLayer("wrtdsFluxSites").setVisibility(false);
-            } else if (trendTypeVal == "load") {
-                layer = map.getLayer("wrtdsFluxSites");
-                layerID = "wrtdsFluxSites";
-                layer.setVisibility(true);
-                map.getLayer("wrtdsSites").setVisibility(false);
-            }
+        trendLayerInfos = map.getLayer("layerInfo").layerInfos;
+        
+        var newLayerName = document.getElementById("layerSelect").value + "_" + $('input[name=trendType]:checked').val() + "_" + $('input[name=trendPeriod]:checked').val();
 
-            var trendPeriod = "";
-            var trendPeriod2 = "";
-            if (val == "P10") {
-                trendPeriod = "2002";
-                trendPeriod2 = "2003"
-            } else if (val == "P20") {
-                trendPeriod = "1992";
-                trendPeriod2 = "1993"
-            } else if (val == "P30") {
-                trendPeriod = "1982";
-                trendPeriod2 = "1983"
-            } else if (val == "P40") {
-                trendPeriod = "1972";
-                trendPeriod2 = "1973"
+        for (var index in trendLayerInfos) {
+            if (trendLayerInfos[index].name == newLayerName) {
+                map.removeLayer(map.getLayer("trendResults"));
+
+                var featureLayer = new FeatureLayer(map.getLayer("layerInfo").url + "/" + index,{
+                    id: "trendResults",
+                    opacity: 1.00,
+                    mode: FeatureLayer.MODE_SNAPSHOT,
+                    outFields: ["*"],
+                    visible: true
+                });
+                map.addLayer(featureLayer)
             }
-            var selectVal = $($("#typeSelect")[0][$("#typeSelect")[0].selectedIndex].attributes["select"].value).val();
-            currentConst = selectVal;
-            var expression = "wrtds_trends_wm_new.id_unique LIKE '%" + selectVal + "%" + trendPeriod + "%' OR wrtds_trends_wm_new.id_unique LIKE '%" + selectVal + "%" + trendPeriod2 + "%'";
-            layer.setDefinitionExpression(expression); 
-            layerUpdateListener(layerID);
         }
     });
 
     $(".trendType").on("change", function(event) {
-        $("#siteInfoDiv").css("visibility", "hidden");
-        map.graphics.clear();
-        var val = event.currentTarget.value;
-        var selectVal = $($("#typeSelect")[0][$("#typeSelect")[0].selectedIndex].attributes["select"].value).val();
-        if ($("#typeSelect")[0].value == "Pesticides") {
+        trendLayerInfos = map.getLayer("layerInfo").layerInfos;
+        
+        var newLayerName = document.getElementById("layerSelect").value + "_" + $('input[name=trendType]:checked').val() + "_" + $('input[name=trendPeriod]:checked').val();
 
-        } else if ($("#typeSelect")[0].value == "Algae" || $("#typeSelect")[0].value == "Fish" || $("#typeSelect")[0].value == "Macroinvertebrates") {
+        for (var index in trendLayerInfos) {
+            if (trendLayerInfos[index].name == newLayerName) {
+                map.removeLayer(map.getLayer("trendResults"));
 
-        } else if ($("#typeSelect")[0].value == "Nutrients" || $("#typeSelect")[0].value == "Carbon" || $("#typeSelect")[0].value == "Major ions" || $("#typeSelect")[0].value == "Salinity" || $("#typeSelect")[0].value == "Sediment") {
-            var layer;
-            var layerID;
-            $.each(layers_all, function(key,value){
-                map.getLayer(value).setVisibility(false);
-            });
-
-            if (val == "concentration") {
-                layer = map.getLayer("wrtdsSites");
-                layerID = "wrtdsSites";
-            } else if (val == "load") {
-                layer = map.getLayer("wrtdsFluxSites");
-                layerID = "wrtdsFluxSites";
+                var featureLayer = new FeatureLayer(map.getLayer("layerInfo").url + "/" + index,{
+                    id: "trendResults",
+                    opacity: 1.00,
+                    mode: FeatureLayer.MODE_SNAPSHOT,
+                    outFields: ["*"],
+                    visible: true
+                });
+                map.addLayer(featureLayer)
             }
-
-            var trendPeriodVal = $('input[name=trendPeriod]:checked').val();
-            var trendPeriod = "";
-            var trendPeriod2 = "";
-            if (trendPeriodVal == "P10") {
-                trendPeriod = "2002";
-                trendPeriod2 = "2003"
-            } else if (trendPeriodVal == "P20") {
-                trendPeriod = "1992";
-                trendPeriod2 = "1993"
-            } else if (trendPeriodVal == "P30") {
-                trendPeriod = "1982";
-                trendPeriod2 = "1983"
-            } else if (trendPeriodVal == "P40") {
-                trendPeriod = "1972";
-                trendPeriod2 = "1973"
-            }
-
-            currentConst = selectVal;
-            var expression = "wrtds_trends_wm_new.id_unique LIKE '%" + selectVal + "%" + trendPeriod + "%' OR wrtds_trends_wm_new.id_unique LIKE '%" + selectVal + "%" + trendPeriod2 + "%'";
-
-            layer.setDefinitionExpression(expression);
-            layer.setVisibility(true);
-            layerUpdateListener(layerID);
         }
-
     });
 
     //displays map scale on map load

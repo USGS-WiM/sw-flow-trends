@@ -25,7 +25,7 @@ require([
             "includeInLayerList": false,
             "layers": {
                 "Trend Results": {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/swFlowTrends_test/MapServer/3",
+                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/swFlowTrends_test/MapServer/45",
                     "options": {
                         "id": "trendResults",
                         "opacity": 1.00,
@@ -40,24 +40,23 @@ require([
                         "hasOpacitySlider": true,
                         "includeLegend": true
                     }
-                }/*z,
-                "Q2_nDays_Layer" : {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/4",
+                },
+                "For layer info" : {
+                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/swFlowTrends_test/MapServer",
                     "options": {
-                        "id": "Q2_nDays_Layer",
+                        "id": "layerInfo",
                         "opacity": 1.00,
-                        "mode": FeatureLayer.MODE_SNAPSHOT,
                         "outFields": ["*"],
                         "visible": true
                     },
                     "wimOptions": {
                         "type": "layer",
-                        "layerType": "agisFeature",
+                        "layerType": "agisDynamic",
                         "includeInLayerList": false,
                         "hasOpacitySlider": true,
                         "includeLegend" : true
                     }
-                },
+                }/*,
                 "JD_Last" : {
                     "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/1",
                     "options": {
