@@ -618,95 +618,46 @@
                 </div>
                 <div id="constPanel" class="panel-collapse collapse in constituent-panel" role="tabpanel" aria-labelledby="constPanelHeader">
                     <div id="constDropdowns" style="padding: 2px 2px;">
-                        <label for="layerSelect">Available Layers:</label>
+                        <label for="layerSelect">Available Trends:</label>
                         <span>
                             <select id="layerSelect">
                                 <option value="Q2_scaled_deficit" selected>Scaled Deficit</option>
-                                <option value="Q2_nDays_Layer">Q2 nDays</option>
-                                <option value="JD_Last">JD Last</option>
-                                <option value="JD_First">JD First</option>
-                                <option value="JD_Diff_Q2">JD Difference Q2</option>
-                                <option value="Peaks_Square_Data">Peaks Square Data</option>
-                                <option value="Mean_AnnualQ">Mean Annual Q</option>
+                                <option value="Q2_nDays">Q2 nDays</option>
+                                <option value="JD_last_Q2">JD Last</option>
+                                <option value="JD_first_Q2">JD First</option>
+                                <option value="JD_diff_Q2">JD Difference Q2</option>
+                                <option value="mean_annual_Q">Mean Annual Q</option>
                                 <option value="lowQ_7day" >LowQ 7day</option>
                                 <option value="lowQ_3day" >LowQ 3Day</option>
                                 <option value="lowQ_1day" >LowQ 1Day</option>
-                                <option value="ZeroQ_nDay">ZeroQ</option>
-                            </select>
-                        </span>
-                    </div>
-                    <div>
-                        <label>Measurements:</label>
-                        <span>
-                            <select id="nutrientsSelect" class="constSelect wrtdsSelect">
-
-                            </select>
-                            <small style="font-size: 7pt;">For more information, see <a class="showUserGuide3" onclick="ga('send','event','navbar','click','User Guide');">User Guide</a></small>
-                        </span><!-- -->
-                        <span>
-                            <select id="carbonSelect" class="constSelect wrtdsSelect">
-
-                            </select>
-                        </span>
-                        <span>
-                            <select id="majorIonsSelect" class="constSelect wrtdsSelect">
-
-                            </select>
-                        </span>
-                        <span>
-                            <select id="salinitySelect" class="constSelect wrtdsSelect">
-
-                            </select>
-                        </span>
-                        <span>
-                            <select id="sedimentSelect" class="constSelect wrtdsSelect">
-
-                            </select>
-                        </span>
-                        <span>
-                            <select id="pesticideSelect" class="constSelect pestSelect">
-
-                            </select>
-                        </span>
-                        <span>
-                            <select id="algaeSelect" class="constSelect ecoSelect">
-
-                            </select>
-                        </span>
-                        <span>
-                            <select id="fishSelect" class="constSelect ecoSelect">
-
-                            </select>
-                        </span>
-                        <span>
-                            <select id="macroinvertSelect" class="constSelect ecoSelect">
-
+                                <option value="zeroQ_nDays">ZeroQ</option>
                             </select>
                         </span>
                     </div>
 
                     <div id="trendTypes" style="align-content: center; width: 100%; padding-top: 20px; text-align: left;">
-                        <label>Trend type</label>
+                        <label>Model</label>
                         <span class="sidebar-radio-wrapper">
-                            <input id="cocentration" name="trendType" class="trendType" type="radio" value="concentration" checked> Concentration
+                            <input id="ltpModle" name="trendType" class="trendType" type="radio" value="LTP" checked> LTP
                         </span>
                         <span class="sidebar-radio-wrapper">
-                            <input id="load" name="trendType" class="trendType" type="radio" value="load"> Load
+                            <input id="ar1Model" name="trendType" class="trendType" type="radio" value="AR1"> AR1
+                        </span>
+                        <span class="sidebar-radio-wrapper">
+                            <input id="indeModel" name="trendType" class="trendType" type="radio" value="INDE"> INDE
                         </span>
                     </div>
+
                     <div style="width: 100%; padding-top: 20px; text-align: left;">
                         <label>Trend period</label>
-                        <span id="trend4" class="sidebar-radio-wrapper">
-                            <input id="trend4input" name="trendPeriod" class="trendPeriod" type="radio" value="P40"> 1916-2012
-                        </span>
                         <span id="trend3" class="sidebar-radio-wrapper">
-                            <input id="trend3input" name="trendPeriod" class="trendPeriod" type="radio" value="P30"> 1982-2012
+                            <input id="trend3input" name="trendPeriod" class="trendPeriod" type="radio" value="1916"> 1916
                         </span>
                         <span id="trend2" class="sidebar-radio-wrapper">
-                            <input id="trend2input" name="trendPeriod" class="trendPeriod" type="radio" value="P20"> 1992-2012
+                            <input id="trend2input" name="trendPeriod" class="trendPeriod" type="radio" value="1941"> 1941
                         </span>
                         <span id="trend1" class="sidebar-radio-wrapper">
-                            <input id="trend1input" name="trendPeriod" class="trendPeriod" type="radio" value="P10" checked> 2002-2012
+                            <input id="trend1input" name="trendPeriod" class="trendPeriod" type="radio" value="1966" checked> 1966
                         </span>
                     </div>
 
