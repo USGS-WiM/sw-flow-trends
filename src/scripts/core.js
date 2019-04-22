@@ -245,7 +245,7 @@ require([
     });
 
     $('#printNavButton').click(function(){
-        var trendPeriodVal = $("input:radio[name='trendPeriod']:checked").val();
+        /*var trendPeriodVal = $("input:radio[name='trendPeriod']:checked").val();
 
         var trendPeriod = "";
         if (trendPeriodVal == "P10") {
@@ -265,7 +265,7 @@ require([
 
         var printTitle = getPrintTitle();
         $("#printTitle").text(printTitle);
-        showPrintModal();
+        showPrintModal();*/
     });
 
     function getPrintTitle() {
@@ -298,46 +298,6 @@ require([
 
         return printTitle;
     }
-
-    var layers_all = ["Q2_scaled_deficit","Q2_nDays_Layer","JD_Last","JD_First","JD_Diff_Q2","Peaks_Square_Data","Mean_AnnualQ","lowQ_7day","lowQ_3day","lowQ_1day","ZeroQ_nDay"];
-
-    $("#typeSelect").on('change', function (event) {
-
-        $("#siteInfoDiv").css("visibility", "hidden");
-        map.graphics.clear();
-
-        var val = event.currentTarget.value;
-        $(".constSelect").hide();
-        $.each(layers_all, function(key,value){
-           map.getLayer(value).setVisibility(false);
-        });
-        if (val == "Pesticides" || val == "Algae" || val == "Fish" || val == "Macroinvertebrates") {
-            if (!$("#trend1input").checked && !$("#trend2input").checked) {
-                $("#trend1input").prop("checked", true);
-            }
-        }
-
-        var selectVal = event.currentTarget[event.currentTarget.selectedIndex].attributes["select"].value
-        $(selectVal).show();
-
-        currentConst = selectVal;
-
-        if (val == "Nutrients" || val == "Carbon" || val == "Major ions" || val == "Salinity" || val == "Sediment") {
-            $("#trendTypes").show();
-            $("#trend4,#trend3").show();
-            wrtdsSelect();
-        } else if (val == "Pesticides") {
-            $("#trendTypes").show();
-            $("#trend4,#trend3").hide();
-            $("#load").prop('disabled', false);
-            pestSelect();
-        } else if (val == "Algae" || val == "Fish" || val == "Macroinvertebrates") {
-            $("#trendTypes").hide();
-            $("#trend4,#trend3").hide();
-            $("#load").prop('disabled', false);
-            ecoSelect();
-        }
-    });
 
     $('#layerSelect').change(function(){ 
         // Get all info for layer change and update trendLayer with the selected layer/model/trend
@@ -594,9 +554,19 @@ require([
                 }
 
                 var attr = event.graphic.attributes;
-
+                
                 // Calculate trend liklihood here. Could possibly use the graphic and work from that. Or just calculate again using the sym_model_year value
+                var trendField = "sym_" + $('input[name=trendType]:checked').val() + "_" + $('input[name=trendPeriod]:checked').val();
+                var trend = Number(attr[trendField]);
+                var trendText;
 
+                if (trend < -0.05 || trend > 0.05) {
+                    trendText = "About as likely as not";
+                } else if (trend >= -0.05 && trend < 0) {
+                    trendText = "Likely down";
+                } else if (trend <= 0.05 && trend >= 0) {
+                    trendText = "Likely up";
+                }
 
                 $("#siteInfoTabPane").empty();
 
@@ -610,9 +580,8 @@ require([
                         "<b>Gage class: </b>" + attr.trend_gages_gage_class + "<br/>" +
                         "<b>Latitude: </b>" + attr.trend_gages_dec_lat_va + "<br/>" +
                         "<b>Longitude: </b>" + attr.trend_gages_dec_long_va + "<br/>" +
-                        "<b>Drainage area: </b>" + attr.trend_gages_drainSqKm + " (km<sup>2</sup>)<br/>");
-                        // Put Trend likelihood here once calculated above
-                        //"<b>" + trend thing here + "</b>" + attr.pvalue_AR1_1916);
+                        "<b>Drainage area: </b>" + attr.trend_gages_drainSqKm + " (km<sup>2</sup>)<br/>" +
+                        "<b>Trend Likelihood: </b>" + trendText);
                 } 
 
             });
@@ -816,300 +785,6 @@ require([
         });
         $('#faqNav').click(function(){
             $('#faqModal').modal('show');
-        });
-
-        function showChartModal () {
-            if (currentLayer == "pestSites") {
-                window.open(pestPDFs, "_blank");
-                //alert(pestPDFs);
-            } else {
-                var jossoSessionId = "";
-                //$(".charts-model-loading").show();
-                $(".charts-sbdown").hide();
-                $(".charts-model-loading").hide();
-
-                $("#pConc").attr("src", "https://s3.amazonaws.com/nawqatrends.wim.usgs.gov/charts/" + currentConst + "_" + currentSiteNo + "/plotConcTime.png");
-                $("#bConc").attr("src", "https://s3.amazonaws.com/nawqatrends.wim.usgs.gov/charts/" + currentConst + "_" + currentSiteNo + "/boxConcMonth.png");
-                $("#pConcPred").attr("src", "https://s3.amazonaws.com/nawqatrends.wim.usgs.gov/charts/" + currentConst + "_" + currentSiteNo + "/plotConcPred.png");
-                $("#pFluxPred").attr("src", "https://s3.amazonaws.com/nawqatrends.wim.usgs.gov/charts/" + currentConst + "_" + currentSiteNo + "/plotFluxPred.png");
-                $("#pConcHistBoot").attr("src", "https://s3.amazonaws.com/nawqatrends.wim.usgs.gov/charts/" + currentConst + "_" + currentSiteNo + "/plotConcHistBoot.png");
-                $("#pFluxHistBoot").attr("src", "https://s3.amazonaws.com/nawqatrends.wim.usgs.gov/charts/" + currentConst + "_" + currentSiteNo + "/plotFluxHistBoot.png");
-                $('#chartModal').modal('show');
-            }
-        }
-        $('#charts').click(function(){
-            showChartModal();
-        });
-
-        function showTableModal () {
-            $('#tableModal').modal('show');
-
-            $("#tableDiv").html("Loading ...");
-
-            if (isNaN(currentSiteNo) == false && currentSiteNo.toString().length < 8) {
-                currentSiteNo = "0" + currentSiteNo;
-            }
-
-            var wrtdsCall = $.ajax({
-                dataType: 'json',
-                type: 'GET',
-                url: map.getLayer("wrtdsSites").url + '/query?where=wrtds_trends_wm_new.Site_no+%3D+%27' + currentSiteNo + '%27&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=' +
-                'wrtds_trends_wm_new.param_nm%2C' +
-                'wrtds_trends_wm_new.id_unique%2C' +
-                'wrtds_trends_wm_new.likeC%2C+' +
-                'wrtds_trends_wm_new.likeF%2C' +
-                'wrtds_trends_wm_new.trend_pct_C%2C' +
-                'wrtds_trends_wm_new.trend_pct_F%2C' +
-                'wrtds_trends_wm_new.low_int_C%2C' +
-                'wrtds_trends_wm_new.low_int_F%2C' +
-                'wrtds_trends_wm_new.up_int_C%2C' +
-                'wrtds_trends_wm_new.up_int_F%2C' +
-                'wrtds_trends_wm_new.estC%2C' +
-                'wrtds_trends_wm_new.estF%2C' +
-                'wrtds_trends_wm_new.lowC90%2C' +
-                'wrtds_trends_wm_new.lowF90%2C' +
-                'wrtds_trends_wm_new.upC90%2C' +
-                'wrtds_trends_wm_new.upF90' +
-                '&returnGeometry=false&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=true&resultOffset=&resultRecordCount=&f=json',
-                headers: {'Accept': '*/*'}
-            });
-
-            var pestCall = $.ajax({
-                dataType: 'json',
-                type: 'GET',
-                url: map.getLayer("pestSites").url + '/query?where=pstaid+%3D+%27' + currentSiteNo + '%27&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=' +
-                'Pesticide%2C' +
-                'period%2C' +
-                'c_map_lklhd%2C' +
-                'ctndPpor%2C' +
-                'clciPpor%2C' +
-                'cuciPpor%2C' +
-                'ctndOrigPORPercentBase%2C' +
-                'clciOrigPORPercentBase%2C' +
-                'cuciOrigPORPercentBase%2C' +
-                'ltndPpor%2C' +
-                'luciPpor%2C' +
-                'llciPpor%2C' +
-                'ltndOrigPORPercentBase%2C' +
-                'luciOrigPORPercentBase%2C' +
-                'llciOrigPORPercentBase' +
-                '&returnGeometry=false&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&resultOffset=&resultRecordCount=&f=json',
-                headers: {'Accept': '*/*'}
-            });
-
-            var ecoCall = $.ajax({
-                dataType: 'json',
-                type: 'GET',
-                url: map.getLayer("ecoSites").url + '/query?where=EcoTrendResults_EcoSiteID+%3D+%27' + currentSiteNo + '%27&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=' +
-                'EcoTrendResults_y%2C' +
-                'EcoTrendResults_firstYear%2C' +
-                'EcoTrendResults_likelihood%2C' +
-                'EcoTrendResults_Per_ChangeR%2C' +
-                'trend_orig_period%2C' +
-                'code_desc' +
-                '&returnGeometry=false&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&resultOffset=&resultRecordCount=&f=json',
-                headers: {'Accept': '*/*'}
-            });
-
-            $.when(wrtdsCall, pestCall, ecoCall)
-                .done(function(wrtdsData, pestData, ecoData) {
-                    //alert(wrtdsData);
-                    var data2Return = [];
-
-                    //handling WRTDS data
-                    $.each(wrtdsData[0].features, function (key, value) {
-                        var trendYearArray = value.attributes["wrtds_trends_wm_new.id_unique"].split("_");
-                        var trendYear = trendYearArray[trendYearArray.length-1];
-                        data2Return.push([value.attributes["wrtds_trends_wm_new.param_nm"], //Constituent
-                            "Concentration (flow normalized)", //Type
-                            trendPeriodFixer(trendYear)+"-2012", //Trend period
-                            Math.abs(value.attributes["wrtds_trends_wm_new.likeC"].toFixed(3)), //Trend likelihood
-                            value.attributes["wrtds_trends_wm_new.trend_pct_C"].toFixed(2), //Trend, in percent
-                            value.attributes["wrtds_trends_wm_new.low_int_C"].toFixed(2), //Lower confidence interval, in percent
-                            value.attributes["wrtds_trends_wm_new.up_int_C"].toFixed(2), //Upper confidence interval, in percent
-                            value.attributes["wrtds_trends_wm_new.estC"].toFixed(4), //Trend, in original units
-                            value.attributes["wrtds_trends_wm_new.lowC90"].toFixed(4), //Lower confidence interval, in original units
-                            value.attributes["wrtds_trends_wm_new.upC90"].toFixed(4), //Upper confidence interval, in original units
-                            "90 percent confidence interval" //Reported confidence interval
-                        ]);
-                        if (value.attributes["wrtds_trends_wm_new.param_nm"] != "Specific conductance") {
-                            data2Return.push([value.attributes["wrtds_trends_wm_new.param_nm"], //Constituent
-                                "Load (flow normalized)", //Type
-                                trendPeriodFixer(trendYear)+"-2012", //Trend period
-                                Math.abs(value.attributes["wrtds_trends_wm_new.likeF"].toFixed(3)), //Trend likelihood
-                                value.attributes["wrtds_trends_wm_new.trend_pct_F"].toFixed(2),//Trend, in percent
-                                value.attributes["wrtds_trends_wm_new.low_int_F"].toFixed(2), //Lower confidence interval, in percent
-                                value.attributes["wrtds_trends_wm_new.up_int_F"].toFixed(2), //Upper confidence interval, in percent
-                                value.attributes["wrtds_trends_wm_new.estF"].toFixed(4), //Trend, in original units
-                                value.attributes["wrtds_trends_wm_new.lowF90"].toFixed(4), //Lower confidence interval, in original units
-                                value.attributes["wrtds_trends_wm_new.upF90"].toFixed(4), //Upper confidence interval, in original units
-                                "90 percent confidence interval" //Reported confidence interval
-                            ]);
-                        }
-                    });
-
-                    //handling Pesticide data
-                    $.each(pestData[0].features, function (key, value) {
-                        var trendPeriod = "";
-                        if (value.attributes["period"] == "P20") {
-                            trendPeriod = "1992-2012";
-                        } else if (value.attributes["period"] == "P10") {
-                            trendPeriod = "2002-2012";
-                        }
-                        data2Return.push([value.attributes["Pesticide"], //Constituent
-                            "Concentration (flow normalized)", //Type
-                            trendPeriod, //Trend period
-                            Math.abs(value.attributes["c_map_lklhd"].toFixed(3)), //Trend likelihood
-                            value.attributes["ctndPpor"].toFixed(2), //Trend, in percent
-                            value.attributes["clciPpor"].toFixed(2), //Lower confidence interval, in percent
-                            value.attributes["cuciPpor"].toFixed(2), //Upper confidence interval, in percent
-                            value.attributes["ctndOrigPORPercentBase"].toFixed(4), //Trend, in original units
-                            value.attributes["clciOrigPORPercentBase"].toFixed(4), //Lower confidence interval, in original units
-                            value.attributes["cuciOrigPORPercentBase"].toFixed(4), //Upper confidence interval, in original units
-                            "90 percent confidence interval" //Reported confidence interval
-                        ]);
-                        data2Return.push([value.attributes["Pesticide"], //Constituent
-                            "Load (flow normalized)", //Type
-                            trendPeriod, //Trend period
-                            Math.abs(value.attributes["c_map_lklhd"].toFixed(3)), //Trend likelihood
-                            value.attributes["ltndPpor"].toFixed(2), //Trend, in percent
-                            value.attributes["llciPpor"].toFixed(2), //Lower confidence interval, in percent
-                            value.attributes["luciPpor"].toFixed(2), //Upper confidence interval, in percent
-                            value.attributes["ltndOrigPORPercentBase"].toFixed(4), //Trend, in original units
-                            value.attributes["llciOrigPORPercentBase"].toFixed(4), //Lower confidence interval, in original units
-                            value.attributes["luciOrigPORPercentBase"].toFixed(4), //Upper confidence interval, in original units
-                            "90 percent confidence interval" //Reported confidence interval
-                        ]);
-                    });
-
-                    //handling Ecology data
-                    $.each(ecoData[0].features, function (key, value) {
-                        data2Return.push([
-                            value.attributes["code_desc"], //Constituent... used to be EcoTrendResults_y
-                            "Metric (flow normalized)", //Type
-                            trendPeriodFixer(value.attributes["EcoTrendResults_firstYear"])+"-2012", //Trend period
-                            Math.abs(value.attributes["EcoTrendResults_likelihood"].toFixed(3)), //Trend likelihood
-                            value.attributes["EcoTrendResults_Per_ChangeR"].toFixed(2), //trend, in percent
-                            "Not available", //lower confidence interval, in percent
-                            "Not available", //upper confidence interval, in percent
-                            "Not available", //trend, in original units
-                            "Not available", //lower confidence interval, orig units
-                            "Not available", //upper confidence interval, orig units,
-                            "Not available" //reported confidence interval
-                        ]);
-                    });
-
-                    $("#tableDiv").html("");
-
-                    var container = document.getElementById('tableDiv');
-                    var hot = new Handsontable(container, {
-                        data: data2Return,
-                        rowHeaders: false,
-                        colHeaders: true,
-                        manualColumnResize: true
-                    });
-                    var colHeadersforCSV = [["Constituent","Type","Trend period","Trend likelihood","Trend, in percent","Lower confidence interval on the trend, in percent",
-                            "Upper confidence interval on the trend, in percent","Trend, in original units","Lower confidence interval on the trend, in orginal units",
-                            "Upper confidence interval on the trend, in original units","Reported confidence interval"]];
-
-                    hot.updateSettings({
-                        colHeaders: [
-                            "Constituent",
-                            "Type",
-                            "Trend period",
-                            "Trend likelihood",
-                            "Trend, in percent",
-                            "Lower confidence interval on the trend, in percent",
-                            "Upper confidence interval on the trend, in percent",
-                            "Trend, in original units",
-                            "Lower confidence interval on the trend, in original units",
-                            "Upper confidence interval on the trend, in original units",
-                            "Reported confidence interval"
-                        ],
-                        colWidths: [200, 110, 80, 80, 80, 125, 125, 100, 125, 125, 100],
-                        readOnly: true,
-                        columnSorting: true,
-                        sortIndicator: true
-                    });
-
-                    var tableDownloadClick = $(".download-table-btn").on('click', function(event) {
-                        var csvContent = "data:text/csv;charset=utf-8,";
-                        var colHeaders = [];
-                        colHeadersforCSV.forEach(function(infoArray, index){
-
-                            var dataString = infoArray.join("\",\"");
-                            csvContent += index < data2Return.length ?  "\"" + dataString+ "\"\r\n" : dataString;
-
-                        });
-                        var newData2Return = []
-                        data2Return.forEach(function(infoArray, index){
-
-                            var dataString = ""
-                            infoArray.forEach(function(infoItem, ind) {
-                                if (ind == 0) {
-                                    dataString += "\"" + infoItem + "\"";
-                                } else {
-                                    dataString += "," + infoItem;
-                                }
-                            });
-                            csvContent += index < data2Return.length ? dataString+ "\r\n" : dataString;
-
-                        });
-                        var encodedUri = encodeURI(csvContent);
-                        if(navigator.userAgent.indexOf("Safari") != -1){
-                            var cle = document.createEvent("MouseEvent");
-                            cle.initEvent("click", true, true);
-                            var a = $("<a>").attr("id", "downloadLink").attr("target", "_blank").attr("href", encodedUri).attr("download", currentSiteNo + "_trend_results.csv").appendTo("body");
-                            var elem = document.getElementById('downloadLink');
-                            elem.dispatchEvent(cle);
-                            a.remove();
-                        } else {
-                            var link = document.createElement("a");
-                            link.setAttribute("href", encodedUri);
-                            link.setAttribute("download", currentSiteNo + "_trend_results.csv");
-                            document.body.appendChild(link); // Required for FF
-                            link.click();
-                            link.remove();
-                        }
-
-                    });
-
-                    $('.table-close').click(function() {
-                        tableDownloadClick.off();
-                    });
-                })
-                .fail(function() {
-                    alert('there was a problem');
-                });
-
-            function trendPeriodFixer(startYear) {
-
-                var startYrNum = Number(startYear);
-                var validTrendStarts = [1916,1941,1966];
-
-                var distance = 50;
-                var index = 0;
-                for(var i = 0; i < validTrendStarts.length; i++){
-                    var cdistance = Math.abs(validTrendStarts[i] - startYrNum);
-                    if(cdistance < distance){
-                        index = i;
-                        distance = cdistance;
-                    }
-                }
-                var theNumber = validTrendStarts[index];
-                var fixedYear = theNumber.toString();
-
-                return fixedYear;
-
-            }
-        }
-
-        $('#table').click(function(){
-            $('#tableModal').modal({
-                backdrop: 'static',
-                keyboard: false
-            });
-            showTableModal();
         });
 
         $("#html").niceScroll();
