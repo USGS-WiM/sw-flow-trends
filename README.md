@@ -1,9 +1,7 @@
 ![WiM](wimlogo.png)
 
 
-# [National Water-Quality Assessment (NAWQA) Project](https://water.usgs.gov/nawqa/) Water-quality trends in the nation's streams and rivers
-
-This mapper provides results from the largest-ever assessment of water-quality changes in the Nation's streams and rivers.
+# Surface water flow trends in the nation's streams and rivers
 
 ### Prerequisites
 
@@ -41,10 +39,10 @@ To push tags to remote origin: `git push origin --tags`
 ## Authors
 
 * **[Nicholas Estes](https://www.usgs.gov/staff-profiles/nicholas-j-estes)**  - *Lead Developer* - [USGS Web Informatics & Mapping](https://wim.usgs.gov/)
-* **[Lauren Privette](https://www.usgs.gov/staff-profiles/lauren-privette)**  - *Developer* - [USGS Web Informatics & Mapping](https://wim.usgs.gov/)
+* Rachel Stephenson  - *Developer* - [NGTOC National Map Corps Team](https://www.usgs.gov/staff-profiles/rachel-stevenson)
 * **[Mitch Samuels](https://wim.usgs.gov/#/developers/8/Mitch)**  - *Developer* - [USGS Web Informatics & Mapping](https://wim.usgs.gov/)
 
-See also the list of [contributors](https://github.com/USGS-WiM/nawqa-sw-trends/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/USGS-WiM/sw-flow-trends/contributors) who participated in this project.
 
 ## License
 
