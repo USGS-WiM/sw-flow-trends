@@ -39,7 +39,7 @@ To push tags to remote origin: `git push origin --tags`
 ## Authors
 
 * **[Nicholas Estes](https://www.usgs.gov/staff-profiles/nicholas-j-estes)**  - *Lead Developer* - [USGS Web Informatics & Mapping](https://wim.usgs.gov/)
-* **[Rachel Stephenson](https://www.usgs.gov/staff-profiles/rachel-stevenson)**  - *Developer* - [NGTOC National Map Corps Team](https://www.usgs.gov/core-science-systems/national-geospatial-program/national-map-corps)
+* **[Rachel Stevenson](https://www.usgs.gov/staff-profiles/rachel-stevenson)**  - *Developer* - [NGTOC National Map Corps Team](https://www.usgs.gov/core-science-systems/national-geospatial-program/national-map-corps)
 * **[Mitch Samuels](https://wim.usgs.gov/#/developers/8/Mitch)**  - *Developer* - [USGS Web Informatics & Mapping](https://wim.usgs.gov/)
 
 See also the list of [contributors](https://github.com/USGS-WiM/sw-flow-trends/contributors) who participated in this project.
