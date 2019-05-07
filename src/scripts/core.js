@@ -560,12 +560,16 @@ require([
                 var trend = Number(attr[trendField]);
                 var trendText;
 
-                if (trend < -0.05 || trend > 0.05) {
-                    trendText = "About as likely as not";
-                } else if (trend >= -0.05 && trend < 0) {
-                    trendText = "Likely down";
-                } else if (trend <= 0.05 && trend >= 0) {
-                    trendText = "Likely up";
+                if (trend < -0.05) {
+                    trendText = "Non-significant trend down";
+                } else if (trend >= -0.05 && trend <= -0.000001) {
+                    trendText = "Significant trend down";
+                } else if (trend > -0.000001 && trend < 0.000001) {
+                    trendText = "No trend";
+                } else if (trend >= 0.000001 && trend <= 0.05) {
+                    trendText = "Significant trend up";
+                } else if (trend > 0.05) {
+                    trendText = "Non-significant trend up";
                 }
 
                 $("#siteInfoTabPane").empty();
@@ -573,11 +577,17 @@ require([
                 currentLayer = layer;
 
                 if (layer == "trendResults") {
+                    var gage_class;
+                    if (attr.trend_gages_gage_class == "HCDN") {
+                        gage_class = "Reference";
+                    } else {
+                        gage_class = attr.trend_gages_gage_class;
+                    }
                     currentSiteNo = attr.Q2_scaled_deficit;
                     $("#siteInfoTabPane").append("<br/><b>Station Name: </b>" + attr.trend_gages_station_nm + "<br/>" +
                         "<b>Site number: </b>" + attr.trend_gages_site_id + "<br/>" +
                         /*"<b>Agency: </b>U.S. Geological Survey<br/>" +*/
-                        "<b>Gage class: </b>" + attr.trend_gages_gage_class + "<br/>" +
+                        "<b>Gage class: </b>" + gage_class + "<br/>" +
                         "<b>Latitude: </b>" + attr.trend_gages_dec_lat_va + "<br/>" +
                         "<b>Longitude: </b>" + attr.trend_gages_dec_long_va + "<br/>" +
                         "<b>Drainage area: </b>" + attr.trend_gages_drainSqKm + " (km<sup>2</sup>)<br/>" +

@@ -56,155 +56,87 @@ require([
                         "hasOpacitySlider": true,
                         "includeLegend" : true
                     }
-                }/*,
-                "JD_Last" : {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/1",
+                },
+                "2012": {
+                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWTrends/lu2012_100515_test/ImageServer",
                     "options": {
-                        "id": "JD_Last",
-                        "opacity": 1.00,
-                        "mode": FeatureLayer.MODE_SNAPSHOT,
-                        "outFields": ["*"],
+                        "id": "lu2012",
+                        "opacity": 0.5,
                         "visible": false
                     },
                     "wimOptions": {
                         "type": "layer",
-                        "layerType": "agisFeature",
-                        "includeInLayerList": false,
+                        "layerType": "agisImage",
+                        "includeInLayerList": true,
+                        "exclusiveGroupName":"Land use",
                         "hasOpacitySlider": true,
-                        "includeLegend" : true
+                        "includeLegend": true
                     }
                 },
-                "JD_First" : {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/2",
+                "2002": {
+                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWTrends/lu2002_100515_test/ImageServer",
                     "options": {
-                        "id": "JD_First",
-                        "opacity": 1.00,
-                        "mode": FeatureLayer.MODE_SNAPSHOT,
-                        "outFields": ["*"],
+                        "id": "lu2002",
+                        "opacity": 0.5,
                         "visible": false
                     },
                     "wimOptions": {
                         "type": "layer",
-                        "layerType": "agisFeature",
-                        "includeInLayerList": false,
+                        "layerType": "agisImage",
+                        "includeInLayerList": true,
+                        "exclusiveGroupName":"Land use",
                         "hasOpacitySlider": true,
-                        "includeLegend" : true
-                    }
-                }, 
-                "JD_Diff_Q2" : {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/10",
-                    "options": {
-                        "id": "JD_Diff_Q2",
-                        "opacity": 1.00,
-                        "mode": FeatureLayer.MODE_SNAPSHOT,
-                        "outFields": ["*"],
-                        "visible": false
-                    },
-                    "wimOptions": {
-                        "type": "layer",
-                        "layerType": "agisFeature",
-                        "includeInLayerList": false,
-                        "hasOpacitySlider": true,
-                        "includeLegend" : true
+                        "includeLegend": true
                     }
                 },
-                "Peaks_Square_Data" : {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/5",
+                "1992": {
+                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWTrends/lu1992_100515_test/ImageServer",
                     "options": {
-                        "id": "Peaks_Square_Data",
-                        "opacity": 1.00,
-                        "mode": FeatureLayer.MODE_SNAPSHOT,
-                        "outFields": ["*"],
+                        "id": "lu1992",
+                        "opacity": 0.5,
                         "visible": false
                     },
                     "wimOptions": {
                         "type": "layer",
-                        "layerType": "agisFeature",
-                        "includeInLayerList": false,
+                        "layerType": "agisImage",
+                        "includeInLayerList": true,
+                        "exclusiveGroupName":"Land use",
                         "hasOpacitySlider": true,
-                        "includeLegend" : true
+                        "includeLegend": true
                     }
-                }, "Mean_AnnualQ" : {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/6",
+                },
+                "1982": {
+                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWTrends/lu1982_100515_test/ImageServer",
                     "options": {
-                        "id": "Mean_AnnualQ",
-                        "opacity": 1.00,
-                        "mode": FeatureLayer.MODE_SNAPSHOT,
-                        "outFields": ["*"],
+                        "id": "lu1982",
+                        "opacity": 0.5,
                         "visible": false
                     },
                     "wimOptions": {
                         "type": "layer",
-                        "layerType": "agisFeature",
-                        "includeInLayerList": false,
+                        "layerType": "agisImage",
+                        "includeInLayerList": true,
+                        "exclusiveGroupName":"Land use",
                         "hasOpacitySlider": true,
-                        "includeLegend" : true
+                        "includeLegend": true
                     }
-                }, "lowQ_7day" : {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/7",
+                },
+                "1974": {
+                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWTrends/lu1974_100515_test/ImageServer",
                     "options": {
-                        "id": "lowQ_7day",
-                        "opacity": 1.00,
-                        "mode": FeatureLayer.MODE_SNAPSHOT,
-                        "outFields": ["*"],
+                        "id": "lu1974",
+                        "opacity": 0.5,
                         "visible": false
                     },
                     "wimOptions": {
                         "type": "layer",
-                        "layerType": "agisFeature",
-                        "includeInLayerList": false,
+                        "layerType": "agisImage",
+                        "includeInLayerList": true,
+                        "exclusiveGroupName":"Land use",
                         "hasOpacitySlider": true,
-                        "includeLegend" : true
+                        "includeLegend": true
                     }
-                }, "lowQ_3day" : {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/8",
-                    "options": {
-                        "id": "lowQ_3day",
-                        "opacity": 1.00,
-                        "mode": FeatureLayer.MODE_SNAPSHOT,
-                        "outFields": ["*"],
-                        "visible": false
-                    },
-                    "wimOptions": {
-                        "type": "layer",
-                        "layerType": "agisFeature",
-                        "includeInLayerList": false,
-                        "hasOpacitySlider": true,
-                        "includeLegend" : true
-                    }
-                }, "lowQ_1day" : {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/9",
-                    "options": {
-                        "id": "lowQ_1day",
-                        "opacity": 1.00,
-                        "mode": FeatureLayer.MODE_SNAPSHOT,
-                        "outFields": ["*"],
-                        "visible": false
-                    },
-                    "wimOptions": {
-                        "type": "layer",
-                        "layerType": "agisFeature",
-                        "includeInLayerList": false,
-                        "hasOpacitySlider": true,
-                        "includeLegend" : true
-                    }
-                }, "ZeroQ_nDay" : {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/SWFlowTrends/MapServer/0",
-                    "options": {
-                        "id": "ZeroQ_nDay",
-                        "opacity": 1.00,
-                        "mode": FeatureLayer.MODE_SNAPSHOT,
-                        "outFields": ["*"],
-                        "visible": false
-                    },
-                    "wimOptions": {
-                        "type": "layer",
-                        "layerType": "agisFeature",
-                        "includeInLayerList": false,
-                        "hasOpacitySlider": true,
-                        "includeLegend" : true
-                    }
-                },*/
+                }
             }
         }
     ]

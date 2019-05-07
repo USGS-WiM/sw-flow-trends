@@ -20,7 +20,7 @@ elif arcpy.Exists(out_gdb_path) is True:
 
 ## Use Table to Table to Import csvs to gdb
 
-in_rows = ["trends_JD.diff.Q2.csv", "trends_JD.first.Q2.csv", "trends_JD.last.Q2.csv", "trends_lowQ.1day.csv", "trends_lowQ.3day.csv", "trends_lowQ.7day.csv", "trends_mean.annual.Q.csv", "trends_Q2.nDays.csv", "trends_Q2.scaled.deficit.csv", "trends_zeroQ.nDays.csv"]
+in_rows = ["trends_JD.diff.Q2.csv", "trends_JD.first.Q2.csv", "trends_JD.last.Q2.csv", "trends_lowQ.1day.csv", "trends_lowQ.3day.csv", "trends_lowQ.7day.csv", "trends_mean.annual.Q.csv", "trends_Q2.nDays.csv", "trends_Q2.scaled.deficit.csv", "trends_zeroQ.nDays.csv", "trends_peak_flows.csv"]
 in_tables = []
 
 for index, item in enumerate(in_rows):
