@@ -591,7 +591,7 @@ require([
                         "<b>Latitude: </b>" + attr.trend_gages_dec_lat_va + "<br/>" +
                         "<b>Longitude: </b>" + attr.trend_gages_dec_long_va + "<br/>" +
                         "<b>Drainage area: </b>" + attr.trend_gages_drainSqKm + " (km<sup>2</sup>)<br/>" +
-                        "<b>Trend Likelihood: </b>" + trendText);
+                        "<b>Trend: </b>" + trendText);
                 } 
 
             });
