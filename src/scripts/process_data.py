@@ -124,23 +124,33 @@ for fc in fcl:
 
                 # field calculations for symbology
                 
-                with arcpy.da.UpdateCursor(fc, [layer + "_trend_" + year, layer + "_pvalue_" + model + "_" + year, "sym_" + model + "_" + year]) as cursor:
+                with arcpy.da.UpdateCursor(fc, [layer + "_trend_" + year, layer + "_pvalue_" + model + "_" + year, "sym_" + model + "_" + year, "trend_gages_site_id"]) as cursor:
                     for row in cursor:
                         #if row[0].find("NA") == -1:
                         if "NA" not in str(row[0]) and "None" not in str(row[0]):
                             #print "row[0] is " + str(row[0])
                             if row[0] < 0:
-                                # print "row[0] is " + str(row[0])
-                                row[2] = float(row[1])*-1
-                            else:
+                                #print "row[0] is " + str(row[0])
+                                if row[1] < .000001 and row[1] > 0:
+                                    row[1] = .000001
+                                    row[2] = float(row[1])*-1
+                                else:
+                                    row[2] = float(row[1])*-1
+                                    #print row[2].name
+                            elif row[1] != None:
                                 try:
                                     row[2] = float(row[1])
                                 except:
                                     print "can't be converted"
                                     print str(row[2])
+                                    print str(row[1])
+                                    print str(row[3])
+                                    print row[1] == None
+                                    #os.system("pause")
+                                    
                             cursor.updateRow(row)
                         
-                    print "field calculation conducted for " + layer + ":" + model + ":" + year
+                    print "field calculations conducted for " + layer + ":" + model + ":" + year
 
     # Create layers for mxd
 
