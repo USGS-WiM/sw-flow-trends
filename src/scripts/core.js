@@ -834,6 +834,8 @@ require([
         $('#faq11header').click(function(){$('#faq11body').slideToggle(250);});
         $('#faq12header').click(function(){$('#faq12body').slideToggle(250);});
         $('#faq13header').click(function(){$('#faq13body').slideToggle(250);});
+        $('#faq14header').click(function(){$('#faq14body').slideToggle(250);});
+        $('#faq15header').click(function(){$('#faq15body').slideToggle(250);});
 
         $('.fullsize').click(function(){
             //var data = "<img src='"+$(this).attr('src')+"'/>";
