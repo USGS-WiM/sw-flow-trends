@@ -129,7 +129,7 @@ for fc in fcl:
                         #if row[0].find("NA") == -1:
                         if "NA" not in str(row[0]) and "None" not in str(row[0]):
                             #print "row[0] is " + str(row[0])
-                            if row[0] < 0:
+                            if float(row[0]) < 0:
                                 #print "row[0] is " + str(row[0])
                                 if row[1] < .000001 and row[1] > 0:
                                     row[1] = .000001
