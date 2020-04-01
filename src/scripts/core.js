@@ -481,7 +481,7 @@ require([
         expand: false,
         editTitle: false,
         maxWidth: 800,
-        maxHeight: 500
+        maxHeight: 800
     });
 
     $("#siteInfoDiv .dropdown").prepend("<div id='siteInfoClose' title='close'><b>X</b></div>");
@@ -592,7 +592,187 @@ require([
                         "<b>Longitude: </b>" + attr.trend_gages_dec_long_va + "<br/>" +
                         "<b>Drainage area: </b>" + attr.trend_gages_drainSqKm + " (km<sup>2</sup>)<br/>" +
                         "<b>Trend: </b>" + trendText);
-                } 
+                }
+
+                var trendLayerForQuery;
+
+                var trendConfig = [
+                    {
+                        "layerSelected": "lowQ_1day",
+                        "mapLayer": "1",
+                        "chartTitle": "Low Q - 1 day",
+                        "yAxis": "Stream Flow (cfs)",
+                        "tooltipUnits": "cfs"
+                    },
+                    {
+                        "layerSelected": "lowQ_3day",
+                        "mapLayer": "6",
+                        "chartTitle": "Low Q - 3 day",
+                        "yAxis": "Stream Flow (cfs)",
+                        "tooltipUnits": "cfs"
+                    },
+                    {
+                        "layerSelected": "lowQ_7day",
+                        "mapLayer": "5",
+                        "chartTitle": "Low Q - 7 day",
+                        "yAxis": "Stream Flow (cfs)",
+                        "tooltipUnits": "cfs"
+                    },
+                    {
+                        "layerSelected": "zeroQ_nDays",
+                        "mapLayer": "2",
+                        "chartTitle": "Zero Q - nDays",
+                        "yAxis": "Days",
+                        "tooltipUnits": "days"
+                    },
+                    {
+                        "layerSelected": "peak_flows",
+                        "mapLayer": "3",
+                        "chartTitle": "Peak Flows",
+                        "yAxis": "Stream Flow (cfs)",
+                        "tooltipUnits": "cfs"
+                    },
+                    {
+                        "layerSelected": "mean_annual_Q",
+                        "mapLayer": "4",
+                        "chartTitle": "Mean Annual Q",
+                        "yAxis": "Stream Flow (cfs)",
+                        "tooltipUnits": "cfs"
+                    }
+                ];
+
+                $.each(trendConfig, function(index, object) {
+                    if (document.getElementById("layerSelect").options[document.getElementById("layerSelect").selectedIndex].value == trendConfig[index].layerSelected) {
+                        trendLayerForQuery = index;
+                    }
+                });
+
+                var xMin;
+
+                switch($('input[name="trendPeriod"]:checked').val()) {
+                    case "1916":
+                        xMin = 1916;
+                        break;
+                    case "1941":
+                        xMin = 1941
+                        break;
+                    case "1966":
+                        xMin = 1966
+                            break;
+                    default:
+                        // code block
+                  }
+
+                $.ajax({
+                    dataType: 'json',
+                    type: 'GET',
+                    url: map.getLayer("trendsByYear").url + "/" + trendConfig[trendLayerForQuery].mapLayer + "/query?where=site_id+%3D+%27" + attr.trend_gages_site_id + "%27&outFields=*&f=json",
+                    headers: {'Accept': '*/*'},
+                    success: function (data) {
+
+                        var trends_by_year_array = [];
+                        
+                        $.each(data.features[0].attributes, function(field, value) {
+                            if (value != "NA" && field != "site_id") {
+                                var year = Number(field.split("_yr")[0]);
+                                if (year >= xMin) {
+                                    trends_by_year_array.push([year, Number(value)]);
+                                }
+                            }
+                        });
+
+                        var scatterPlot = Highcharts.chart('chartDiv', {
+                            chart: {
+                                type: 'scatter',
+                                zoomType: 'xy'
+                            },
+                            title: {
+                                text: trendConfig[trendLayerForQuery].chartTitle
+                            },
+                            subtitle: {
+                                text: 'data'
+                            },
+                            xAxis: {
+                                title: {
+                                    enabled: true,
+                                    text: 'Year'
+                                },
+                                startOnTick: false,
+                                endOnTick: false,
+                                showLastLabel: true,
+                                min: xMin
+                            },
+                            yAxis: {
+                                title: {
+                                    text: trendConfig[trendLayerForQuery].yAxis
+                                }
+                            },
+                            legend: {
+                                layout: 'vertical',
+                                align: 'left',
+                                verticalAlign: 'top',
+                                x: 100,
+                                y: 70,
+                                floating: true,
+                                backgroundColor: Highcharts.defaultOptions.chart.backgroundColor,
+                                borderWidth: 1
+                            },
+                            plotOptions: {
+                                scatter: {
+                                    marker: {
+                                        radius: 5,
+                                        states: {
+                                            hover: {
+                                                enabled: true,
+                                                lineColor: 'rgb(100,100,100)'
+                                            }
+                                        }
+                                    },
+                                    states: {
+                                        hover: {
+                                            marker: {
+                                                enabled: false
+                                            }
+                                        }
+                                    },
+                                    tooltip: {
+                                        headerFormat: '<b>' + trendConfig[trendLayerForQuery].chartTitle + '</b><br>',
+                                        pointFormat: '{point.x}, {point.y} ' + trendConfig[trendLayerForQuery].tooltipUnits
+                                    }
+                                }
+                            },
+                            series: [{
+                                name: trendConfig[trendLayerForQuery].yAxis,
+                                color: 'rgba(223, 83, 83, .5)',
+                                data: trends_by_year_array
+                            }]
+                        });
+
+                        $( "#trend-period-slider" ).slider({
+                            range: true,
+                            min: xMin,
+                            max: 2015,
+                            values: [ xMin, 2015 ],
+                            slide: function( event, ui ) {
+                                $( "#years" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+                                scatterPlot.update({
+                                    xAxis: {
+                                        min: ui.values[0],
+                                        max: ui.values[1]
+                                    }
+                                });
+                            }
+                        });
+
+                        $( "#years" ).val( $( "#trend-period-slider" ).slider( "values", 0 ) + " - " + $( "#trend-period-slider" ).slider( "values", 1 ) );
+        
+                        
+
+                    },
+                    error: function (error) {
+                        console.log("Error processing the JSON. The error is:" + error);
+                    }
+                });
 
             });
         }

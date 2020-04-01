@@ -339,8 +339,8 @@ a.lgi-zoom:hover {
 
 .siteInfoClass {
     position: absolute;
-    width:450px;
-    height:325px;
+    width:500px;
+    height:650px;
     z-index:2;
     color: black;
     background-color: rgb(255,255,255);

@@ -57,6 +57,22 @@ require([
                         "includeLegend" : true
                     }
                 },
+                "trends_by_year" : {
+                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/trends_by_year/MapServer/",
+                    "options": {
+                        "id": "trendsByYear",
+                        "opacity": 0.00,
+                        "outFields": ["*"],
+                        "visible": false
+                    },
+                    "wimOptions": {
+                        "type": "layer",
+                        "layerType": "agisDynamic",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": true,
+                        "includeLegend" : true
+                    }
+                },
                 "2012": {
                     "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWTrends/lu2012_100515_test/ImageServer",
                     "options": {
