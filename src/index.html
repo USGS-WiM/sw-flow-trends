@@ -29,7 +29,6 @@
     <!-- build:css styles/base.css -->
     <link rel="stylesheet" href="bower_components/wim-styles/template/css/base.css">
     <!-- endbuild -->
-    
 
     <link rel="shortcut icon" id="favicon" type="image/ico" href="images/favicon-dark.png" />
 
@@ -45,6 +44,7 @@
     <script src="bower_components/jquery-ui-touch-punch-improved/jquery.ui.touch-punch-improved.js"></script>
     <script src="bower_components/lobipanel/dist/js/lobipanel.min.js"></script>
     <script src="bower_components/jquery.nicescroll/jquery.nicescroll.min.js"></script>
+    <script src="bower_components/highcharts/highcharts.js"></script>
     <script src="bower_components/bootstrap-sidebar/dist/js/sidebar.js"></script>
     <script src="bower_components/bootstrap-map-js/dist/js/bootstrapmap.min.js"></script>
     <!-- endbower -->
@@ -65,8 +65,10 @@
     <script src="scripts/core.js"></script>
     <!-- endbuild -->
 
-    <!-- Google Analytics -->
+    <!-- CSS for jQuery UI -->
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css">
 
+    <!-- Google Analytics -->
     <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -761,12 +763,21 @@
                         <div id="siteInfoPanel" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="siteInfoPanelHeader">
                             <ul class="nav nav-tabs" id="siteInfoTabs">
                                 <li role="presentation" class="active"><a id="siteInfoTab" href="#siteInfoTabPane" data-toggle="tab"><i class="fa fa-info-circle"></i>&nbsp;Site Information</a></li>
-                                <!--<button id="charts" type="button" class="btn btn-primary"><i class="fa fa-line-chart"></i>Graphs</button>
-                                <button id="table" type="button" class="btn btn-primary"><i class="fa fa-table"></i>&nbsp;Trend Results</button>-->
+                                <li role="presentation"><a id="chartTab" href="#chartTabPane" data-toggle="tab"><i class="fa fa-info-circle"></i>&nbsp;Chart</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active" id="siteInfoTabPane"></br>
 
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="chartTabPane"></br>
+                                    <div id="chartDiv"></div>
+                                    <p>
+                                        <label for="year">Custom trend period (year-year):</label>
+                                        <input type="text" id="years" readonly style="border:0; color:#21851e; font-weight:bold;">
+                                    </p>
+                                    <div id="trend-period-slider"></div>
+                                    <br/>
+                                    <button id="trendCalcButton">Calculate custom trend</button>
                                 </div>
                             </div>
                         </div>

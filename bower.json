@@ -11,7 +11,8 @@
     "wim-styles": "USGS-WiM/wim-styles",
     "bootstrap-sidebar": "^0.2.0",
     "bootstrap-map-js": "latest",
-    "handsontable": "~0.29.1"
+    "handsontable": "~0.29.1",
+    "highcharts": "^8.0.4"
   },
   "resolutions": {
     "bootstrap": "^3.3.6"
