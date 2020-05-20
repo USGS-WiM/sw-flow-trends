@@ -1,4 +1,4 @@
-![WiM](wimlogo.png)
+![WiM](wim.png)
 
 
 # Surface water flow trends in the nation's streams and rivers
