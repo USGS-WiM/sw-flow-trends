@@ -1,0 +1,283 @@
+/* 
+Styles.css
+_______________
+Overwrites a lot of previous styles. 
+
+Mitch Samuels
+6/1/2020
+*/
+
+
+
+/* 
+========================
+========================
+Navbar
+========================
+========================
+*/
+#navbar{
+	background-color: #141D3A !important;
+	display: flex;
+}
+.navbar-header{
+	flex-grow: 3;
+	width: 100%;
+	padding-left: 15px;
+	box-sizing: border-box;
+}
+
+/* Branding - logo */
+.navbar-header .branding{
+	display: flex;
+	height: 100%;
+}
+.navbar-header .branding .branding-logo{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 100%;
+}
+.navbar-header .branding .branding-logo img{
+	height: 36px;
+}
+
+/*Long title header*/
+.header-longtitle{
+    font-size:16px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+    letter-spacing: -0.2px !important;
+    line-height: 20px !important;
+	color: white;
+	padding: 0 0 2px 15px;
+}
+.header-longtitle small{
+    display: block;
+    line-height: 10px;
+    font-size: 9pt;
+    letter-spacing: -0.25px;
+}
+
+
+/* Links at right */
+.nav-buttons{
+	display: flex;
+	justify-content: flex-end;
+	padding-right: 15px;
+	flex-grow: 3;
+}
+.nav-buttons button{
+	border: none;
+	box-sizing: border-box;
+	padding: 0;
+	display: flex;
+	background-color: transparent !important;
+	font-size: 12px;
+	text-transform: none !important;
+	color: white;
+	margin-left: 15px;
+	width: fit-content;
+	opacity: 1;
+}
+/* Center text and icon */
+.nav-buttons button span,
+.nav-buttons button i{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+/* Button text */
+.nav-buttons button i{
+	font-size: 16px;
+	margin-right: 4px;
+}
+.nav-buttons button span{
+	font-size: 12px;
+	line-height: 13px;
+	white-space: pre;
+}
+.nav-buttons button:hover{
+	opacity: 0.85;
+}
+.nav-buttons button:hover span{
+	text-decoration: underline;
+	text-decoration-color: white;
+}
+
+/* Highlight geosearch button */
+#geosearchNav{
+	background-color: #2286FB !important;
+	padding: 0 10px;
+}
+
+
+
+/* Sidebar */
+#sidebar{
+	border: none;
+	padding: 0;
+	border-right: 1px solid #ECECEC;
+	background-color: white;
+}
+
+/* Panel/group */
+.wim-sidebar-panel{
+	margin: 0;
+	border-radius: 0;
+	border: none;
+	padding: 0;
+}
+/* Title / toggle */
+.wim-sidebar-panel .panel-title{
+	display: block;
+	text-align: left;
+	width: 100%;
+	font-size: 16px;
+	font-weight: 600;
+	padding: 15px 15px;
+	box-sizing: border-box;
+	border-bottom: 1px solid #DADADC;
+	position: relative;
+	color: #0A0A1E;
+}
+/* Collapsed  */
+.wim-sidebar-panel .panel-title.collapsed{
+	color: #5A5A78;
+}
+/* Panel title arrows */
+.wim-sidebar-panel .panel-title:after {
+    font-family:'Glyphicons Halflings';
+	content:"\e080";
+	font-weight: 400;
+	font-size: 16px;
+	position: absolute;
+	height: 100%;
+	top: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	right: 10px;
+    color: #0A0A1E;
+}
+.wim-sidebar-panel .panel-title.collapsed:after {
+	content:"\e114";
+	color: #5A5A78;
+}
+
+/* Panel content */
+.panel-body{
+	box-sizing: border-box;
+	border-bottom: 1px solid #DADADC;
+	padding: 10px;
+	width: 100%;
+	max-width: 100%;
+	overflow: hidden;
+}
+
+/* Basemap buttons */
+.basemap-button{
+	display: block;
+	border: none;
+	background-color: transparent;
+}
+.basemap-button img,
+.basemap-button span{
+	display: inline-block;
+	height: 34px;
+	width: auto;
+}
+.basemap-button img{
+}
+.basemap-button span{
+	padding-left: 6px;
+}
+.basemap-button:hover span{
+	text-decoration: underline;
+}
+
+
+/* Trend types */
+.sidebar-trend-options{
+	display: flex;
+	flex-direction: column;
+	text-align: left;
+}
+.sidebar-trend-options label{
+	margin: 5px 0;
+	text-align: center;
+	display: block;
+}
+.sidebar-trend-options input{
+	margin-right: 5px;
+}
+#layerSelect{
+	max-width: 100%;
+}
+
+
+/* Sidebar Footer */
+.footer-links{
+    display: block;
+    box-sizing: border-box;
+    line-height: 1em;
+	margin-top: 25px;
+}
+.footer-links .identification a{
+	font-size: 12px;
+	font-weight: 600;
+	color: #505078;
+	letter-spacing: 0;
+}
+
+.footer-links a{
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 0px 3px;
+    font-size: 8pt;
+}
+
+
+/* 
+=========================
+=========================
+Map View
+=========================
+=========================
+*/
+
+/* Lengend */
+.legendClass {
+    position:absolute;
+    top:5px;
+    right:5px;
+    z-index:3;
+    color: black;
+    background-color: rgb(255,255,255);
+    background-color: rgba(255,255,255,0.8);
+    box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+	border-radius: 4px;
+	box-shadow: 0px 8px 22px -12px rgba(30,30,60,0.25);
+	max-width: 240px;
+}
+/* Center title */
+.legendClass .panel-title{
+	text-align: center;
+}
+/* Bottom right */
+.latLngScale {
+    position:absolute;
+    padding:4px;
+    bottom:1.6em;
+    left: 20px;
+    z-index:1;
+	color: black;
+	background-color: white;
+	box-shadow: 0px 8px 22px -12px rgba(30,30,60,0.25);
+    border-radius: 2px;
+}
+
+.latLngScale:hover .hover-content {
+    display:inline-block;
+}

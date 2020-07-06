@@ -24,10 +24,11 @@
     <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/custom.css">
+    <link rel="stylesheet" href="styles/styles.css">
     <!-- endbuild -->
     <!-- <link rel="stylesheet" href="styles/base.css"> -->
     <!-- build:css styles/base.css -->
-    <link rel="stylesheet" href="bower_components/wim-styles/template/css/base.css">
+    <!-- <link rel="stylesheet" href="bower_components/wim-styles/template/css/base.css"> -->
     <!-- endbuild -->
 
     <link rel="shortcut icon" id="favicon" type="image/ico" href="images/favicon-dark.png" />
@@ -92,52 +93,71 @@
 </div>
 
 <div id="navbar" class="navbar navbar-static navbar-default navbar-fixed-top navbar-dark">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle toggle-left hidden-md hidden-lg" data-toggle="sidebar" data-target=".sidebar-left">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="https://usgs.gov">
-                <span>
-                    <img alt="USGS logo" height="38px" src="images/USGS_ID_white.png">
-                    <span class='hidden-xs header-longtitle'>
-                        Surface Water Flow Trends
-                        <small>in the Nation's Streams and Rivers</small>
-                    </span>
-                </span>
-            </a>
-        </div>
 
-        <button id="geosearchNav" type="button" class="btn btn-primary navbar-btn pull-right" onclick="ga('send','event','navbar','click','Find Location Modal Opened');">
-            <span class="glyphicon glyphicon-search"></span>
-            <span id="geosearchButtonText"> Find Location</span>
-        </button>
-        <!-- <button id="printNavButton" type="button" class="btn btn-primary navbar-btn pull-right" onclick="ga('send','event','navbar','click','Print Modal Opened');">
-            <span class="glyphicon glyphicon-print"></span>
-            <span id="printButtonText"> Print</span>
-        </button> -->
+	<div class="navbar-header">
+		<!-- Mobile menu button -->
+		<button type="button" class="navbar-toggle toggle-left hidden-md hidden-lg" data-toggle="sidebar" data-target=".sidebar-left">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+		
+		<!-- Branding - logo and text -->
+		<div class="branding">
+			<!-- Logo -->
+			<div class="branding-logo">
+				<a href="https://usgs.gov" target="_blank">
+					<img alt="USGS logo" src="images/USGS_ID_white.png">
+				</a>
+			</div>
+			<span class='header-longtitle'>
+				<span>Surface Water Flow Trends</span>
+				<small>in the Nation's Streams and Rivers</small>
+			</span>
+		</div>
+	</div>
+	
+	<!-- Navigation Buttons -->
+	<div class="nav-buttons">
+		<!-- Faq -->
+		<button id="faqNav" class="pull-right" onclick="ga('send','event','navbar','click','FAQ', 1);">
+			<i class="fa fa-question-circle"></i>
+			<span>FAQ</span>
+		</button>
+		<!-- Use guide -->
+		<button id="userGuideNav" class="pull-right" onclick="ga('send','event','navbar','click','User Guide', 1);">
+			<i class="fa fa-book"></i>
+			<span>User Guide</span>
+		</button>
+		<!-- About -->
+		<button id="aboutNav" class="pull-right" onclick="ga('send','event','navbar','click','About', 1);">
+			<i class="fa fa-info-circle"></i>
+			<span>About</span>
+		</button>
 
-        <button id="faqNav" class="pull-right" onclick="ga('send','event','navbar','click','FAQ', 1);">
-            <i class="fa fa-question-circle"></i><span class="hidden-xs">&nbsp;&nbsp;FAQ</span>
-        </button>
-        <button id="userGuideNav" class="pull-right" onclick="ga('send','event','navbar','click','User Guide', 1);">
-            <i class="fa fa-book"></i><span class="hidden-xs">&nbsp;&nbsp;User Guide</span>
-        </button>
-        <button id="aboutNav" class="pull-right" onclick="ga('send','event','navbar','click','About', 1);">
-            <i class="fa fa-info-circle"></i><span class="hidden-xs">&nbsp;&nbsp;About</span>
-        </button>
-        <!-- comment -->
-        <!-- legend buttton for navbar. to be removed if we like the in-map legend toggle -->
-        <!--<button id="legendButtonNavBar" type="button" class="btn btn-primary navbar-btn pull-right" style="margin-right: 1em;"><span class="glyphicon glyphicon-list"></span> Legend</button>-->
-        <!-- toggle for a right sidebar (currently not in use) -->
-        <!--<button type="button" class="navbar-toggle toggle-right" data-toggle="sidebar" data-target=".sidebar-right">-->
-        <!--<span class="icon-bar"></span>-->
-        <!--<span class="icon-bar"></span>-->
-        <!--<span class="icon-bar"></span>-->
-        <!--</button>-->
-    </div>
+		<!-- Geosearch -->
+		<button id="geosearchNav" type="button" onclick="ga('send','event','navbar','click','Find Location Modal Opened');">
+			<i class="glyphicon glyphicon-search"></i>
+			<span>Find Location</span>
+		</button>
+	</div>
+
+	
+	<!-- <button id="printNavButton" type="button" class="btn btn-primary navbar-btn pull-right" onclick="ga('send','event','navbar','click','Print Modal Opened');">
+		<span class="glyphicon glyphicon-print"></span>
+		<span id="printButtonText"> Print</span>
+	</button> -->
+
+	
+	<!-- comment -->
+	<!-- legend buttton for navbar. to be removed if we like the in-map legend toggle -->
+	<!--<button id="legendButtonNavBar" type="button" class="btn btn-primary navbar-btn pull-right" style="margin-right: 1em;"><span class="glyphicon glyphicon-list"></span> Legend</button>-->
+	<!-- toggle for a right sidebar (currently not in use) -->
+	<!--<button type="button" class="navbar-toggle toggle-right" data-toggle="sidebar" data-target=".sidebar-right">-->
+	<!--<span class="icon-bar"></span>-->
+	<!--<span class="icon-bar"></span>-->
+	<!--<span class="icon-bar"></span>-->
+	<!--</button>-->
 </div>
 
 <div class="modal" id="IEwarningModal">
@@ -165,7 +185,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">
                     Graphs
                     <div class="charts-model-loading">
@@ -184,7 +204,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close table-close" data-dismiss="modal" aria-hidden="true">x</button>
+                <button type="button" class="close table-close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Trend results <i id="trendResultHelp" class="fa fa-question-circle"></i> <button class="btn btn-primary download-table-btn">Download <i class="fa fa-cloud-download"></i></button></h4>
             </div>
             <div class="modal-body">
@@ -199,7 +219,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Find Location</h4>
             </div>
             <div class="modal-body">
@@ -235,7 +255,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title"><span class="glyphicon glyphicon-print"></span> Print Map</h4>
             </div>
             <div id="printModalBody" class="modal-body">
@@ -583,22 +603,13 @@
                     <p>Change point in median (step change) was computed using the Pettit test</p>
                         <br>Pettitt, A.N., 1979. A non-parametric approach to the change-point problem. Journal of the Royal Statistical Society. Series C (Applied Statistics) 28, 126-135. <a href="https://doi.org/10.2307/2346729"></a>
                     <p>Change point in scale (step change) was computed using the Mood test</p>
-<<<<<<< HEAD
-                        <br>Mood, A.M., 1954. On the asymptotic efficiency of certain nonparametric two-sample tests. The Annals of Mathematical Statistics 25, 514-522
-=======
                         <br>Mood, A.M., 1954. On the asymptotic efficiency of certain nonparametric two-sample tests. The Annals of Mathematical Statistics 25, 514-522.
->>>>>>> 20190ee18c3d760a4f5e0a46aa322ea30ad7135c
                 </div>
                 <div class="faq-header" id="faq13header">13. How did you decide which sites were suitable for trend analysis? <div id="angle11" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
                 <div class="faq-body" id="faq13body">
                     <br>Candidate sites were considered from among the 9,062 gages in the Geospatial Attributes of Gages for Evaluating Streamflow, 
-<<<<<<< HEAD
-                    version II, (GAGES-II) database: Falcone, J.A., 2011, GAGES-II—Geospatial attributes of gages for evaluating streamflow: 
-                    U.S. Geological Survey metadata, also available at <a href ="http://water.usgs.gov/GIS/metadata/usgswrd/XML/gagesII_Sept2011.xml"></a>
-=======
                     version II, (GAGES-II) database: Falcone, J.A., 2011, GAGES-II—Geospatial attributes of gages for evaluating streamflow: 
                     U.S. Geological Survey metadata, also available  <a href ="http://water.usgs.gov/GIS/metadata/usgswrd/XML/gagesII_Sept2011.xml">here. </a>
->>>>>>> 20190ee18c3d760a4f5e0a46aa322ea30ad7135c
                     <br>Data downloaded from the USGS National Water Information System (NWIS) for all candidate gages were then subjected to length and completeness criteria. 
                     Study gages were required to have complete data for at least 8 out of every 10 years for each decade (e.g. 1990-1999) in the time periods tested.
                 </div>
@@ -632,6 +643,12 @@
 <!-- Begin page content -->
 <div class="container-fluid keepit100">
     <div class="row keepit100">
+
+		<!-- 
+			=========================
+			Sidebar
+			=========================
+		 -->
         <!--<div id="sidebar" class="col-xs-7 col-sm-3 col-md-3 sidebar sidebar-left sidebar-animate sidebar-md-show no-col-padding">-->
         <div id="sidebar" class="col-xs-11 col-sm-10 col-md-3 col-lg-2 sidebar sidebar-left sidebar-animate sidebar-md-show no-col-padding">
             <!-- # include line below to get accordion effect with panels - opening one closes the others. remember closing div tag at bottom -->
@@ -645,104 +662,126 @@
             <!--</div>-->
             <!--</div>-->
             <!--<button id="legendButtonSidebar" type="button" class="btn btn-default" ><span class="glyphicon glyphicon-list"></span> Legend</button>-->
-            <div class="panel panel-default wim-sidebar-panel">
-                <div class="panel-heading" id="basemapsHeader">
-                    <h4 class="panel-title">
-                        <a class="accordion-toggle collapsed" data-toggle="collapse"  href="#basemapsPanel" aria-expanded="false" aria-controls="basemapsPanel">
-                            Basemaps
-                        </a>
-                    </h4>
-                </div>
+			
+			
+			<!-- Basemaps panel -->
+			<div class="panel panel-default wim-sidebar-panel">
+				<a class="panel-title collapsed" data-toggle="collapse" id="basemapsHeader" href="#basemapsPanel" aria-expanded="false" aria-controls="basemapsPanel">
+					Basemaps
+				</a>
                 <div id="basemapsPanel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="basemapsHeader">
                     <div class="panel-body collapse in">
-                        <button id="btnStreets" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/streets.jpg"><br class="basemapThumb">Streets</button>
-                        <button id="btnSatellite" class="btn btn-default basemapBtn equalize" ><img class="basemapThumb" alt="" src="images/satellite.jpg"><br class="basemapThumb">Satellite</button>
-                        <button id="btnHybrid" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/imagery_labels.jpg"><br class="basemapThumb">Hybrid</button>
-                        <button id="btnTopo" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/topo.jpg"><br class="basemapThumb">Topo</button>
-                        <button id="btnTerrain" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/terrain.jpg"><br class="basemapThumb">Terrain</button>
-                        <button id="btnGray" class="btn btn-default basemapBtn equalize" ><img class="basemapThumb" alt="" src="images/gray.jpg"><br class="basemapThumb">Gray</button>
-                        <button id="btnOSM" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/osm.jpg"><br class="basemapThumb">OSM</button>
-                        <button id="btnNatGeo" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/natgeo.jpg"><br class="basemapThumb">NatGeo</button>
-                        <button id="btnNatlMap" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/national_map.jpg"><br class="basemapThumb">Nat'l Map</button>
+                        <button id="btnStreets" class="basemap-button">
+							<img alt="" src="images/streets.jpg">
+							<span>Streets</span>
+						</button>
+                        <button id="btnSatellite" class="basemap-button" >
+							<img alt="" src="images/satellite.jpg">
+							<span>Satellite</span>
+						</button>
+                        <button id="btnHybrid" class="basemap-button">
+							<img alt="" src="images/imagery_labels.jpg">
+							<span>Hybrid</span>
+						</button>
+                        <button id="btnTopo" class="basemap-button">
+							<img alt="" src="images/topo.jpg">
+							<span>Topo</span>
+						</button>
+                        <button id="btnTerrain" class="basemap-button">
+							<img alt="" src="images/terrain.jpg">
+							<span>Terrain</span>
+						</button>
+                        <button id="btnGray" class="basemap-button" >
+							<img alt="" src="images/gray.jpg">
+							<span>Grery</span>
+						</button>
+                        <button id="btnOSM" class="basemap-button">
+							<img alt="" src="images/osm.jpg">
+							<span>OSM</span>
+						</button>
+                        <button id="btnNatGeo" class="basemap-button">
+							<img alt="" src="images/natgeo.jpg">
+							<span>NatGeo</span>
+						</button>
+                        <button id="btnNatlMap" class="basemap-button">
+							<img alt="" src="images/national_map.jpg">
+							<span>Nat'l Map</span>
+						</button>
                     </div>
 
                 </div>
             </div>
-            
+			
+			<!-- Map Layers -->
             <div class="panel panel-default wim-sidebar-panel">
-                <div class="panel-heading" id="layersPanelHeader">
-                    <h4 class="panel-title">
-                        <a class="accordion-toggle collapsed" data-toggle="collapse" href="#layersPanel" aria-expanded="true" aria-controls="layersPanel">
-                            Map Layers
-                        </a>
-                    </h4>
-                </div>
+				<a class="panel-title collapsed" id="layersPanelHeader" data-toggle="collapse" href="#layersPanel" aria-expanded="true" aria-controls="layersPanel">
+					Map Layers
+				</a>
                 <div id="layersPanel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="layersPanelHeader">
-                    <div id="toggle" style="padding: 2px 2px;"></div>
+                    <div id="toggle" class="panel-body"></div>
                 </div>
-            </div>
-            <!-- panel for constituent and trend selections -->
+			</div>
+			
+            <!-- Constituent and trend selections -->
             <div class="panel panel-default wim-sidebar-panel">
-                <div class="panel-heading" id="constPanelHeader">
-                    <h4 class="panel-title">
-                        <a class="accordion-toggle" data-toggle="collapse" href="#constPanel" aria-expanded="true" aria-controls="constDropdowns">
-                            Trend Select
-                        </a>
-                    </h4>
-                </div>
-                <div id="constPanel" class="panel-collapse collapse in constituent-panel" role="tabpanel" aria-labelledby="constPanelHeader">
-                    <div id="constDropdowns" style="padding: 2px 2px;">
-                        <label for="layerSelect">Available Trends:</label>
-                        <span>
-                            <select id="layerSelect">
-                                <option value="lowQ_1day" selected>LowQ 1Day</option>
-                                <option value="lowQ_3day" >LowQ 3Day</option>
-                                <option value="lowQ_7day" >LowQ 7day</option>
-                                <option value="Q2_scaled_deficit">Scaled Deficit</option>
-                                <option value="Q2_nDays">Q2 nDays</option>
-                                <option value="JD_last_Q2">Last Julian date flow <= the Q2 threshold</option>
-                                <option value="JD_first_Q2">First Julian date flow <= the Q2 threshold</option>
-                                <option value="JD_diff_Q2">JD Difference Q2</option>
-                                <option value="mean_annual_Q">Mean Annual Q</option>
-                                <option value="zeroQ_nDays">ZeroQ</option>
-                                <option value="peak_flows">Instantaneous Annual Peak Flows</option>
-                            </select>
-                        </span>
-                    </div>
+				<a class="panel-title"  id="constPanelHeader" data-toggle="collapse" href="#constPanel" aria-expanded="true" aria-controls="constDropdowns">
+					Trend Select
+				</a>
+                <div id="constPanel" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="constPanelHeader">
+                    <div class="panel-body">
+						<div id="constDropdowns">
+							<label for="layerSelect">Available Trends:</label>
+							<span>
+								<select id="layerSelect">
+									<option value="lowQ_1day" selected>LowQ 1Day</option>
+									<option value="lowQ_3day" >LowQ 3Day</option>
+									<option value="lowQ_7day" >LowQ 7day</option>
+									<option value="Q2_scaled_deficit">Scaled Deficit</option>
+									<option value="Q2_nDays">Q2 nDays</option>
+									<option value="JD_last_Q2">Last Julian date flow <= the Q2 threshold</option>
+									<option value="JD_first_Q2">First Julian date flow <= the Q2 threshold</option>
+									<option value="JD_diff_Q2">JD Difference Q2</option>
+									<option value="mean_annual_Q">Mean Annual Q</option>
+									<option value="zeroQ_nDays">ZeroQ</option>
+									<option value="peak_flows">Instantaneous Annual Peak Flows</option>
+								</select>
+							</span>
+						</div>
 
-                    <div id="trendTypes" style="align-content: center; width: 100%; padding-top: 20px; text-align: left;">
-                        <label>Model</label>
-                        <span class="sidebar-radio-wrapper">
-                            <input id="ltpModle" name="trendType" class="trendType" type="radio" value="LTP" checked> LTP
-                        </span>
-                        <span class="sidebar-radio-wrapper">
-                            <input id="ar1Model" name="trendType" class="trendType" type="radio" value="AR1"> AR1
-                        </span>
-                        <span class="sidebar-radio-wrapper">
-                            <input id="indeModel" name="trendType" class="trendType" type="radio" value="INDE"> INDE
-                        </span>
-                    </div>
+						<div id="trendTypes" class="sidebar-trend-options">
+							<label>Model</label>
+							<span class="sidebar-radio-wrapper">
+								<input id="ltpModle" name="trendType" class="trendType" type="radio" value="LTP" checked> LTP
+							</span>
+							<span class="sidebar-radio-wrapper">
+								<input id="ar1Model" name="trendType" class="trendType" type="radio" value="AR1"> AR1
+							</span>
+							<span class="sidebar-radio-wrapper">
+								<input id="indeModel" name="trendType" class="trendType" type="radio" value="INDE"> INDE
+							</span>
+						</div>
 
-                    <div style="width: 100%; padding-top: 20px; text-align: left;">
-                        <label>Trend period</label>
-                        <span id="trend3" class="sidebar-radio-wrapper">
-                            <input id="trend3input" name="trendPeriod" class="trendPeriod" type="radio" value="1916" checked> 1916-2015
-                        </span>
-                        <span id="trend2" class="sidebar-radio-wrapper">
-                            <input id="trend2input" name="trendPeriod" class="trendPeriod" type="radio" value="1941"> 1941-2015
-                        </span>
-                        <span id="trend1" class="sidebar-radio-wrapper">
-                            <input id="trend1input" name="trendPeriod" class="trendPeriod" type="radio" value="1966"> 1966-2015
-                        </span>
-                    </div>
+						<div class="sidebar-trend-options">
+							<label>Trend period</label>
+							<span id="trend3" class="sidebar-radio-wrapper">
+								<input id="trend3input" name="trendPeriod" class="trendPeriod" type="radio" value="1916" checked> 1916-2015
+							</span>
+							<span id="trend2" class="sidebar-radio-wrapper">
+								<input id="trend2input" name="trendPeriod" class="trendPeriod" type="radio" value="1941"> 1941-2015
+							</span>
+							<span id="trend1" class="sidebar-radio-wrapper">
+								<input id="trend1input" name="trendPeriod" class="trendPeriod" type="radio" value="1966"> 1966-2015
+							</span>
+						</div>
+	               	</div>
+			   
+				</div>
+			</div>
+			
 
-                </div>
-            </div>
-
-            <!-- # closing div tag for accordion style panels -->
-            <!--</div>-->
+			<!-- Sidebar footer -->
             <div class="footer-links">
-                <div class="identification"><a href="https://wim.usgs.gov/" target="_blank">Powered by WiM</a></div>
+                <div class="identification"><a href="https://wim.usgs.gov/" target="_blank">Powered by WIM</a></div>
                 <a href="https://usgs.gov" target="_blank">USGS Home</a>
                 <a href="https://answers.usgs.gov" target="_blank">Contact USGS</a>
                 <a href="https://search.usgs.gov" target="_blank">Search USGS</a>
@@ -751,7 +790,10 @@
                 <a href="https://www2.usgs.gov/laws/privacy.html" target="_blank">Privacy</a>
                 <a href="https://www2.usgs.gov/laws/policies_notices.html" target="_blank">Policies & Notices</a>
             </div>
-        </div>
+		</div> <!-- End sidebar -->
+		
+
+
         <div class="col-md-9 col-lg-10 col-md-offset-3 col-lg-offset-2 no-col-padding keepit100">
             <!-- legend, associated with legend buttons. to be removed if we stick with the in-map legend toggle -->
             <!--<div id="legend" class="legend" style="display: none" >-->
