@@ -16,6 +16,26 @@ Navbar
 ========================
 ========================
 */
+/* Mobile menu button */
+.navbar-toggle{
+	border-color: transparent !important;
+	background: transparent !important;
+	background-color: transparent !important;
+	margin-left: 0 !important;
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+.navbar-toggle .icon-bar{
+	background-color: white !important;
+	height: 3px;
+}
+.navbar-toggle:active,
+.navbar-toggle:focus{
+	background-color: transparent !important;
+	background: transparent !important;
+}
+
+/* Navbar */
 #navbar{
 	background-color: #141D3A !important;
 	display: flex;
@@ -44,12 +64,12 @@ Navbar
 
 /*Long title header*/
 .header-longtitle{
-    font-size:16px;
+	font-size:16px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
     letter-spacing: -0.2px !important;
-    line-height: 20px !important;
+    line-height: 16px !important;
 	color: white;
 	padding: 0 0 2px 15px;
 }
@@ -57,7 +77,21 @@ Navbar
     display: block;
     line-height: 10px;
     font-size: 9pt;
-    letter-spacing: -0.25px;
+	letter-spacing: -0.25px;
+	padding-top: 2px;
+}
+
+@media (max-width: 580px) {
+	.header-longtitle small{
+		display: none;
+	}
+
+}
+@media (max-width: 500px) {
+	.header-longtitle{
+		display: none;
+	}
+
 }
 
 
@@ -87,6 +121,9 @@ Navbar
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	height: 100%;
+	box-sizing: border-box;
+	padding-bottom: 2px;
 }
 /* Button text */
 .nav-buttons button i{
@@ -96,7 +133,20 @@ Navbar
 .nav-buttons button span{
 	font-size: 12px;
 	line-height: 13px;
+	font-weight: 600;
 	white-space: pre;
+	letter-spacing: 0.5px;
+}
+/* Hide button text on mobile */
+@media (max-width: 767px) {
+	.nav-buttons button span{
+		display: none;
+	}
+	.nav-buttons button i{
+		margin-right: 0;
+		padding-left: 8px;
+		padding-right: 8px;
+	}
 }
 .nav-buttons button:hover{
 	opacity: 0.85;
@@ -120,6 +170,9 @@ Navbar
 	padding: 0;
 	border-right: 1px solid #ECECEC;
 	background-color: white;
+	max-width: 340px;
+	width: 90%;
+	
 }
 
 /* Panel/group */
@@ -280,4 +333,51 @@ Map View
 
 .latLngScale:hover .hover-content {
     display:inline-block;
+}
+
+
+/* Other Global Styles */
+.no-scrollbars{
+	scrollbar-width: none;
+}
+.no-scrollbars::-webkit-scrollbar{
+	width: 0px;
+	display: none;
+}
+.no-scrollbars::-webkit-scrollbar-thumb{
+	display: none;
+	width: 0px;
+}
+
+/* Custom Legend */
+.custom-legend{
+	display: block;
+	box-sizing: border-box;
+	padding: 10px;
+	width: 280px;
+}
+.custom-legend .legend-row{
+	display: flex;
+	justify-content: space-between;
+	padding: 4px 0;
+}
+.custom-legend .legend-row .legend-icon{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+.custom-legend .legend-row .legend-icon img{
+	height: 16px;
+	width: auto;
+}
+
+.custom-legend .legend-row .legend-text{
+	flex-grow: 3;
+	font-size: 14px;
+	padding-left: 10px;
+	font-weight: 500;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }

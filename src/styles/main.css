@@ -134,7 +134,8 @@ a:hover{
 
 #legendDiv {
     overflow-y: auto;
-    width: 300px;
+	width: 300px;
+	display: none;
     /*max-height: inherit;*/
 }
 
