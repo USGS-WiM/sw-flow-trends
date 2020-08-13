@@ -56,6 +56,15 @@
     <!-- endbower -->
     <!-- endbuild -->
 
+    <script src="node_modules/ml-regression-theil-sen/lib/index.js"></script>
+    <script src="node_modules/jstat/dist/jstat.js"></script>
+
+    <script>
+        
+    var jstat = this.jStat([0,1]); // jStat will be added to the window
+    
+    </script>
+
     <script src="https://js.arcgis.com/3.13/"></script>
 
 
@@ -66,7 +75,7 @@
     <!-- endbuild -->
 
     <!-- CSS for jQuery UI -->
-    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css">
 
     <!-- Google Analytics -->
     <script>
@@ -786,7 +795,11 @@
                                     </p>
                                     <div id="trend-period-slider"></div>
                                     <br/>
-                                    <button id="trendCalcButton">Calculate custom trend</button>
+                                    <button id="trendCalcButton">Calculate custom trend line and p-value</button>
+                                    <p>
+                                        <label for="year">Custom p-value:</label>
+                                        <input type="text" id="pvalue" style="border:0; color:#21851e; font-weight:bold;">
+                                    </p>
                                 </div>
                             </div>
                         </div>
