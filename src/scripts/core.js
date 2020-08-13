@@ -25,6 +25,9 @@ var identifyTask, identifyParams;
 
 var trendLayerInfos = [];
 
+var scatterPlot;
+var trends_by_year_array;
+
 require([
     'esri/arcgis/utils',
     'esri/Color',
@@ -503,6 +506,9 @@ require([
 
     var pestPDFs = "";
 
+    //variable to store listener for custom trend calc button click
+    var trendCalcListener;
+
     map.on('layer-add', function (event) {
         var layer = event.layer.id;
         var actualLayer = event.layer;
@@ -583,7 +589,7 @@ require([
                     } else {
                         gage_class = attr.trend_gages_gage_class;
                     }
-                    currentSiteNo = attr.Q2_scaled_deficit;
+                    currentSiteNo = attr.trend_gages_site_id;
                     $("#siteInfoTabPane").append("<br/><b>Station Name: </b>" + attr.trend_gages_station_nm + "<br/>" +
                         "<b>Site number: </b>" + attr.trend_gages_site_id + "<br/>" +
                         /*"<b>Agency: </b>U.S. Geological Survey<br/>" +*/
@@ -670,7 +676,7 @@ require([
                     headers: {'Accept': '*/*'},
                     success: function (data) {
 
-                        var trends_by_year_array = [];
+                        trends_by_year_array = [];
                         
                         $.each(data.features[0].attributes, function(field, value) {
                             if (value != "NA" && field != "site_id") {
@@ -681,7 +687,11 @@ require([
                             }
                         });
 
-                        var scatterPlot = Highcharts.chart('chartDiv', {
+                        if (scatterPlot !== undefined) {
+                            scatterPlot.destroy();
+                        }
+
+                        scatterPlot = new Highcharts.chart('chartDiv', {
                             chart: {
                                 type: 'scatter',
                                 zoomType: 'xy'
@@ -765,8 +775,6 @@ require([
                         });
 
                         $( "#years" ).val( $( "#trend-period-slider" ).slider( "values", 0 ) + " - " + $( "#trend-period-slider" ).slider( "values", 1 ) );
-        
-                        
 
                     },
                     error: function (error) {
@@ -775,6 +783,105 @@ require([
                 });
 
             });
+
+            if (trendCalcListener === undefined) {
+
+                trendCalcListener = $("#trendCalcButton").click(function(evt) {
+
+                    /*require(["dojo/node!ml-regression-theil-sen"], function(thielSen){
+                        
+                        var inputs = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+                        var outputs = [2, 3, 4, 20, 6, 7, 8, 9, 10];
+
+                        var regression = new thielSen(inputs, outputs);
+                        var y = regression.predict(85);
+
+                        console.log("y:", y);
+
+                    });*/
+                    
+                    var inputs = [];
+                    var outputs = [];
+                    var forPCalc = [];
+                    var firstY = trends_by_year_array[0][1];
+
+                    $.each(trends_by_year_array, function(index, value) {
+                        if (value[0] >= scatterPlot.xAxis[0].min && value[0] <= scatterPlot.xAxis[0].max) {
+                            inputs.push(value[0]);
+                            outputs.push(value[1]);
+                            if (index % 2 == 1 || index == 1) {
+                                //forPCalc.push([value[0],value[1]-firstY]);
+                                forPCalc.push([trends_by_year_array[index-1][1],trends_by_year_array[index][1]]);
+                            } /*else if (index == trends_by_year_array.length - 1) {
+                                //forPCalc.push([value[0],firstY]);
+                                forPCalc.push([value[0],value[1]]);
+                            }*/
+                        }
+                    });
+
+                    //var jstat = this.jStat([[1, 2], [3, 4, 5], [6], [7, 8]]);
+
+                    var pValues = jStat.tukeyhsd(forPCalc);
+
+                    //TODO: Should probably just change this to use inputs array
+                    var begin_year = scatterPlot.xAxis[0].min.toFixed(0);
+                    var end_year = scatterPlot.xAxis[0].max.toFixed(0);
+                    var s_id = currentSiteNo;
+                    var layer_selected = document.getElementById("layerSelect").options[document.getElementById("layerSelect").selectedIndex].value;
+
+                    $.ajax({
+                        dataType: 'json',
+                        type: 'GET',
+                        url: "http://127.0.0.1:3000/thiel-sen-node-service?inputs=" + inputs + "&outputs=" + outputs + "&begin_year=" + begin_year + "&end_year=" + end_year + "&s_id=" + s_id + "&layer_selected=" + layer_selected,
+                        headers: {'Accept': '*/*'},
+                        success: function (data) {
+
+                            if (scatterPlot.get('trend-line') !== undefined) {
+                                scatterPlot.get('trend-line').remove();
+                            }
+                            if (scatterPlot.get('py-trend-line') !== undefined) {
+                                scatterPlot.get('py-trend-line').remove();
+                            }
+
+                            //using values from thiel-sen regression
+                            scatterPlot.addSeries(
+                                {
+                                    id: 'trend-line',
+                                    name: 'Trend',
+                                    type: 'line',
+                                    color: 'rgba(0, 0, 0, 1.0)',
+                                    data: [
+                                        [inputs[0], data["point-a"]],
+                                        [inputs[inputs.length-1], data["point-b"]]
+                                    ]
+                                });
+
+                            //calculate point B for swft-py-script slope
+                            var py_point_b = data["intercept"] - (data["slope"]*inputs[0]) + (data["slope"]*inputs[inputs.length-1]);
+
+                            //using values from swft-py-script
+                            scatterPlot.addSeries(
+                                {
+                                    id: 'py-trend-line',
+                                    name: 'python trend',
+                                    type: 'line',
+                                    color: 'rgba(0, 255, 0, 1.0)',
+                                    data: [
+                                        [inputs[0], Number(data["intercept"])],
+                                        [inputs[inputs.length-1], py_point_b]
+                                    ]
+                                });
+
+                            $("#pvalue").val(data["p_value"]);
+
+                        },
+                        error: function (error) {
+                            console.log("Error processing the JSON. The error is:" + error);
+                        }
+                    });
+                    
+                });
+            }
         }
     });
 
