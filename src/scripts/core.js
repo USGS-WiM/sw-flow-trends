@@ -475,6 +475,26 @@ require([
         map.infoWindow.show();*/
     });
 
+    function toggleLoadingScreen(){
+        //only works for the siteInfoDiv as written
+        if ( $("#siteInfoPanel").hasClass("content-loading") ){
+            $("#siteInfoPanel").removeClass("content-loading");
+        } else {
+            $("#siteInfoPanel").addClass("content-loading");
+        }  
+        
+    }
+
+    function togglePvalLoader(){
+        //only works for the siteInfoDiv as written
+        if ( $("#pvalueWrapper").hasClass("content-loading") ){
+            $("#pvalueWrapper").removeClass("content-loading");
+        } else {
+            $("#pvalueWrapper").addClass("content-loading");
+        }  
+        
+    }
+
     // Using Lobipanel: https://github.com/arboshiki/lobipanel
     $("#siteInfoDiv").lobiPanel({
         unpin: false,
@@ -535,7 +555,11 @@ require([
                 map.graphics.add(newGraphic);
                 
                 // Set up Lobipanel for popup
+                if ( $('#pvalue').val ){
+                    $("#pvalue").val('')
+                }
                 $("#siteInfoDiv").css("visibility", "visible");
+                toggleLoadingScreen();
                 var instance = $('#siteInfoDiv').data('lobiPanel');
                 var docHeight = $(document).height();
                 var docWidth = $(document).width();
@@ -668,7 +692,8 @@ require([
                     default:
                         // code block
                   }
-
+                
+                //get scatterplot data + build plot
                 $.ajax({
                     dataType: 'json',
                     type: 'GET',
@@ -781,12 +806,13 @@ require([
                         console.log("Error processing the JSON. The error is:" + error);
                     }
                 });
-
+                toggleLoadingScreen();
             });
 
             if (trendCalcListener === undefined) {
 
                 trendCalcListener = $("#trendCalcButton").click(function(evt) {
+                    toggleLoadingScreen();
 
                     /*require(["dojo/node!ml-regression-theil-sen"], function(thielSen){
                         
@@ -821,7 +847,7 @@ require([
 
                     //var jstat = this.jStat([[1, 2], [3, 4, 5], [6], [7, 8]]);
 
-                    var pValues = jStat.tukeyhsd(forPCalc);
+                    //var pValues = jStat.tukeyhsd(forPCalc);
 
                     //TODO: Should probably just change this to use inputs array
                     var begin_year = scatterPlot.xAxis[0].min.toFixed(0);
@@ -873,14 +899,17 @@ require([
                                 });
 
                             $("#pvalue").val(data["p_value"]);
+                            toggleLoadingScreen();
+                            
 
                         },
                         error: function (error) {
                             console.log("Error processing the JSON. The error is:" + error);
+                            toggleLoadingScreen();
                         }
                     });
                     
-                });
+                }); //END trendCalcListener
             }
         }
     });

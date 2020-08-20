@@ -983,3 +983,33 @@ input[type="checkbox"], input[type="radio"] {
   font-weight: 500;
   padding-top: 5px;
 }
+
+/*Panel Loading*/
+.content-loading .tab-pane{
+    opacity: 0;
+}
+.content-loading:before{
+    display: -webkit-flex;
+    display: flex;
+    font-size: 18px;
+    font-weight: 500;
+    text-transform: capitalize;
+    -webkit-flex-direction: column;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: center;
+    justify-content: center;
+    text-align: center;
+    content: 'loading...';
+    background-image: url('https://wim.usgs.gov/website-assets/branding/usgsanimated.svg');
+    height: 100%;
+    position: absolute;
+    top: 0;
+    color: white;
+    left: 0;
+    background-color: #10152C;
+    background-repeat: no-repeat;
+    background-size: 100px auto;
+    background-position: center 35%;
+    width: 100%;
+}
