@@ -84,7 +84,7 @@ require([
                         "type": "layer",
                         "layerType": "agisImage",
                         "includeInLayerList": true,
-                        "exclusiveGroupName":"Land use",
+                        "exclusiveGroupName":"Display Land Use",
                         "hasOpacitySlider": true,
                         "includeLegend": true
                     }
@@ -100,7 +100,7 @@ require([
                         "type": "layer",
                         "layerType": "agisImage",
                         "includeInLayerList": true,
-                        "exclusiveGroupName":"Land use",
+                        "exclusiveGroupName":"Display Land Use",
                         "hasOpacitySlider": true,
                         "includeLegend": true
                     }
@@ -116,7 +116,7 @@ require([
                         "type": "layer",
                         "layerType": "agisImage",
                         "includeInLayerList": true,
-                        "exclusiveGroupName":"Land use",
+                        "exclusiveGroupName":"Display Land Use",
                         "hasOpacitySlider": true,
                         "includeLegend": true
                     }
@@ -132,7 +132,7 @@ require([
                         "type": "layer",
                         "layerType": "agisImage",
                         "includeInLayerList": true,
-                        "exclusiveGroupName":"Land use",
+                        "exclusiveGroupName":"Display Land Use",
                         "hasOpacitySlider": true,
                         "includeLegend": true
                     }
@@ -148,7 +148,7 @@ require([
                         "type": "layer",
                         "layerType": "agisImage",
                         "includeInLayerList": true,
-                        "exclusiveGroupName":"Land use",
+                        "exclusiveGroupName":"Display Land Use",
                         "hasOpacitySlider": true,
                         "includeLegend": true
                     }
