@@ -475,6 +475,26 @@ require([
         map.infoWindow.show();*/
     });
 
+    function toggleLoadingScreen(){
+        //only works for the siteInfoDiv as written
+        if ( $("#siteInfoPanel").hasClass("content-loading") ){
+            $("#siteInfoPanel").removeClass("content-loading");
+        } else {
+            $("#siteInfoPanel").addClass("content-loading");
+        }  
+        
+    }
+
+    function togglePvalLoader(){
+        //only works for the siteInfoDiv as written
+        if ( $("#pvalueWrapper").hasClass("content-loading") ){
+            $("#pvalueWrapper").removeClass("content-loading");
+        } else {
+            $("#pvalueWrapper").addClass("content-loading");
+        }  
+        
+    }
+
     // Using Lobipanel: https://github.com/arboshiki/lobipanel
     $("#siteInfoDiv").lobiPanel({
         unpin: false,
@@ -502,6 +522,10 @@ require([
         //hucLayer = map.getLayer("huc8");
 
         //hucLayer.setVisibility(false);
+    });
+
+    $("#siteInfoDiv").resize(function(){
+        $("#chartDiv").highcharts().reflow(); //NOTE: this works but it seems to cause a bit of jankiness
     });
 
     var pestPDFs = "";
@@ -535,7 +559,11 @@ require([
                 map.graphics.add(newGraphic);
                 
                 // Set up Lobipanel for popup
+                if ( $('#pvalue').val ){
+                    $("#pvalue").val('')
+                }
                 $("#siteInfoDiv").css("visibility", "visible");
+                toggleLoadingScreen();
                 var instance = $('#siteInfoDiv').data('lobiPanel');
                 var docHeight = $(document).height();
                 var docWidth = $(document).width();
@@ -668,7 +696,8 @@ require([
                     default:
                         // code block
                   }
-
+                
+                //get scatterplot data + build plot
                 $.ajax({
                     dataType: 'json',
                     type: 'GET',
@@ -781,12 +810,13 @@ require([
                         console.log("Error processing the JSON. The error is:" + error);
                     }
                 });
-
+                toggleLoadingScreen();
             });
 
             if (trendCalcListener === undefined) {
 
                 trendCalcListener = $("#trendCalcButton").click(function(evt) {
+                    toggleLoadingScreen();
 
                     /*require(["dojo/node!ml-regression-theil-sen"], function(thielSen){
                         
@@ -821,7 +851,7 @@ require([
 
                     //var jstat = this.jStat([[1, 2], [3, 4, 5], [6], [7, 8]]);
 
-                    var pValues = jStat.tukeyhsd(forPCalc);
+                    //var pValues = jStat.tukeyhsd(forPCalc);
 
                     //TODO: Should probably just change this to use inputs array
                     var begin_year = scatterPlot.xAxis[0].min.toFixed(0);
@@ -873,14 +903,17 @@ require([
                                 });
 
                             $("#pvalue").val(data["p_value"]);
+                            toggleLoadingScreen();
+                            
 
                         },
                         error: function (error) {
                             console.log("Error processing the JSON. The error is:" + error);
+                            toggleLoadingScreen();
                         }
                     });
                     
-                });
+                }); //END trendCalcListener
             }
         }
     });
@@ -1440,7 +1473,7 @@ require([
                     if (exclusiveGroupName == "Data Source") {
                         var exGroupRoot = $('<div id="' + camelize(exclusiveGroupName +" Root") + '" class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>&nbsp;&nbsp;' + exclusiveGroupName + '<span id="info' + camelize(exclusiveGroupName) + '" title="Data Source identifies the scale, year and emulsion of the imagery that was used to map the wetlands and riparian areas for a given area. It also identifies areas that have Scalable data, which is an interim data product in areas of the nation where standard compliant wetland data is not yet available. Click for more info on Scalable data." class="glyphspan glyphicon glyphicon-question-sign pull-right"></span><span id="opacity' + camelize(exclusiveGroupName) + '" style="padding-right: 5px" class="glyphspan glyphicon glyphicon-adjust pull-right"></span></button> </div>');
                     } else {
-                        var exGroupRoot = $('<div id="' + camelize(exclusiveGroupName +" Root") + '" class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>&nbsp;&nbsp;' + exclusiveGroupName + '</button> </div>');
+                        var exGroupRoot = $('<div id="' + camelize(exclusiveGroupName +" Root") + '" class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default "  style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i>&nbsp;&nbsp;' + exclusiveGroupName + '</button> </div>');
                     }
 
                     exGroupRoot.click(function(e) {
@@ -1452,12 +1485,12 @@ require([
 
                             if (currentLayer[0] == exclusiveGroupName) {
                                 if ($("#" + currentLayer[1]).find('i.glyphspan').hasClass('fa-dot-circle-o') && exGroupRoot.find('i.glyphspan').hasClass('fa-check-square-o')) {
-                                    console.log('adding layer: ',currentLayer[1]);
+                                    //console.log('adding layer: ',currentLayer[1]);
                                     map.addLayer(currentLayer[2]);
                                     var tempLayer = map.getLayer(currentLayer[2].id);
                                     tempLayer.setVisibility(true);
                                 } else if (exGroupRoot.find('i.glyphspan').hasClass('fa-square-o')) {
-                                    console.log('removing layer: ',currentLayer[1]);
+                                    //console.log('removing layer: ',currentLayer[1]);
                                     //map.removeLayer(currentLayer[2]);
                                     var tempLayer = map.getLayer(currentLayer[2].id);
                                     tempLayer.setVisibility(false);

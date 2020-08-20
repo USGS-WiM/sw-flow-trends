@@ -293,15 +293,26 @@
                                 for 2,482 USGS streamgages including trends in annual low 1-, 3-, and 7-day low flows, mean annual flows, 
                                 and various trends related to stream-specific low-flow thresholds equal to the daily mean streamflow with 2-percent non-exceedance rank (Q2). 
                                 For high streamflows, the mapper shows peak-streamflow trend and change-point results for 2,683 USGS streamgages 
-                                including trend slopes and significance, peaks-over-threshold counts, trends in the numbers of peaks-over-threshold, 
-                                and change point years and values for median and scale. Trend significance for both high and low-flows is 
+                                including trend slopes and significance. Trend significance for both high and low-flows is 
                                 reported for three different null hypotheses of the serial structure of the time-series data: independence (INDE), short-term persistence (AR1), 
                                 and long-term persistence (LTP).
                             </p>
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="learnMoreTabPane">
-                        <!-- learn more info -->
+                        <p>The trend information displayed by this mapper is based on work from the following publications.</p>
+                        <h5><b>Low flows:</b></h5>
+                        <p>
+                            Dudley, R.W., R.M. Hirsch, S.A. Archfield, A.G. Blum, and B. Renard (2020) 
+                            Low streamflow trends at human-impacted and reference basins in the United States, 
+                            Journal of Hydrology, 580, 124254, <a href="https://doi.org/10.1016/j.jhydrol.2019.124254" target="_blank">https://doi.org/10.1016/j.jhydrol.2019.124254</a>.
+                        </p>
+                        <h5><b>Peak flows:</b></h5>
+                        <p>
+                            Hodgkins, G.A., R.W. Dudley, S.A. Archfield, B. Renard (2019) 
+                            Effects of climate, regulation, and urbanization on historical flood trends in the United States, 
+                            Journal of Hydrology, 573, 697-709, <a href="https://doi.org/10.1016/j.jhydrol.2019.03.102" target="_blank">https://doi.org/10.1016/j.jhydrol.2019.03.102</a>.
+                        </p>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="waterResourcesTabPane">
                         <h5><b>Related U.S. Geological Survey (USGS) Web Applications</b></h5>
@@ -342,7 +353,10 @@
                         </p>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="partnerTabPane">
-                        <!-- partner organization info-->
+                        <p>
+                            This work was funded in part through interagency agreements with the U.S. Environmental Protection Agency and the Federal Highway Administration.  
+                            The USGS Water Mission Area also supported this effort.
+                        </p>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="disclaimerTabPane">
                         <p>Any use of trade, firm, or product names is for descriptive purposes only and does not imply endorsement by the U.S. Government.</p>
@@ -592,22 +606,13 @@
                     <p>Change point in median (step change) was computed using the Pettit test</p>
                         <br>Pettitt, A.N., 1979. A non-parametric approach to the change-point problem. Journal of the Royal Statistical Society. Series C (Applied Statistics) 28, 126-135. <a href="https://doi.org/10.2307/2346729"></a>
                     <p>Change point in scale (step change) was computed using the Mood test</p>
-<<<<<<< HEAD
-                        <br>Mood, A.M., 1954. On the asymptotic efficiency of certain nonparametric two-sample tests. The Annals of Mathematical Statistics 25, 514-522
-=======
                         <br>Mood, A.M., 1954. On the asymptotic efficiency of certain nonparametric two-sample tests. The Annals of Mathematical Statistics 25, 514-522.
->>>>>>> 20190ee18c3d760a4f5e0a46aa322ea30ad7135c
                 </div>
                 <div class="faq-header" id="faq13header">13. How did you decide which sites were suitable for trend analysis? <div id="angle11" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
                 <div class="faq-body" id="faq13body">
                     <br>Candidate sites were considered from among the 9,062 gages in the Geospatial Attributes of Gages for Evaluating Streamflow, 
-<<<<<<< HEAD
                     version II, (GAGES-II) database: Falcone, J.A., 2011, GAGES-II—Geospatial attributes of gages for evaluating streamflow: 
                     U.S. Geological Survey metadata, also available at <a href ="http://water.usgs.gov/GIS/metadata/usgswrd/XML/gagesII_Sept2011.xml"></a>
-=======
-                    version II, (GAGES-II) database: Falcone, J.A., 2011, GAGES-II—Geospatial attributes of gages for evaluating streamflow: 
-                    U.S. Geological Survey metadata, also available  <a href ="http://water.usgs.gov/GIS/metadata/usgswrd/XML/gagesII_Sept2011.xml">here. </a>
->>>>>>> 20190ee18c3d760a4f5e0a46aa322ea30ad7135c
                     <br>Data downloaded from the USGS National Water Information System (NWIS) for all candidate gages were then subjected to length and completeness criteria. 
                     Study gages were required to have complete data for at least 8 out of every 10 years for each decade (e.g. 1990-1999) in the time periods tested.
                 </div>
@@ -796,7 +801,7 @@
                                     <div id="trend-period-slider"></div>
                                     <br/>
                                     <button id="trendCalcButton">Calculate custom trend line and p-value</button>
-                                    <p>
+                                    <p id="pvalueWrapper">
                                         <label for="year">Custom p-value:</label>
                                         <input type="text" id="pvalue" style="border:0; color:#21851e; font-weight:bold;">
                                     </p>
