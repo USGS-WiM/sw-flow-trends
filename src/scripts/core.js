@@ -495,38 +495,75 @@ require([
         
     }
 
-    // Using Lobipanel: https://github.com/arboshiki/lobipanel
-    $("#siteInfoDiv").lobiPanel({
-        unpin: false,
-        reload: false,
-        minimize: false,
-        close: false,
-        expand: false,
-        editTitle: false,
-        maxWidth: 800,
-        maxHeight: 800
-    });
+    function createPanel(){
+        // Using Lobipanel: https://github.com/arboshiki/lobipanel
+        $("#siteInfoDiv").lobiPanel({
+            unpin: false,
+            reload: false,
+            minimize: false,
+            close: false,
+            expand: false,
+            editTitle: false,
+            maxWidth: 800,
+            maxHeight: 800
+        });
+        
+        //only create buttons if they don't already exist
+        if ( $("#siteInfoClose").length == 0 ) {
+            $("#siteInfoDiv .dropdown").prepend("<div id='siteInfoClose' title='close'><b>X</b></div>");
+            $("#siteInfoDiv .dropdown").prepend("<div id='siteInfoMin' title='collapse'><b>_</b></div>");
+        }
+        
 
-    $("#siteInfoDiv .dropdown").prepend("<div id='siteInfoClose' title='close'><b>X</b></div>");
-    $("#siteInfoDiv .dropdown").prepend("<div id='siteInfoMin' title='collapse'><b>_</b></div>");
+        $("#siteInfoClose").click(function(){
+            closeSiteInfo();
+        });
+
+        
+
+        var instance = $('#siteInfoDiv').data('lobiPanel');
+                var docHeight = $(document).height();
+                var docWidth = $(document).width();
+                var percentageOfScreen = 0.9;
+                var siteInfoHeight = docHeight*percentageOfScreen
+                var siteInfoWidth = docWidth*percentageOfScreen;
+                if (docHeight < 500) {
+                    $("#siteInfoDiv").height(siteInfoHeight);
+                }
+                if (docWidth < 500) {
+                    $("#siteInfoDiv").width(siteInfoWidth);
+                }
+
+                //var instanceX = docWidth*0.5-$("#siteInfoDiv").width()*0.5;
+                //var instanceY = docHeight*0.5-$("#siteInfoDiv").height()*0.5;
+                var instanceX = event.x;
+                var instanceY = event.y;
+
+                instance.setPosition(instanceX, instanceY);
+                if (instance.isPinned() == true) {
+                    instance.unpin();
+                }
+    }
+
+    function closeSiteInfo(){
+        $("#siteInfoDiv").css("visibility", "hidden");
+        $("#chartDiv").empty(); //ensures removal of highcharts elements lurking in DOM
+        map.graphics.clear();
+    }
+
+    
 
     $("#siteInfoMin").click(function(){
         $("#siteInfoDiv").css("visibility", "hidden");
     });
 
-    $("#siteInfoClose").click(function(){
-        $("#siteInfoDiv").css("visibility", "hidden");
-        map.graphics.clear();
-
-        var hucLayer;
-        //hucLayer = map.getLayer("huc8");
-
-        //hucLayer.setVisibility(false);
-    });
+   
 
     $("#siteInfoDiv").resize(function(){
         $("#chartDiv").highcharts().reflow(); //NOTE: this works but it seems to cause a bit of jankiness
     });
+
+    
 
     var pestPDFs = "";
 
@@ -536,6 +573,9 @@ require([
     map.on('layer-add', function (event) {
         var layer = event.layer.id;
         var actualLayer = event.layer;
+        if ( $('#siteInfoDiv').innerText != "" || $('#siteInfoDiv').innerText != undefined){
+            closeSiteInfo();
+        }
 
         if (layer == "trendResults") {
 
@@ -559,33 +599,15 @@ require([
                 map.graphics.add(newGraphic);
                 
                 // Set up Lobipanel for popup
+
                 if ( $('#pvalue').val ){
+                    //reset pval input
                     $("#pvalue").val('')
                 }
+                createPanel();
                 $("#siteInfoDiv").css("visibility", "visible");
                 toggleLoadingScreen();
-                var instance = $('#siteInfoDiv').data('lobiPanel');
-                var docHeight = $(document).height();
-                var docWidth = $(document).width();
-                var percentageOfScreen = 0.9;
-                var siteInfoHeight = docHeight*percentageOfScreen
-                var siteInfoWidth = docWidth*percentageOfScreen;
-                if (docHeight < 500) {
-                    $("#siteInfoDiv").height(siteInfoHeight);
-                }
-                if (docWidth < 500) {
-                    $("#siteInfoDiv").width(siteInfoWidth);
-                }
-
-                //var instanceX = docWidth*0.5-$("#siteInfoDiv").width()*0.5;
-                //var instanceY = docHeight*0.5-$("#siteInfoDiv").height()*0.5;
-                var instanceX = event.x;
-                var instanceY = event.y;
-
-                instance.setPosition(instanceX, instanceY);
-                if (instance.isPinned() == true) {
-                    instance.unpin();
-                }
+                
 
                 var attr = event.graphic.attributes;
                 
