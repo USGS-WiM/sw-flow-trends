@@ -1000,7 +1000,7 @@ input[type="checkbox"], input[type="radio"] {
     -webkit-justify-content: center;
     justify-content: center;
     text-align: center;
-    content: 'loading...';
+    content: 'calculating...';
     background-image: url('https://wim.usgs.gov/website-assets/branding/usgsanimated.svg');
     height: 100%;
     position: absolute;
@@ -1016,8 +1016,4 @@ input[type="checkbox"], input[type="radio"] {
 
 #siteInfoClose{
     cursor: pointer;
-}
-
-.modal-content {
-    border-radius: none;
 }
