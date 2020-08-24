@@ -457,7 +457,7 @@ require([
 
     //end code for adding draggability to infoWindow
 
-    on(map, "click", function(event) {
+    //on(map, "click", function(event) {
         /*var graphic = new Graphic();
 
         var feature = graphic;
@@ -473,7 +473,7 @@ require([
         map.infoWindow.show(evt.mapPoint);
 
         map.infoWindow.show();*/
-    });
+    //});
 
     function toggleLoadingScreen(){
         //only works for the siteInfoDiv as written
@@ -482,17 +482,6 @@ require([
         } else {
             $("#siteInfoPanel").addClass("content-loading");
         }  
-        
-    }
-
-    function togglePvalLoader(){
-        //only works for the siteInfoDiv as written
-        if ( $("#pvalueWrapper").hasClass("content-loading") ){
-            $("#pvalueWrapper").removeClass("content-loading");
-        } else {
-            $("#pvalueWrapper").addClass("content-loading");
-        }  
-        
     }
 
     function createPanel(){
@@ -513,13 +502,36 @@ require([
             $("#siteInfoDiv .dropdown").prepend("<div id='siteInfoClose' title='close'><b>X</b></div>");
             $("#siteInfoDiv .dropdown").prepend("<div id='siteInfoMin' title='collapse'><b>_</b></div>");
         }
+
+        var instance = $('#siteInfoDiv').data('lobiPanel');
+                var docHeight = $(document).height();
+                var docWidth = $(document).width();
+                var percentageOfScreen = 0.9;
+                var siteInfoHeight = docHeight*percentageOfScreen
+                var siteInfoWidth = docWidth*percentageOfScreen;
+                if (docHeight < 500) {
+                    $("#siteInfoDiv").height(siteInfoHeight);
+                }
+                if (docWidth < 500) {
+                    $("#siteInfoDiv").width(siteInfoWidth);
+                }
+
+                //var instanceX = docWidth*0.5-$("#siteInfoDiv").width()*0.5;
+                //var instanceY = docHeight*0.5-$("#siteInfoDiv").height()*0.5;
+                var instanceX = event.x;
+                var instanceY = event.y;
+
+                instance.setPosition(instanceX, instanceY);
+                if (instance.isPinned() == true) {
+                    instance.unpin();
+                }
         
 
         $("#siteInfoClose").click(function(){
             closeSiteInfo();
         });
 
-    }
+    }// END createPanel
 
     function closeSiteInfo(){
         $("#siteInfoDiv").css("visibility", "hidden");
@@ -548,7 +560,6 @@ require([
 
     map.on('layer-add', function (event) {
         var layer = event.layer.id;
-        var actualLayer = event.layer;
         if ( $('#siteInfoDiv').innerText != "" || $('#siteInfoDiv').innerText != undefined){
             closeSiteInfo();
         }
@@ -583,28 +594,7 @@ require([
                 createPanel();
                 $("#siteInfoDiv").css("visibility", "visible");
                 toggleLoadingScreen();
-                var instance = $('#siteInfoDiv').data('lobiPanel');
-                var docHeight = $(document).height();
-                var docWidth = $(document).width();
-                var percentageOfScreen = 0.9;
-                var siteInfoHeight = docHeight*percentageOfScreen
-                var siteInfoWidth = docWidth*percentageOfScreen;
-                if (docHeight < 500) {
-                    $("#siteInfoDiv").height(siteInfoHeight);
-                }
-                if (docWidth < 500) {
-                    $("#siteInfoDiv").width(siteInfoWidth);
-                }
-
-                //var instanceX = docWidth*0.5-$("#siteInfoDiv").width()*0.5;
-                //var instanceY = docHeight*0.5-$("#siteInfoDiv").height()*0.5;
-                var instanceX = event.x;
-                var instanceY = event.y;
-
-                instance.setPosition(instanceX, instanceY);
-                if (instance.isPinned() == true) {
-                    instance.unpin();
-                }
+                
                 
 
                 var attr = event.graphic.attributes;
@@ -718,9 +708,12 @@ require([
                   }
                 
                 //get scatterplot data + build plot
-                //TODO MONDAY -- figure out why this is a mess
-                /* if (trendLayerForQuery != null || trendLayerForQuery != undefined){ */
-                    console.log('trendLayer ', trendLayerForQuery)
+
+                if (trendLayerForQuery != null || trendLayerForQuery != undefined){
+                    //enable chartTab if it was previously turned off
+                    if ( $('#chartTab').attr('data-toggle') == undefined ){
+                        $('#chartTab').attr('data-toggle', 'tab').css('cursor', 'default');
+                    }
                     $.ajax({
                         dataType: 'json',
                         type: 'GET',
@@ -834,9 +827,12 @@ require([
                         }
                     });
                     toggleLoadingScreen();
-
-                
-
+                } else{
+                    //Switch to SiteInfoTab and Disable chart tab for layers without chart data.
+                    $('.nav-tabs a[href="#siteInfoTabPane"]').tab('show');
+                    $('#chartTab').removeAttr('data-toggle').css('cursor', 'not-allowed');
+                    toggleLoadingScreen();
+                }
             });
 
             if (trendCalcListener === undefined) {
