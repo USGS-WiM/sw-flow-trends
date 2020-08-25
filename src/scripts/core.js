@@ -516,10 +516,10 @@ require([
                     $("#siteInfoDiv").width(siteInfoWidth);
                 }
 
-                //var instanceX = docWidth*0.5-$("#siteInfoDiv").width()*0.5;
-                //var instanceY = docHeight*0.5-$("#siteInfoDiv").height()*0.5;
-                var instanceX = event.x;
-                var instanceY = event.y;
+                var instanceX = docWidth*0.5-$("#siteInfoDiv").width()*0.5;
+                var instanceY = docHeight*0.5-$("#siteInfoDiv").height()*0.5;
+                //var instanceX = event.x;
+                //var instanceY = event.y;
 
                 instance.setPosition(instanceX, instanceY);
                 if (instance.isPinned() == true) {
