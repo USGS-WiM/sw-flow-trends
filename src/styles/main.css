@@ -382,7 +382,7 @@ option.tooltip:hover span, option.tooltip:focus span {
     display: none;
 }
 
-#disclaimerButtons {
+.disclaimerButtons {
     box-sizing: border-box;
     padding: 0 25px 35px 25px;
 }
@@ -1000,7 +1000,7 @@ input[type="checkbox"], input[type="radio"] {
     -webkit-justify-content: center;
     justify-content: center;
     text-align: center;
-    content: 'loading...';
+    content: 'calculating...';
     background-image: url('https://wim.usgs.gov/website-assets/branding/usgsanimated.svg');
     height: 100%;
     position: absolute;
@@ -1013,3 +1013,16 @@ input[type="checkbox"], input[type="radio"] {
     background-position: center 35%;
     width: 100%;
 }
+
+#siteInfoClose{
+    cursor: pointer;
+}
+
+#errorMsg {
+    color: red;
+}
+
+#pvalue {
+    width: 95%;
+}
+

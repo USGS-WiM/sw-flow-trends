@@ -457,7 +457,7 @@ require([
 
     //end code for adding draggability to infoWindow
 
-    on(map, "click", function(event) {
+    //on(map, "click", function(event) {
         /*var graphic = new Graphic();
 
         var feature = graphic;
@@ -473,7 +473,7 @@ require([
         map.infoWindow.show(evt.mapPoint);
 
         map.infoWindow.show();*/
-    });
+    //});
 
     function toggleLoadingScreen(){
         //only works for the siteInfoDiv as written
@@ -482,51 +482,75 @@ require([
         } else {
             $("#siteInfoPanel").addClass("content-loading");
         }  
-        
     }
 
-    function togglePvalLoader(){
-        //only works for the siteInfoDiv as written
-        if ( $("#pvalueWrapper").hasClass("content-loading") ){
-            $("#pvalueWrapper").removeClass("content-loading");
-        } else {
-            $("#pvalueWrapper").addClass("content-loading");
-        }  
+    function createPanel(){
+        // Using Lobipanel: https://github.com/arboshiki/lobipanel
+        $("#siteInfoDiv").lobiPanel({
+            unpin: false,
+            reload: false,
+            minimize: false,
+            close: false,
+            expand: false,
+            editTitle: false,
+            maxWidth: 800,
+            maxHeight: 800
+        });
         
+        //only create buttons if they don't already exist
+        if ( $("#siteInfoClose").length == 0 ) {
+            $("#siteInfoDiv .dropdown").prepend("<div id='siteInfoClose' title='close'><b>X</b></div>");
+            $("#siteInfoDiv .dropdown").prepend("<div id='siteInfoMin' title='collapse'><b>_</b></div>");
+        }
+
+        var instance = $('#siteInfoDiv').data('lobiPanel');
+                var docHeight = $("#mapDiv").height();
+                var docWidth = $("#mapDiv").width();
+
+                var instanceX = event.x;
+                var instanceY = event.y;
+
+                //rough adjust to keep panel more central in map
+                if ( (docWidth*0.5 ) <= event.x){
+                    //for clicks in right half of map
+                    instanceX = event.x - $('#siteInfoDiv').width();
+                } 
+                if ( (docHeight*0.5)  <= event.y){
+                    //for clicks in bottom half of map
+                    instanceY = event.y - $('#siteInfoDiv').height()*0.65;
+                } 
+
+                instance.setPosition(instanceX, instanceY);
+                if (instance.isPinned() == true) {
+                    instance.unpin();
+                }
+        
+
+        $("#siteInfoClose").click(function(){
+            closeSiteInfo();
+        });
+
+    }// END createPanel
+
+    function closeSiteInfo(){
+        $("#siteInfoDiv").css("visibility", "hidden");
+        $("#chartDiv").empty(); //ensures removal of highcharts elements lurking in DOM
+        map.graphics.clear();
     }
 
-    // Using Lobipanel: https://github.com/arboshiki/lobipanel
-    $("#siteInfoDiv").lobiPanel({
-        unpin: false,
-        reload: false,
-        minimize: false,
-        close: false,
-        expand: false,
-        editTitle: false,
-        maxWidth: 800,
-        maxHeight: 800
-    });
-
-    $("#siteInfoDiv .dropdown").prepend("<div id='siteInfoClose' title='close'><b>X</b></div>");
-    $("#siteInfoDiv .dropdown").prepend("<div id='siteInfoMin' title='collapse'><b>_</b></div>");
+    
 
     $("#siteInfoMin").click(function(){
         $("#siteInfoDiv").css("visibility", "hidden");
     });
 
-    $("#siteInfoClose").click(function(){
-        $("#siteInfoDiv").css("visibility", "hidden");
-        map.graphics.clear();
-
-        var hucLayer;
-        //hucLayer = map.getLayer("huc8");
-
-        //hucLayer.setVisibility(false);
-    });
+   
 
     $("#siteInfoDiv").resize(function(){
         $("#chartDiv").highcharts().reflow(); //NOTE: this works but it seems to cause a bit of jankiness
     });
+
+    
 
     var pestPDFs = "";
 
@@ -535,7 +559,9 @@ require([
 
     map.on('layer-add', function (event) {
         var layer = event.layer.id;
-        var actualLayer = event.layer;
+        if ( $('#siteInfoDiv').innerText != "" || $('#siteInfoDiv').innerText != undefined){
+            closeSiteInfo();
+        }
 
         if (layer == "trendResults") {
 
@@ -559,33 +585,16 @@ require([
                 map.graphics.add(newGraphic);
                 
                 // Set up Lobipanel for popup
+
                 if ( $('#pvalue').val ){
+                    //reset pval input
                     $("#pvalue").val('')
                 }
+                createPanel();
                 $("#siteInfoDiv").css("visibility", "visible");
                 toggleLoadingScreen();
-                var instance = $('#siteInfoDiv').data('lobiPanel');
-                var docHeight = $(document).height();
-                var docWidth = $(document).width();
-                var percentageOfScreen = 0.9;
-                var siteInfoHeight = docHeight*percentageOfScreen
-                var siteInfoWidth = docWidth*percentageOfScreen;
-                if (docHeight < 500) {
-                    $("#siteInfoDiv").height(siteInfoHeight);
-                }
-                if (docWidth < 500) {
-                    $("#siteInfoDiv").width(siteInfoWidth);
-                }
-
-                //var instanceX = docWidth*0.5-$("#siteInfoDiv").width()*0.5;
-                //var instanceY = docHeight*0.5-$("#siteInfoDiv").height()*0.5;
-                var instanceX = event.x;
-                var instanceY = event.y;
-
-                instance.setPosition(instanceX, instanceY);
-                if (instance.isPinned() == true) {
-                    instance.unpin();
-                }
+                
+                
 
                 var attr = event.graphic.attributes;
                 
@@ -698,119 +707,137 @@ require([
                   }
                 
                 //get scatterplot data + build plot
-                $.ajax({
-                    dataType: 'json',
-                    type: 'GET',
-                    url: map.getLayer("trendsByYear").url + "/" + trendConfig[trendLayerForQuery].mapLayer + "/query?where=site_id+%3D+%27" + attr.trend_gages_site_id + "%27&outFields=*&f=json",
-                    headers: {'Accept': '*/*'},
-                    success: function (data) {
 
-                        trends_by_year_array = [];
-                        
-                        $.each(data.features[0].attributes, function(field, value) {
-                            if (value != "NA" && field != "site_id") {
-                                var year = Number(field.split("_yr")[0]);
-                                if (year >= xMin) {
-                                    trends_by_year_array.push([year, Number(value)]);
+                if (trendLayerForQuery != null || trendLayerForQuery != undefined){
+                    //enable chartTab if it was previously turned off
+                    if ( $('#chartTab').attr('data-toggle') == undefined ){
+                        $('#chartTab').attr('data-toggle', 'tab').css('cursor', 'default');
+                    }
+                    $.ajax({
+                        dataType: 'json',
+                        type: 'GET',
+                        url: map.getLayer("trendsByYear").url + "/" + trendConfig[trendLayerForQuery].mapLayer + "/query?where=site_id+%3D+%27" + attr.trend_gages_site_id + "%27&outFields=*&f=json",
+                        headers: {'Accept': '*/*'},
+                        success: function (data) {
+    
+                            trends_by_year_array = [];
+                            
+                            $.each(data.features[0].attributes, function(field, value) {
+                                if (value != "NA" && field != "site_id") {
+                                    var year = Number(field.split("_yr")[0]);
+                                    if (year >= xMin) {
+                                        trends_by_year_array.push([year, Number(value)]);
+                                    }
                                 }
+                            });
+    
+                            if (scatterPlot !== undefined) {
+                                scatterPlot.destroy();
                             }
-                        });
-
-                        if (scatterPlot !== undefined) {
-                            scatterPlot.destroy();
-                        }
-
-                        scatterPlot = new Highcharts.chart('chartDiv', {
-                            chart: {
-                                type: 'scatter',
-                                zoomType: 'xy'
-                            },
-                            title: {
-                                text: trendConfig[trendLayerForQuery].chartTitle
-                            },
-                            subtitle: {
-                                text: 'data'
-                            },
-                            xAxis: {
-                                title: {
-                                    enabled: true,
-                                    text: 'Year'
+    
+                            scatterPlot = new Highcharts.chart('chartDiv', {
+                                chart: {
+                                    type: 'scatter',
+                                    zoomType: 'xy'
                                 },
-                                startOnTick: false,
-                                endOnTick: false,
-                                showLastLabel: true,
-                                min: xMin
-                            },
-                            yAxis: {
                                 title: {
-                                    text: trendConfig[trendLayerForQuery].yAxis
-                                }
-                            },
-                            legend: {
-                                layout: 'vertical',
-                                align: 'left',
-                                verticalAlign: 'top',
-                                x: 100,
-                                y: 70,
-                                floating: true,
-                                backgroundColor: Highcharts.defaultOptions.chart.backgroundColor,
-                                borderWidth: 1
-                            },
-                            plotOptions: {
-                                scatter: {
-                                    marker: {
-                                        radius: 5,
+                                    text: trendConfig[trendLayerForQuery].chartTitle
+                                },
+                                subtitle: {
+                                    text: 'data'
+                                },
+                                xAxis: {
+                                    title: {
+                                        enabled: true,
+                                        text: 'Year'
+                                    },
+                                    startOnTick: false,
+                                    endOnTick: false,
+                                    showLastLabel: true,
+                                    min: xMin
+                                },
+                                yAxis: {
+                                    title: {
+                                        text: trendConfig[trendLayerForQuery].yAxis
+                                    }
+                                },
+                                legend: {
+                                    layout: 'vertical',
+                                    align: 'left',
+                                    verticalAlign: 'top',
+                                    x: 100,
+                                    y: 70,
+                                    floating: true,
+                                    backgroundColor: Highcharts.defaultOptions.chart.backgroundColor,
+                                    borderWidth: 1
+                                },
+                                plotOptions: {
+                                    scatter: {
+                                        marker: {
+                                            radius: 5,
+                                            states: {
+                                                hover: {
+                                                    enabled: true,
+                                                    lineColor: 'rgb(100,100,100)'
+                                                }
+                                            }
+                                        },
                                         states: {
                                             hover: {
-                                                enabled: true,
-                                                lineColor: 'rgb(100,100,100)'
+                                                marker: {
+                                                    enabled: false
+                                                }
                                             }
+                                        },
+                                        tooltip: {
+                                            headerFormat: '<b>' + trendConfig[trendLayerForQuery].chartTitle + '</b><br>',
+                                            pointFormat: '{point.x}, {point.y} ' + trendConfig[trendLayerForQuery].tooltipUnits
                                         }
-                                    },
-                                    states: {
-                                        hover: {
-                                            marker: {
-                                                enabled: false
-                                            }
+                                    }
+                                },
+                                series: [{
+                                    name: trendConfig[trendLayerForQuery].yAxis,
+                                    color: 'rgba(223, 83, 83, .5)',
+                                    data: trends_by_year_array
+                                }]
+                            });
+    
+                            $( "#trend-period-slider" ).slider({
+                                range: true,
+                                min: xMin,
+                                max: 2015,
+                                values: [ xMin, 2015 ],
+                                slide: function( event, ui ) {
+                                    $( "#years" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+                                    scatterPlot.update({
+                                        xAxis: {
+                                            min: ui.values[0],
+                                            max: ui.values[1]
                                         }
-                                    },
-                                    tooltip: {
-                                        headerFormat: '<b>' + trendConfig[trendLayerForQuery].chartTitle + '</b><br>',
-                                        pointFormat: '{point.x}, {point.y} ' + trendConfig[trendLayerForQuery].tooltipUnits
+                                    });
+                                    if( scatterPlot.get('py-trend-line') !== undefined ){
+                                        console.log('py-trend-line found');
+                                        scatterPlot.get('py-trend-line').remove();
+                                        scatterPlot.get('trend-line').remove();
+                                        $("#pvalue").val('Recalculate for new custom period');
                                     }
                                 }
-                            },
-                            series: [{
-                                name: trendConfig[trendLayerForQuery].yAxis,
-                                color: 'rgba(223, 83, 83, .5)',
-                                data: trends_by_year_array
-                            }]
-                        });
-
-                        $( "#trend-period-slider" ).slider({
-                            range: true,
-                            min: xMin,
-                            max: 2015,
-                            values: [ xMin, 2015 ],
-                            slide: function( event, ui ) {
-                                $( "#years" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
-                                scatterPlot.update({
-                                    xAxis: {
-                                        min: ui.values[0],
-                                        max: ui.values[1]
-                                    }
-                                });
-                            }
-                        });
-
-                        $( "#years" ).val( $( "#trend-period-slider" ).slider( "values", 0 ) + " - " + $( "#trend-period-slider" ).slider( "values", 1 ) );
-
-                    },
-                    error: function (error) {
-                        console.log("Error processing the JSON. The error is:" + error);
-                    }
-                });
-                toggleLoadingScreen();
+                            });
+    
+                            $( "#years" ).val( $( "#trend-period-slider" ).slider( "values", 0 ) + " - " + $( "#trend-period-slider" ).slider( "values", 1 ) );
+    
+                        },
+                        error: function (error) {
+                            console.log("Error processing the JSON. The error is:" + error);
+                        }
+                    });
+                    toggleLoadingScreen();
+                } else{
+                    //Switch to SiteInfoTab and Disable chart tab for layers without chart data.
+                    $('.nav-tabs a[href="#siteInfoTabPane"]').tab('show');
+                    $('#chartTab').removeAttr('data-toggle').css('cursor', 'not-allowed');
+                    toggleLoadingScreen();
+                }
             });
 
             if (trendCalcListener === undefined) {
@@ -858,11 +885,11 @@ require([
                     var end_year = scatterPlot.xAxis[0].max.toFixed(0);
                     var s_id = currentSiteNo;
                     var layer_selected = document.getElementById("layerSelect").options[document.getElementById("layerSelect").selectedIndex].value;
-
+                    
                     $.ajax({
                         dataType: 'json',
                         type: 'GET',
-                        url: "http://127.0.0.1:3000/thiel-sen-node-service?inputs=" + inputs + "&outputs=" + outputs + "&begin_year=" + begin_year + "&end_year=" + end_year + "&s_id=" + s_id + "&layer_selected=" + layer_selected,
+                        url: "http://54.164.126.49/thiel-sen-node-service?inputs=" + inputs + "&outputs=" + outputs + "&begin_year=" + begin_year + "&end_year=" + end_year + "&s_id=" + s_id + "&layer_selected=" + layer_selected,
                         headers: {'Accept': '*/*'},
                         success: function (data) {
 
@@ -904,15 +931,14 @@ require([
 
                             $("#pvalue").val(data["p_value"]);
                             toggleLoadingScreen();
-                            
-
+                          
                         },
                         error: function (error) {
-                            console.log("Error processing the JSON. The error is:" + error);
+                            console.log("Error processing the JSON. The error is: ", error);
                             toggleLoadingScreen();
+                           
                         }
                     });
-                    
                 }); //END trendCalcListener
             }
         }
@@ -1001,6 +1027,7 @@ require([
         //$('#geosearchModal').modal('hide');
     }
     function geocodeResults(places) {
+
         places = places.results;
         if (places.length > 0) {
             clearFindGraphics();

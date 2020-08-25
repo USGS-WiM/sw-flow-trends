@@ -56,12 +56,12 @@
     <!-- endbower -->
     <!-- endbuild -->
 
-    <script src="node_modules/ml-regression-theil-sen/lib/index.js"></script>
+    <!-- <script src="node_modules/ml-regression-theil-sen/lib/index.js"></script>
     <script src="node_modules/jstat/dist/jstat.js"></script>
-
+ -->
     <script>
         
-    var jstat = this.jStat([0,1]); // jStat will be added to the window
+   /*  var jstat = this.jStat([0,1]); */ // jStat will be added to the window
     
     </script>
 
@@ -214,6 +214,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <div id="geosearch" align="center"></div>
+                    <div align="center" id="errorMsg" style="display:none">Unable to find requested location</div>
                     <br>
                     <div align="center">
                         <p>Supported Search Strings:</p>
@@ -365,7 +366,7 @@
                 </div>
             </div>
 
-            <form id="disclaimerButtons" id="disclaimer-form" class="form-inline" style="text-align:center;">
+            <form class="disclaimerButtons form-inline" style="text-align:center;">
                 <!--<button id="otherButton" type="button" class="btn btn-success btn-fixed" data-dismiss="modal"> More Info?</button>-->
                 <button id="enterMapper" type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </form>
@@ -455,7 +456,7 @@
                 </div>
             </div>
 
-            <form id="disclaimerButtons" id="disclaimer-form" class="form-inline" style="text-align:center;">
+            <form class="disclaimerButtons form-inline" style="text-align:center;">
                 <button id="enterMapper" type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </form>
 
@@ -476,7 +477,7 @@
                 <h4>Hello</h4>
             </div>
 
-            <form id="disclaimerButtons" id="disclaimer-form" class="form-inline" style="text-align:center;">
+            <form class="disclaimerButtons form-inline" style="text-align:center;">
                 <button id="enterMapper" type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </form>
 
@@ -709,17 +710,25 @@
                         <label for="layerSelect">Available Trends:</label>
                         <span>
                             <select id="layerSelect">
-                                <option value="lowQ_1day" selected>LowQ 1Day</option>
-                                <option value="lowQ_3day" >LowQ 3Day</option>
-                                <option value="lowQ_7day" >LowQ 7day</option>
-                                <option value="Q2_scaled_deficit">Scaled Deficit</option>
-                                <option value="Q2_nDays">Q2 nDays</option>
-                                <option value="JD_last_Q2">Last Julian date flow <= the Q2 threshold</option>
-                                <option value="JD_first_Q2">First Julian date flow <= the Q2 threshold</option>
-                                <option value="JD_diff_Q2">JD Difference Q2</option>
-                                <option value="mean_annual_Q">Mean Annual Q</option>
-                                <option value="zeroQ_nDays">ZeroQ</option>
-                                <option value="peak_flows">Instantaneous Annual Peak Flows</option>
+                                <optgroup label="Low flows">
+                                    <option value="lowQ_1day" selected>LowQ 1Day</option>
+                                    <option value="lowQ_3day" >LowQ 3Day</option>
+                                    <option value="lowQ_7day" >LowQ 7day</option>
+                                    <option value="Q2_scaled_deficit">Scaled Deficit</option>
+                                    <option value="Q2_nDays">Q2 nDays</option>
+                                    <option value="JD_last_Q2">Last Julian date flow <= the Q2 threshold</option>
+                                    <option value="JD_first_Q2">First Julian date flow <= the Q2 threshold</option>
+                                    <option value="JD_diff_Q2">JD Difference Q2</option>
+                                    <option value="zeroQ_nDays">ZeroQ</option>
+                                </optgroup>
+                                <optgroup label="Mean flows">
+                                    <option value="mean_annual_Q">Mean Annual Q</option>
+                                </optgroup>
+                                <optgroup label="Peak flows">
+                                    <option value="peak_flows">Instantaneous Annual Peak Flows</option>
+                                </optgroup>
+                                
+                                
                             </select>
                         </span>
                     </div>
