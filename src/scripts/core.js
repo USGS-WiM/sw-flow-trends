@@ -504,22 +504,21 @@ require([
         }
 
         var instance = $('#siteInfoDiv').data('lobiPanel');
-                var docHeight = $(document).height();
-                var docWidth = $(document).width();
-                var percentageOfScreen = 0.9;
-                var siteInfoHeight = docHeight*percentageOfScreen
-                var siteInfoWidth = docWidth*percentageOfScreen;
-                if (docHeight < 500) {
-                    $("#siteInfoDiv").height(siteInfoHeight);
-                }
-                if (docWidth < 500) {
-                    $("#siteInfoDiv").width(siteInfoWidth);
-                }
+                var docHeight = $("#mapDiv").height();
+                var docWidth = $("#mapDiv").width();
 
-                var instanceX = docWidth*0.5-$("#siteInfoDiv").width()*0.5;
-                var instanceY = docHeight*0.5-$("#siteInfoDiv").height()*0.5;
-                //var instanceX = event.x;
-                //var instanceY = event.y;
+                var instanceX = event.x;
+                var instanceY = event.y;
+
+                //rough adjust to keep panel more central in map
+                if ( (docWidth*0.5 ) <= event.x){
+                    //for clicks in right half of map
+                    instanceX = event.x - $('#siteInfoDiv').width();
+                } 
+                if ( (docHeight*0.5)  <= event.y){
+                    //for clicks in bottom half of map
+                    instanceY = event.y - $('#siteInfoDiv').height()*0.65;
+                } 
 
                 instance.setPosition(instanceX, instanceY);
                 if (instance.isPinned() == true) {
