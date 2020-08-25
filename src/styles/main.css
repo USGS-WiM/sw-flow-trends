@@ -1018,3 +1018,11 @@ input[type="checkbox"], input[type="radio"] {
     cursor: pointer;
 }
 
+#errorMsg {
+    color: red;
+}
+
+#pvalue {
+    width: 95%;
+}
+

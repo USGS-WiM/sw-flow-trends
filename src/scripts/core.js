@@ -816,6 +816,12 @@ require([
                                             max: ui.values[1]
                                         }
                                     });
+                                    if( scatterPlot.get('py-trend-line') !== undefined ){
+                                        console.log('py-trend-line found');
+                                        scatterPlot.get('py-trend-line').remove();
+                                        scatterPlot.get('trend-line').remove();
+                                        $("#pvalue").val('Recalculate for new custom period');
+                                    }
                                 }
                             });
     
@@ -884,7 +890,7 @@ require([
                     $.ajax({
                         dataType: 'json',
                         type: 'GET',
-                        url: "http://127.0.0.1:3000/thiel-sen-node-service?inputs=" + inputs + "&outputs=" + outputs + "&begin_year=" + begin_year + "&end_year=" + end_year + "&s_id=" + s_id + "&layer_selected=" + layer_selected,
+                        url: "http://54.164.126.49/thiel-sen-node-service?inputs=" + inputs + "&outputs=" + outputs + "&begin_year=" + begin_year + "&end_year=" + end_year + "&s_id=" + s_id + "&layer_selected=" + layer_selected,
                         headers: {'Accept': '*/*'},
                         success: function (data) {
 
@@ -929,7 +935,7 @@ require([
                           
                         },
                         error: function (error) {
-                            console.log("Error processing the JSON. The error is:" + error);
+                            console.log("Error processing the JSON. The error is: ", error);
                             toggleLoadingScreen();
                            
                         }
@@ -1022,6 +1028,7 @@ require([
         //$('#geosearchModal').modal('hide');
     }
     function geocodeResults(places) {
+
         places = places.results;
         if (places.length > 0) {
             clearFindGraphics();
