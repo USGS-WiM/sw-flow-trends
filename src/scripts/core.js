@@ -889,7 +889,7 @@ require([
                     $.ajax({
                         dataType: 'json',
                         type: 'GET',
-                        url: "http://54.164.126.49/thiel-sen-node-service?inputs=" + inputs + "&outputs=" + outputs + "&begin_year=" + begin_year + "&end_year=" + end_year + "&s_id=" + s_id + "&layer_selected=" + layer_selected,
+                        url: "https://jump.wim.usgs.gov/thiel-sen-node-service?inputs=" + inputs + "&outputs=" + outputs + "&begin_year=" + begin_year + "&end_year=" + end_year + "&s_id=" + s_id + "&layer_selected=" + layer_selected,
                         headers: {'Accept': '*/*'},
                         success: function (data) {
 
