@@ -18,7 +18,7 @@ require([
     SimpleMarkerSymbol
 ) {
 
-    allLayers = [//
+    allLayers = [
         {
             "groupHeading": "sites",
             "showGroupHeading": false,

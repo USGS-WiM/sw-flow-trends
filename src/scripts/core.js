@@ -416,7 +416,7 @@ require([
         $('#longitude').html(geographicMapCenter.x.toFixed(3));
     });
 
-    var nationalMapBasemap = new ArcGISTiledMapServiceLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer');
+    var nationalMapBasemap = new ArcGISTiledMapServiceLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer', {id: "nationalMap"});
     //on clicks to swap basemap. map.removeLayer is required for nat'l map b/c it is not technically a basemap, but a tiled layer.
     on(dom.byId('btnStreets'), 'click', function () {
         map.setBasemap('streets');
@@ -456,24 +456,6 @@ require([
     });
 
     //end code for adding draggability to infoWindow
-
-    //on(map, "click", function(event) {
-        /*var graphic = new Graphic();
-
-        var feature = graphic;
-
-        var template = new esri.InfoTemplate("test popup",
-            "attributes and stuff go here");
-
-        //ties the above defined InfoTemplate to the feature result returned from a click event
-
-        feature.setInfoTemplate(template);
-
-        map.infoWindow.setFeatures([feature]);
-        map.infoWindow.show(evt.mapPoint);
-
-        map.infoWindow.show();*/
-    //});
 
     function toggleLoadingScreen(){
         //only works for the siteInfoDiv as written
@@ -746,6 +728,9 @@ require([
                                 subtitle: {
                                     text: 'data'
                                 },
+                                credits: {
+                                    enabled: false
+                                },
                                 xAxis: {
                                     title: {
                                         enabled: true,
@@ -816,7 +801,7 @@ require([
                                         }
                                     });
                                     if( scatterPlot.get('py-trend-line') !== undefined ){
-                                        console.log('py-trend-line found');
+                                        //remove old pval and trend lines after slider moves
                                         scatterPlot.get('py-trend-line').remove();
                                         scatterPlot.get('trend-line').remove();
                                         $("#pvalue").val('Recalculate for new custom period');
@@ -1122,7 +1107,7 @@ require([
             $('#faqModal').modal('hide');
             $('#userGuideModal').modal('show');
             $('#iconTab').trigger('click');
-            console.log("Opening tab 2 user guide");
+            //console.log("Opening tab 2 user guide");
         });
         // Show User Guide tab3
         $('.showUserGuide3').click(function(){
@@ -1130,7 +1115,7 @@ require([
             $('#aboutModal').modal('hide');
             $('#faqModal').modal('hide');
             $('#userGuideModal').modal('show');
-            console.log("Opening tab 3 user guide");
+            //console.log("Opening tab 3 user guide");
             $('#layersTab').trigger('click');
         });
         $('#userGuideNav').click(function(){
@@ -1406,7 +1391,7 @@ require([
         var mapLayers = [];
 
         $.each(allLayers, function (index,group) {
-            console.log('processing: ', group.groupHeading)
+            //console.log('processing: ', group.groupHeading)
 
 
             //sub-loop over layers within this groupType
@@ -1529,7 +1514,7 @@ require([
 
                     var exGroupDiv = $('<div id="' + camelize(exclusiveGroupName) + '" class="btn-group-vertical" data-toggle="buttons"></div>');
                     $('#toggle').append(exGroupDiv);
-                    console.log('here');
+                    //console.log('here');
                 }
 
                 //create radio button
@@ -1564,7 +1549,7 @@ require([
                                     console.log('group heading not checked');
                                 }
                                 else {
-                                    console.log('removing layer: ',currentLayer[1]);
+                                    //console.log('removing layer: ',currentLayer[1]);
                                     //map.removeLayer(currentLayer[2]);
                                     var tempLayer = map.getLayer(currentLayer[2].id);
                                     tempLayer.setVisibility(false);
@@ -1687,7 +1672,7 @@ require([
                             $('#slider').change(function (event) {
                                 //get the value of the slider with this call
                                 var o = ($('#slider')[0].value) / 100;
-                                console.log("o: " + o);
+                                //console.log("o: " + o);
                                 $("#opacityValue").html("Opacity: " + o)
                                 map.getLayer(options.id).setOpacity(o);
 
@@ -1738,7 +1723,7 @@ require([
                             $('#slider').change(function(event) {
                                 //get the value of the slider with this call
                                 var o = ($('#slider')[0].value)/100;
-                                console.log("o: " + o);
+                                //console.log("o: " + o);
                                 $("#opacityValue").html("Opacity: " + o)
                                 map.getLayer(options.id).setOpacity(o);
 
@@ -1803,7 +1788,7 @@ require([
                 //get legend REST endpoint for swatch
                 $.getJSON(layerDetails.url + '/legend?f=json', function (legendResponse) {
 
-                    console.log(layerName,'legendResponse',legendResponse);
+                    //console.log(layerName,'legendResponse',legendResponse);
 
 
 
@@ -1836,7 +1821,7 @@ require([
 
                             if (visibleLayer == legendLayer.layerId) {
 
-                                console.log(layerName, visibleLayer,legendLayer.layerId, legendLayer)
+                                //console.log(layerName, visibleLayer,legendLayer.layerId, legendLayer)
 
                                 //console.log($('#' + camelize(layerName)).find('<strong>&nbsp;&nbsp;' + legendLayer.layerName + '</strong></br>'))
 
