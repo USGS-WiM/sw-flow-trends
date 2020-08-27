@@ -452,7 +452,7 @@ require([
     });
 
     on(dom.byId('btnNatlMap'), 'click', function () {
-        map.addLayer(nationalMapBasemap);
+        map.addLayer(nationalMapBasemap, 1);
     });
 
     //end code for adding draggability to infoWindow
