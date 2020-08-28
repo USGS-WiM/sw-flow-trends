@@ -25,6 +25,9 @@ var identifyTask, identifyParams;
 
 var trendLayerInfos = [];
 
+var scatterPlot;
+var trends_by_year_array;
+
 require([
     'esri/arcgis/utils',
     'esri/Color',
@@ -413,7 +416,7 @@ require([
         $('#longitude').html(geographicMapCenter.x.toFixed(3));
     });
 
-    var nationalMapBasemap = new ArcGISTiledMapServiceLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer');
+    var nationalMapBasemap = new ArcGISTiledMapServiceLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer', {id: "nationalMap"});
     //on clicks to swap basemap. map.removeLayer is required for nat'l map b/c it is not technically a basemap, but a tiled layer.
     on(dom.byId('btnStreets'), 'click', function () {
         map.setBasemap('streets');
@@ -449,63 +452,98 @@ require([
     });
 
     on(dom.byId('btnNatlMap'), 'click', function () {
-        map.addLayer(nationalMapBasemap);
+        map.addLayer(nationalMapBasemap, 1);
     });
 
     //end code for adding draggability to infoWindow
 
-    on(map, "click", function(event) {
-        /*var graphic = new Graphic();
+    function toggleLoadingScreen(){
+        //only works for the siteInfoDiv as written
+        if ( $("#siteInfoPanel").hasClass("content-loading") ){
+            $("#siteInfoPanel").removeClass("content-loading");
+        } else {
+            $("#siteInfoPanel").addClass("content-loading");
+        }  
+    }
 
-        var feature = graphic;
+    function createPanel(){
+        // Using Lobipanel: https://github.com/arboshiki/lobipanel
+        $("#siteInfoDiv").lobiPanel({
+            unpin: false,
+            reload: false,
+            minimize: false,
+            close: false,
+            expand: false,
+            editTitle: false,
+            maxWidth: 800,
+            maxHeight: 800
+        });
+        
+        //only create buttons if they don't already exist
+        // if ( $("#siteInfoClose").length == 0 ) {
+        //     $("#siteInfoDiv .dropdown").prepend("<div id='siteInfoClose' title='close'><b>X</b></div>");
+        //     $("#siteInfoDiv .dropdown").prepend("<div id='siteInfoMin' title='collapse'><b>_</b></div>");
+        // }
 
-        var template = new esri.InfoTemplate("test popup",
-            "attributes and stuff go here");
+        var instance = $('#siteInfoDiv').data('lobiPanel');
+                var docHeight = $("#mapDiv").height();
+                var docWidth = $("#mapDiv").width();
 
-        //ties the above defined InfoTemplate to the feature result returned from a click event
+                var instanceX = event.x;
+                var instanceY = event.y;
 
-        feature.setInfoTemplate(template);
+                //rough adjust to keep panel more central in map
+                if ( (docWidth*0.5 ) <= event.x){
+                    //for clicks in right half of map
+                    instanceX = event.x - $('#siteInfoDiv').width();
+                } 
+                if ( (docHeight*0.5)  <= event.y){
+                    //for clicks in bottom half of map
+                    instanceY = event.y - $('#siteInfoDiv').height()*0.65;
+                } 
 
-        map.infoWindow.setFeatures([feature]);
-        map.infoWindow.show(evt.mapPoint);
+                instance.setPosition(instanceX, instanceY);
+                if (instance.isPinned() == true) {
+                    instance.unpin();
+                }
+        
 
-        map.infoWindow.show();*/
-    });
+        $("#siteInfoClose").click(function(){
+            closeSiteInfo();
+        });
 
-    // Using Lobipanel: https://github.com/arboshiki/lobipanel
-    $("#siteInfoDiv").lobiPanel({
-        unpin: false,
-        reload: false,
-        minimize: false,
-        close: false,
-        expand: false,
-        editTitle: false,
-        maxWidth: 800,
-        maxHeight: 800
-    });
+    }// END createPanel
 
-    $("#siteInfoDiv .dropdown").prepend("<div id='siteInfoClose' title='close'><b>X</b></div>");
-    $("#siteInfoDiv .dropdown").prepend("<div id='siteInfoMin' title='collapse'><b>_</b></div>");
+    function closeSiteInfo(){
+        $("#siteInfoDiv").css("visibility", "hidden");
+        $("#chartDiv").empty(); //ensures removal of highcharts elements lurking in DOM
+        map.graphics.clear();
+    }
+
+    
 
     $("#siteInfoMin").click(function(){
         $("#siteInfoDiv").css("visibility", "hidden");
     });
 
-    $("#siteInfoClose").click(function(){
-        $("#siteInfoDiv").css("visibility", "hidden");
-        map.graphics.clear();
+   
 
-        var hucLayer;
-        //hucLayer = map.getLayer("huc8");
-
-        //hucLayer.setVisibility(false);
+    $("#siteInfoDiv").resize(function(){
+        $("#chartDiv").highcharts().reflow(); //NOTE: this works but it seems to cause a bit of jankiness
     });
+
+    
 
     var pestPDFs = "";
 
+    //variable to store listener for custom trend calc button click
+    var trendCalcListener;
+
     map.on('layer-add', function (event) {
         var layer = event.layer.id;
-        var actualLayer = event.layer;
+        if ( $('#siteInfoDiv').innerText != "" || $('#siteInfoDiv').innerText != undefined){
+            closeSiteInfo();
+        }
 
         if (layer == "trendResults") {
 
@@ -529,29 +567,16 @@ require([
                 map.graphics.add(newGraphic);
                 
                 // Set up Lobipanel for popup
+
+                if ( $('#pvalue').val ){
+                    //reset pval input
+                    $("#pvalue").val('')
+                }
+                createPanel();
                 $("#siteInfoDiv").css("visibility", "visible");
-                var instance = $('#siteInfoDiv').data('lobiPanel');
-                var docHeight = $(document).height();
-                var docWidth = $(document).width();
-                var percentageOfScreen = 0.9;
-                var siteInfoHeight = docHeight*percentageOfScreen
-                var siteInfoWidth = docWidth*percentageOfScreen;
-                if (docHeight < 500) {
-                    $("#siteInfoDiv").height(siteInfoHeight);
-                }
-                if (docWidth < 500) {
-                    $("#siteInfoDiv").width(siteInfoWidth);
-                }
-
-                //var instanceX = docWidth*0.5-$("#siteInfoDiv").width()*0.5;
-                //var instanceY = docHeight*0.5-$("#siteInfoDiv").height()*0.5;
-                var instanceX = event.x;
-                var instanceY = event.y;
-
-                instance.setPosition(instanceX, instanceY);
-                if (instance.isPinned() == true) {
-                    instance.unpin();
-                }
+                toggleLoadingScreen();
+                
+                
 
                 var attr = event.graphic.attributes;
                 
@@ -583,8 +608,9 @@ require([
                     } else {
                         gage_class = attr.trend_gages_gage_class;
                     }
-                    currentSiteNo = attr.Q2_scaled_deficit;
-                    $("#siteInfoTabPane").append("<br/><b>Station Name: </b>" + attr.trend_gages_station_nm + "<br/>" +
+                    currentSiteNo = attr.trend_gages_site_id;
+                    $("#siteInfoTabPane").append(
+						"<b>Station Name: </b>" + attr.trend_gages_station_nm + "<br/>" +
                         "<b>Site number: </b>" + attr.trend_gages_site_id + "<br/>" +
                         /*"<b>Agency: </b>U.S. Geological Survey<br/>" +*/
                         "<b>Gage class: </b>" + gage_class + "<br/>" +
@@ -662,119 +688,245 @@ require([
                     default:
                         // code block
                   }
+                
+                //get scatterplot data + build plot
 
-                $.ajax({
-                    dataType: 'json',
-                    type: 'GET',
-                    url: map.getLayer("trendsByYear").url + "/" + trendConfig[trendLayerForQuery].mapLayer + "/query?where=site_id+%3D+%27" + attr.trend_gages_site_id + "%27&outFields=*&f=json",
-                    headers: {'Accept': '*/*'},
-                    success: function (data) {
-
-                        var trends_by_year_array = [];
-                        
-                        $.each(data.features[0].attributes, function(field, value) {
-                            if (value != "NA" && field != "site_id") {
-                                var year = Number(field.split("_yr")[0]);
-                                if (year >= xMin) {
-                                    trends_by_year_array.push([year, Number(value)]);
+                if (trendLayerForQuery != null || trendLayerForQuery != undefined){
+                    //enable chartTab if it was previously turned off
+                    if ( $('#chartTab').attr('data-toggle') == undefined ){
+                        $('#chartTab').attr('data-toggle', 'tab').css('cursor', 'default');
+                    }
+                    $.ajax({
+                        dataType: 'json',
+                        type: 'GET',
+                        url: map.getLayer("trendsByYear").url + "/" + trendConfig[trendLayerForQuery].mapLayer + "/query?where=site_id+%3D+%27" + attr.trend_gages_site_id + "%27&outFields=*&f=json",
+                        headers: {'Accept': '*/*'},
+                        success: function (data) {
+    
+                            trends_by_year_array = [];
+                            
+                            $.each(data.features[0].attributes, function(field, value) {
+                                if (value != "NA" && field != "site_id") {
+                                    var year = Number(field.split("_yr")[0]);
+                                    if (year >= xMin) {
+                                        trends_by_year_array.push([year, Number(value)]);
+                                    }
                                 }
+                            });
+    
+                            if (scatterPlot !== undefined) {
+                                scatterPlot.destroy();
                             }
-                        });
-
-                        var scatterPlot = Highcharts.chart('chartDiv', {
-                            chart: {
-                                type: 'scatter',
-                                zoomType: 'xy'
-                            },
-                            title: {
-                                text: trendConfig[trendLayerForQuery].chartTitle
-                            },
-                            subtitle: {
-                                text: 'data'
-                            },
-                            xAxis: {
-                                title: {
-                                    enabled: true,
-                                    text: 'Year'
+    
+                            scatterPlot = new Highcharts.chart('chartDiv', {
+                                chart: {
+                                    type: 'scatter',
+                                    zoomType: 'xy'
                                 },
-                                startOnTick: false,
-                                endOnTick: false,
-                                showLastLabel: true,
-                                min: xMin
-                            },
-                            yAxis: {
                                 title: {
-                                    text: trendConfig[trendLayerForQuery].yAxis
-                                }
-                            },
-                            legend: {
-                                layout: 'vertical',
-                                align: 'left',
-                                verticalAlign: 'top',
-                                x: 100,
-                                y: 70,
-                                floating: true,
-                                backgroundColor: Highcharts.defaultOptions.chart.backgroundColor,
-                                borderWidth: 1
-                            },
-                            plotOptions: {
-                                scatter: {
-                                    marker: {
-                                        radius: 5,
+                                    text: trendConfig[trendLayerForQuery].chartTitle
+                                },
+                                subtitle: {
+                                    text: 'data'
+                                },
+                                credits: {
+                                    enabled: false
+                                },
+                                xAxis: {
+                                    title: {
+                                        enabled: true,
+                                        text: 'Year'
+                                    },
+                                    startOnTick: false,
+                                    endOnTick: false,
+                                    showLastLabel: true,
+                                    min: xMin
+                                },
+                                yAxis: {
+                                    title: {
+                                        text: trendConfig[trendLayerForQuery].yAxis
+                                    }
+                                },
+                                legend: {
+                                    layout: 'vertical',
+                                    align: 'left',
+                                    verticalAlign: 'top',
+                                    x: 100,
+                                    y: 70,
+                                    floating: true,
+                                    backgroundColor: Highcharts.defaultOptions.chart.backgroundColor,
+                                    borderWidth: 1
+                                },
+                                plotOptions: {
+                                    scatter: {
+                                        marker: {
+                                            radius: 5,
+                                            states: {
+                                                hover: {
+                                                    enabled: true,
+                                                    lineColor: 'rgb(100,100,100)'
+                                                }
+                                            }
+                                        },
                                         states: {
                                             hover: {
-                                                enabled: true,
-                                                lineColor: 'rgb(100,100,100)'
+                                                marker: {
+                                                    enabled: false
+                                                }
                                             }
+                                        },
+                                        tooltip: {
+                                            headerFormat: '<b>' + trendConfig[trendLayerForQuery].chartTitle + '</b><br>',
+                                            pointFormat: '{point.x}, {point.y} ' + trendConfig[trendLayerForQuery].tooltipUnits
                                         }
-                                    },
-                                    states: {
-                                        hover: {
-                                            marker: {
-                                                enabled: false
-                                            }
+                                    }
+                                },
+                                series: [{
+                                    name: trendConfig[trendLayerForQuery].yAxis,
+                                    color: 'rgba(223, 83, 83, .5)',
+                                    data: trends_by_year_array
+                                }]
+                            });
+    
+                            $( "#trend-period-slider" ).slider({
+                                range: true,
+                                min: xMin,
+                                max: 2015,
+                                values: [ xMin, 2015 ],
+                                slide: function( event, ui ) {
+                                    $( "#years" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+                                    scatterPlot.update({
+                                        xAxis: {
+                                            min: ui.values[0],
+                                            max: ui.values[1]
                                         }
-                                    },
-                                    tooltip: {
-                                        headerFormat: '<b>' + trendConfig[trendLayerForQuery].chartTitle + '</b><br>',
-                                        pointFormat: '{point.x}, {point.y} ' + trendConfig[trendLayerForQuery].tooltipUnits
+                                    });
+                                    if( scatterPlot.get('py-trend-line') !== undefined ){
+                                        //remove old pval and trend lines after slider moves
+                                        scatterPlot.get('py-trend-line').remove();
+                                        scatterPlot.get('trend-line').remove();
+                                        $("#pvalue").val('Recalculate for new custom period');
                                     }
                                 }
-                            },
-                            series: [{
-                                name: trendConfig[trendLayerForQuery].yAxis,
-                                color: 'rgba(223, 83, 83, .5)',
-                                data: trends_by_year_array
-                            }]
-                        });
-
-                        $( "#trend-period-slider" ).slider({
-                            range: true,
-                            min: xMin,
-                            max: 2015,
-                            values: [ xMin, 2015 ],
-                            slide: function( event, ui ) {
-                                $( "#years" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
-                                scatterPlot.update({
-                                    xAxis: {
-                                        min: ui.values[0],
-                                        max: ui.values[1]
-                                    }
-                                });
-                            }
-                        });
-
-                        $( "#years" ).val( $( "#trend-period-slider" ).slider( "values", 0 ) + " - " + $( "#trend-period-slider" ).slider( "values", 1 ) );
-        
-                        
-
-                    },
-                    error: function (error) {
-                        console.log("Error processing the JSON. The error is:" + error);
-                    }
-                });
-
+                            });
+    
+                            $( "#years" ).val( $( "#trend-period-slider" ).slider( "values", 0 ) + " - " + $( "#trend-period-slider" ).slider( "values", 1 ) );
+    
+                        },
+                        error: function (error) {
+                            console.log("Error processing the JSON. The error is:" + error);
+                        }
+                    });
+                    toggleLoadingScreen();
+                } else{
+                    //Switch to SiteInfoTab and Disable chart tab for layers without chart data.
+                    $('.nav-tabs a[href="#siteInfoTabPane"]').tab('show');
+                    $('#chartTab').removeAttr('data-toggle').css('cursor', 'not-allowed');
+                    toggleLoadingScreen();
+                }
             });
+
+            if (trendCalcListener === undefined) {
+
+                trendCalcListener = $("#trendCalcButton").click(function(evt) {
+                    toggleLoadingScreen();
+
+                    /*require(["dojo/node!ml-regression-theil-sen"], function(thielSen){
+                        
+                        var inputs = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+                        var outputs = [2, 3, 4, 20, 6, 7, 8, 9, 10];
+
+                        var regression = new thielSen(inputs, outputs);
+                        var y = regression.predict(85);
+
+                        console.log("y:", y);
+
+                    });*/
+                    
+                    var inputs = [];
+                    var outputs = [];
+                    var forPCalc = [];
+                    var firstY = trends_by_year_array[0][1];
+
+                    $.each(trends_by_year_array, function(index, value) {
+                        if (value[0] >= scatterPlot.xAxis[0].min && value[0] <= scatterPlot.xAxis[0].max) {
+                            inputs.push(value[0]);
+                            outputs.push(value[1]);
+                            if (index % 2 == 1 || index == 1) {
+                                //forPCalc.push([value[0],value[1]-firstY]);
+                                forPCalc.push([trends_by_year_array[index-1][1],trends_by_year_array[index][1]]);
+                            } /*else if (index == trends_by_year_array.length - 1) {
+                                //forPCalc.push([value[0],firstY]);
+                                forPCalc.push([value[0],value[1]]);
+                            }*/
+                        }
+                    });
+
+                    //var jstat = this.jStat([[1, 2], [3, 4, 5], [6], [7, 8]]);
+
+                    //var pValues = jStat.tukeyhsd(forPCalc);
+
+                    //TODO: Should probably just change this to use inputs array
+                    var begin_year = scatterPlot.xAxis[0].min.toFixed(0);
+                    var end_year = scatterPlot.xAxis[0].max.toFixed(0);
+                    var s_id = currentSiteNo;
+                    var layer_selected = document.getElementById("layerSelect").options[document.getElementById("layerSelect").selectedIndex].value;
+                    
+                    $.ajax({
+                        dataType: 'json',
+                        type: 'GET',
+                        url: "https://jump.wim.usgs.gov/thiel-sen-node-service?inputs=" + inputs + "&outputs=" + outputs + "&begin_year=" + begin_year + "&end_year=" + end_year + "&s_id=" + s_id + "&layer_selected=" + layer_selected,
+                        headers: {'Accept': '*/*'},
+                        success: function (data) {
+
+                            if (scatterPlot.get('trend-line') !== undefined) {
+                                scatterPlot.get('trend-line').remove();
+                            }
+                            if (scatterPlot.get('py-trend-line') !== undefined) {
+                                scatterPlot.get('py-trend-line').remove();
+                            }
+
+                            //using values from thiel-sen regression
+                            scatterPlot.addSeries(
+                                {
+                                    id: 'trend-line',
+                                    name: 'Trend',
+                                    type: 'line',
+                                    color: 'rgba(0, 0, 0, 1.0)',
+                                    data: [
+                                        [inputs[0], data["point-a"]],
+                                        [inputs[inputs.length-1], data["point-b"]]
+                                    ]
+                                });
+
+                            //calculate point B for swft-py-script slope
+                            var py_point_b = data["intercept"] - (data["slope"]*inputs[0]) + (data["slope"]*inputs[inputs.length-1]);
+
+                            //using values from swft-py-script
+                            scatterPlot.addSeries(
+                                {
+                                    id: 'py-trend-line',
+                                    name: 'python trend',
+                                    type: 'line',
+                                    color: 'rgba(0, 255, 0, 1.0)',
+                                    data: [
+                                        [inputs[0], Number(data["intercept"])],
+                                        [inputs[inputs.length-1], py_point_b]
+                                    ]
+                                });
+
+                            $("#pvalue").val(data["p_value"]);
+                            toggleLoadingScreen();
+                          
+                        },
+                        error: function (error) {
+                            console.log("Error processing the JSON. The error is: ", error);
+                            toggleLoadingScreen();
+                           
+                        }
+                    });
+                }); //END trendCalcListener
+            }
         }
     });
 
@@ -861,6 +1013,7 @@ require([
         //$('#geosearchModal').modal('hide');
     }
     function geocodeResults(places) {
+
         places = places.results;
         if (places.length > 0) {
             clearFindGraphics();
@@ -955,7 +1108,7 @@ require([
             $('#faqModal').modal('hide');
             $('#userGuideModal').modal('show');
             $('#iconTab').trigger('click');
-            console.log("Opening tab 2 user guide");
+            //console.log("Opening tab 2 user guide");
         });
         // Show User Guide tab3
         $('.showUserGuide3').click(function(){
@@ -963,7 +1116,7 @@ require([
             $('#aboutModal').modal('hide');
             $('#faqModal').modal('hide');
             $('#userGuideModal').modal('show');
-            console.log("Opening tab 3 user guide");
+            //console.log("Opening tab 3 user guide");
             $('#layersTab').trigger('click');
         });
         $('#userGuideNav').click(function(){
@@ -999,23 +1152,10 @@ require([
             $('#legendElement').css('height', 'initial');
         });
 
-        
-        // FAQ Modal controls.
-        $('#faq1header').click(function(){$('#faq1body').slideToggle(250);});
-        $('#faq2header').click(function(){$('#faq2body').slideToggle(250);});
-        $('#faq3header').click(function(){$('#faq3body').slideToggle(250);});
-        $('#faq4header').click(function(){$('#faq4body').slideToggle(250);});
-        $('#faq5header').click(function(){$('#faq5body').slideToggle(250);});
-        $('#faq6header').click(function(){$('#faq6body').slideToggle(250);});
-        $('#faq7header').click(function(){$('#faq7body').slideToggle(250);});
-        $('#faq8header').click(function(){$('#faq8body').slideToggle(250);});
-        $('#faq9header').click(function(){$('#faq9body').slideToggle(250);});
-        $('#faq10header').click(function(){$('#faq10body').slideToggle(250);});
-        $('#faq11header').click(function(){$('#faq11body').slideToggle(250);});
-        $('#faq12header').click(function(){$('#faq12body').slideToggle(250);});
-        $('#faq13header').click(function(){$('#faq13body').slideToggle(250);});
-        $('#faq14header').click(function(){$('#faq14body').slideToggle(250);});
-        $('#faq15header').click(function(){$('#faq15body').slideToggle(250);});
+        // FAQ Toggle
+		$('.faq-header').click(function(){
+			$(this).next('.faq-body').slideToggle(250);
+		});
 
         $('.fullsize').click(function(){
             //var data = "<img src='"+$(this).attr('src')+"'/>";
@@ -1023,109 +1163,6 @@ require([
             myWindow.focus();
         });
 
-        $("#faq1header").click(function () {
-            if (  $( "#angle1" ).css( "transform" ) == 'none' ){
-                $("#angle1").css("transform","rotate(90deg)");
-            } else {
-                $("#angle1").css("transform","" );
-            }
-        });
-        $("#faq2header").click(function () {
-            //alert($( this ).css( "transform" ));
-            if (  $( "#angle2" ).css( "transform" ) == 'none' ){
-                $("#angle2").css("transform","rotate(90deg)");
-            } else {
-                $("#angle2").css("transform","" );
-            }
-        });
-        $("#faq3header").click(function () {
-            //alert($( this ).css( "transform" ));
-            if (  $( "#angle3" ).css( "transform" ) == 'none' ){
-                $("#angle3").css("transform","rotate(90deg)");
-            } else {
-                $("#angle3").css("transform","" );
-            }
-        });
-        $("#faq4header").click(function () {
-            //alert($( this ).css( "transform" ));
-            if (  $( "#angle4" ).css( "transform" ) == 'none' ){
-                $("#angle4").css("transform","rotate(90deg)");
-            } else {
-                $("#angle4").css("transform","" );
-            }
-        });
-        $("#faq5header").click(function () {
-            //alert($( this ).css( "transform" ));
-            if (  $( "#angle5" ).css( "transform" ) == 'none' ){
-                $("#angle5").css("transform","rotate(90deg)");
-            } else {
-                $("#angle5").css("transform","" );
-            }
-        });
-        $("#faq6header").click(function () {
-            //alert($( this ).css( "transform" ));
-            if (  $( "#angle6" ).css( "transform" ) == 'none' ){
-                $("#angle6").css("transform","rotate(90deg)");
-            } else {
-                $("#angle6").css("transform","" );
-            }
-        });
-        $("#faq7header").click(function () {
-            //alert($( this ).css( "transform" ));
-            if (  $( "#angle7" ).css( "transform" ) == 'none' ){
-                $("#angle7").css("transform","rotate(90deg)");
-            } else {
-                $("#angle7").css("transform","" );
-            }
-        });
-        $("#faq8header").click(function () {
-            //alert($( this ).css( "transform" ));
-            if (  $( "#angle8" ).css( "transform" ) == 'none' ){
-                $("#angle8").css("transform","rotate(90deg)");
-            } else {
-                $("#angle8").css("transform","" );
-            }
-        });
-        $("#faq9header").click(function () {
-            //alert($( this ).css( "transform" ));
-            if (  $( "#angle9" ).css( "transform" ) == 'none' ){
-                $("#angle9").css("transform","rotate(90deg)");
-            } else {
-                $("#angle9").css("transform","" );
-            }
-        });
-        $("#faq10header").click(function () {
-            //alert($( this ).css( "transform" ));
-            if (  $( "#angle10" ).css( "transform" ) == 'none' ){
-                $("#angle10").css("transform","rotate(90deg)");
-            } else {
-                $("#angle10").css("transform","" );
-            }
-        });
-        $("#faq11header").click(function () {
-            //alert($( this ).css( "transform" ));
-            if (  $( "#angle11" ).css( "transform" ) == 'none' ){
-                $("#angle11").css("transform","rotate(90deg)");
-            } else {
-                $("#angle11").css("transform","" );
-            }
-        });
-        $("#faq12header").click(function () {
-            //alert($( this ).css( "transform" ));
-            if (  $( "#angle12" ).css( "transform" ) == 'none' ){
-                $("#angle12").css("transform","rotate(90deg)");
-            } else {
-                $("#angle12").css("transform","" );
-            }
-        });
-        $("#faq13header").click(function () {
-            //alert($( this ).css( "transform" ));
-            if (  $( "#angle13" ).css( "transform" ) == 'none' ){
-                $("#angle13").css("transform","rotate(90deg)");
-            } else {
-                $("#angle13").css("transform","" );
-            }
-        });
     });
 
     function printMap() {
@@ -1239,7 +1276,7 @@ require([
         var mapLayers = [];
 
         $.each(allLayers, function (index,group) {
-            console.log('processing: ', group.groupHeading)
+            //console.log('processing: ', group.groupHeading)
 
 
             //sub-loop over layers within this groupType
@@ -1333,7 +1370,7 @@ require([
                     if (exclusiveGroupName == "Data Source") {
                         var exGroupRoot = $('<div id="' + camelize(exclusiveGroupName +" Root") + '" class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>&nbsp;&nbsp;' + exclusiveGroupName + '<span id="info' + camelize(exclusiveGroupName) + '" title="Data Source identifies the scale, year and emulsion of the imagery that was used to map the wetlands and riparian areas for a given area. It also identifies areas that have Scalable data, which is an interim data product in areas of the nation where standard compliant wetland data is not yet available. Click for more info on Scalable data." class="glyphspan glyphicon glyphicon-question-sign pull-right"></span><span id="opacity' + camelize(exclusiveGroupName) + '" style="padding-right: 5px" class="glyphspan glyphicon glyphicon-adjust pull-right"></span></button> </div>');
                     } else {
-                        var exGroupRoot = $('<div id="' + camelize(exclusiveGroupName +" Root") + '" class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>&nbsp;&nbsp;' + exclusiveGroupName + '</button> </div>');
+                        var exGroupRoot = $('<div id="' + camelize(exclusiveGroupName +" Root") + '" class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default "  style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i>&nbsp;&nbsp;' + exclusiveGroupName + '</button> </div>');
                     }
 
                     exGroupRoot.click(function(e) {
@@ -1345,12 +1382,12 @@ require([
 
                             if (currentLayer[0] == exclusiveGroupName) {
                                 if ($("#" + currentLayer[1]).find('i.glyphspan').hasClass('fa-dot-circle-o') && exGroupRoot.find('i.glyphspan').hasClass('fa-check-square-o')) {
-                                    console.log('adding layer: ',currentLayer[1]);
+                                    //console.log('adding layer: ',currentLayer[1]);
                                     map.addLayer(currentLayer[2]);
                                     var tempLayer = map.getLayer(currentLayer[2].id);
                                     tempLayer.setVisibility(true);
                                 } else if (exGroupRoot.find('i.glyphspan').hasClass('fa-square-o')) {
-                                    console.log('removing layer: ',currentLayer[1]);
+                                    //console.log('removing layer: ',currentLayer[1]);
                                     //map.removeLayer(currentLayer[2]);
                                     var tempLayer = map.getLayer(currentLayer[2].id);
                                     tempLayer.setVisibility(false);
@@ -1362,7 +1399,7 @@ require([
 
                     var exGroupDiv = $('<div id="' + camelize(exclusiveGroupName) + '" class="btn-group-vertical" data-toggle="buttons"></div>');
                     $('#toggle').append(exGroupDiv);
-                    console.log('here');
+                    //console.log('here');
                 }
 
                 //create radio button
@@ -1397,7 +1434,7 @@ require([
                                     console.log('group heading not checked');
                                 }
                                 else {
-                                    console.log('removing layer: ',currentLayer[1]);
+                                    //console.log('removing layer: ',currentLayer[1]);
                                     //map.removeLayer(currentLayer[2]);
                                     var tempLayer = map.getLayer(currentLayer[2].id);
                                     tempLayer.setVisibility(false);
@@ -1520,7 +1557,7 @@ require([
                             $('#slider').change(function (event) {
                                 //get the value of the slider with this call
                                 var o = ($('#slider')[0].value) / 100;
-                                console.log("o: " + o);
+                                //console.log("o: " + o);
                                 $("#opacityValue").html("Opacity: " + o)
                                 map.getLayer(options.id).setOpacity(o);
 
@@ -1571,7 +1608,7 @@ require([
                             $('#slider').change(function(event) {
                                 //get the value of the slider with this call
                                 var o = ($('#slider')[0].value)/100;
-                                console.log("o: " + o);
+                                //console.log("o: " + o);
                                 $("#opacityValue").html("Opacity: " + o)
                                 map.getLayer(options.id).setOpacity(o);
 
@@ -1636,7 +1673,7 @@ require([
                 //get legend REST endpoint for swatch
                 $.getJSON(layerDetails.url + '/legend?f=json', function (legendResponse) {
 
-                    console.log(layerName,'legendResponse',legendResponse);
+                    //console.log(layerName,'legendResponse',legendResponse);
 
 
 
@@ -1669,7 +1706,7 @@ require([
 
                             if (visibleLayer == legendLayer.layerId) {
 
-                                console.log(layerName, visibleLayer,legendLayer.layerId, legendLayer)
+                                //console.log(layerName, visibleLayer,legendLayer.layerId, legendLayer)
 
                                 //console.log($('#' + camelize(layerName)).find('<strong>&nbsp;&nbsp;' + legendLayer.layerName + '</strong></br>'))
 

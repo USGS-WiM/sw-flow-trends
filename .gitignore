@@ -49,3 +49,7 @@ builds/
 ehthumbs.db
 Thumbs.db
 .vscode/
+
+# Project specific #
+####################
+src/test/
