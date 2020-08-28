@@ -519,6 +519,11 @@ Modals
 	min-height: 200px;
 	max-width: 400px;
 }
+@media (max-width: 580px) {
+	.modal-content.small{
+		max-width: none;
+	}
+}
 
 /* Site info modal */
 .modal-content .panel-heading{
