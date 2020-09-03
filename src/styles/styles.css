@@ -314,6 +314,21 @@ small.credit{
 	margin: 3px 0 0 0;
 }
 
+/* Map Layers */
+#layersPanel .btn-default{
+	border: none !important;
+	background: none !important;
+	box-shadow: none !important;
+	padding: 3px 0 !important;
+}
+#layersPanel .btn-default i{
+	font-weight: 500 !important;
+}
+
+#displayLandUse label input{
+	pointer-events: none;
+}
+
 
 /* Sidebar Footer */
 .footer-links{
@@ -716,28 +731,22 @@ Site info Modal
 	margin: 0 auto;
 	margin-top: 10px;
 }
-#pvalueWrapper{
+.pval-wrapper{
 	display: flex;
 	box-sizing: border-box;
 	justify-content: center;
 	padding: 20px 0;
 }
-#pvalueWrapper label{
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	white-space: pre;
-	margin-right: 10px;
-	padding-top: 1px;
+.pval-wrapper label{
+	margin: 0;
+	margin-right: 8px;
+	padding: 0;
 }
-#pvalueWrapper input{
+.pval-wrapper .pval-val{
 	color: #21851e;
-	border: 1px solid rgba(0,0,0,0.75);
-	border-radius: 3px;
-	height: 30px;
 	box-sizing: border-box;
-	padding: 0 10px;
-	max-width: 200px;
+	font-weight: 600;
+	padding: 0;
 }
 
 #trendCalcButton{
@@ -750,18 +759,13 @@ Site info Modal
 	transition: 0.2s;
 	border-radius: 3px;
 	font-weight: 500;
+	margin-bottom: 15px;
 }
 #trendCalcButton:hover{
 	text-decoration: underline;
 	transition: 0.2s;
 }
-.trend-period{
-	display: flex;
-	justify-content: center;
-}
-.trend-period input{
-	text-align: center;
-}
+
 
 /* 
 /////////////

@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/lobipanel/dist/css/lobipanel.min.css" />
     <link rel="stylesheet" href="bower_components/bootstrap-sidebar/dist/css/sidebar.css" />
-    <link rel="stylesheet" href="bower_components/bootstrap-map-js/dist/css/bootstrapmap.min.css" />  
     <link rel="stylesheet" href="bower_components/handsontable/dist/handsontable.full.min.css" />
     <!-- endbower -->
     <!-- endbuild -->
@@ -49,7 +48,6 @@
     <script src="bower_components/jquery.nicescroll/jquery.nicescroll.min.js"></script>
     <script src="bower_components/highcharts/highcharts.js"></script>
     <script src="bower_components/bootstrap-sidebar/dist/js/sidebar.js"></script>
-    <script src="bower_components/bootstrap-map-js/dist/js/bootstrapmap.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -456,10 +454,6 @@
                             <div class="user-guide-item-image"><img src="images/userguide/siteinfo.png"/></div>
                             <p><b>Moving site window</b>To see the rest of the underlying map if necessary, you can reposition the site info popup window by dragging the popup title area with the mouse, or you can resize it by dragging the sides or corners.</p>
                         </div>
-                        <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/faq.png"/></div>
-                            <p><b>More site details</b>Additional details about the graphs are available in the FAQs. Additional details about the column headers in the table are available by hovering on the help button for each column header.</p>
-                        </div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="iconTabPane">
                         <span class="user-guide-header">Explanation</span>
@@ -481,14 +475,6 @@
                         <div class="user-guide-item">
                             <div class="user-guide-item-image"><img src="images/userguide/maplayers.png"/></div>
                             <p><b>Changing or adding map layers</b>The "Map Layers" sidebar allows a user to show land use for 1974, 1982, 1992, 2002, or 2012 as a background layer beneath the trend results.</p>
-                        </div>
-                        <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/constituent.png"/></div>
-                            <p><b>Selecting a constituent</b>The Constituent group selection allows a user to choose a constituent group and then choose a specific constituent from within that group. See About -&gt; Learn More for a list of constituents.</p>
-                        </div>
-                        <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/trendtype.png"/></div>
-                            <p><b>Selecting a trend type</b>Based on the constituent selection, a user can choose from among the available trend types. Concentration is the amount of the constituent in the stream. Load is the mass of the constituent transported past the sampling point in a stream during a period of time. A metric is an index calculated to represent a specific characteristic of aquatic communities. Changes over time in water-quality concentration and load and changes in aquatic ecology-metrics can be strongly influenced by random and systematic variations in streamflow. Flow normalization removes the variation in concentration, load, or metric that is due to variations in streamflow. As a result, concentration and load trends are flow normalized and aquatic ecology metric trends are flow normalized. See FAQ #18 for more information. Note not all trend types are available for every constituent.</p>
                         </div>
                         <div class="user-guide-item">
                             <div class="user-guide-item-image"><img src="images/userguide/trendperiod.png"/></div>
@@ -693,39 +679,39 @@
                 <div id="basemapsPanel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="basemapsHeader">
                     <div class="panel-body collapse in">
                         <button id="btnStreets" class="basemap-button">
-							<img alt="" src="images/streets.jpg">
+							<img alt="" src="images/basemaps/streets.jpg">
 							<span>Streets</span>
 						</button>
                         <button id="btnSatellite" class="basemap-button" >
-							<img alt="" src="images/satellite.jpg">
+							<img alt="" src="images/basemaps/satellite.jpg">
 							<span>Satellite</span>
 						</button>
                         <button id="btnHybrid" class="basemap-button">
-							<img alt="" src="images/imagery_labels.jpg">
+							<img alt="" src="images/basemaps/imagery_labels.jpg">
 							<span>Hybrid</span>
 						</button>
                         <button id="btnTopo" class="basemap-button">
-							<img alt="" src="images/topo.jpg">
+							<img alt="" src="images/basemaps/topo.jpg">
 							<span>Topo</span>
 						</button>
                         <button id="btnTerrain" class="basemap-button">
-							<img alt="" src="images/terrain.jpg">
+							<img alt="" src="images/basemaps/terrain.jpg">
 							<span>Terrain</span>
 						</button>
                         <button id="btnGray" class="basemap-button" >
-							<img alt="" src="images/gray.jpg">
+							<img alt="" src="images/basemaps/gray.jpg">
 							<span>Grery</span>
 						</button>
                         <button id="btnOSM" class="basemap-button">
-							<img alt="" src="images/osm.jpg">
+							<img alt="" src="images/basemaps/osm.jpg">
 							<span>OSM</span>
 						</button>
                         <button id="btnNatGeo" class="basemap-button">
-							<img alt="" src="images/natgeo.jpg">
+							<img alt="" src="images/basemaps/natgeo.jpg">
 							<span>NatGeo</span>
 						</button>
                         <button id="btnNatlMap" class="basemap-button">
-							<img alt="" src="images/national_map.jpg">
+							<img alt="" src="images/basemaps/national_map.jpg">
 							<span>Nat'l Map</span>
 						</button>
                     </div>
@@ -857,15 +843,16 @@
 							<div role="tabpanel" class="tab-pane" id="chartTabPane">
 								<div id="chartDiv"></div>
 
-								<div class="trend-period">
-									<label for="years" class="custom-trend-label">Custom trend period (year-year):</label>
-									<input type="text" id="years" readonly style="border:0; color:#21851e; font-weight:bold;">
+								<div class="pval-wrapper">
+									<label>Custom trend period (year-year):</label>
+									<div class="pval-val" id="years"></div>
 								</div>
+
 								<div id="trend-period-slider"></div>
 
-								<div id="pvalueWrapper">
-									<label for="pvalue">Custom p-value:</label>
-									<input type="text" id="pvalue" placeholder="0">
+								<div class="pval-wrapper">
+									<label>Custom p-value:</label>
+									<div class="pval-val" id="pvalue">1</div>
 								</div>
 
 								<button id="trendCalcButton">Calculate custom trend line and p-value</button>

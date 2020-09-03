@@ -571,6 +571,7 @@ input[type="checkbox"], input[type="radio"] {
     margin: 0 auto;
 	width: 160px;
 	height: auto;
+	border: 2px solid rgba(0,0,0,0.2);
 }
 
 @media (max-width: 580px) {
@@ -855,7 +856,8 @@ input[type="checkbox"], input[type="radio"] {
     background-repeat: no-repeat;
     background-size: 100px auto;
     background-position: center 35%;
-    width: 100%;
+	width: 100%;
+	z-index: 1;
 }
 
 #siteInfoClose{
@@ -866,7 +868,4 @@ input[type="checkbox"], input[type="radio"] {
     color: red;
 }
 
-#pvalue {
-    width: 95%;
-}
 
