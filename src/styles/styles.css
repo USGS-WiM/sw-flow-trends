@@ -128,12 +128,12 @@ Navbar
 	margin-right: 4px;
 }
 .nav-buttons button span{
-	font-size: 12px;
+	font-size: 13px;
 	line-height: 13px;
 	font-weight: 600;
 	white-space: pre;
 	padding-top: 1px;
-	letter-spacing: 0.5px;
+	letter-spacing: 0px;
 }
 /* Hide button text on mobile */
 @media (max-width: 767px) {
@@ -374,6 +374,7 @@ Map View
 	border-radius: 3px;
 	max-width: 240px;
 	border-color: rgba(0,0,0,0.6);
+	box-shadow: 0px 7px 15px -2px rgba(30,30,60,0.15) !important;
 }
 #legendHeading{
 	border-radius: 3px;
