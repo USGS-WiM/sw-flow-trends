@@ -267,7 +267,7 @@ require([
         });
 
         var printTitle = getPrintTitle();
-        $("#printTitle").text(printTitle);
+        $("#printTitle").html(printTitle);
         showPrintModal();*/
     });
 
@@ -480,10 +480,10 @@ require([
         });
         
         //only create buttons if they don't already exist
-        if ( $("#siteInfoClose").length == 0 ) {
-            $("#siteInfoDiv .dropdown").prepend("<div id='siteInfoClose' title='close'><b>X</b></div>");
-            $("#siteInfoDiv .dropdown").prepend("<div id='siteInfoMin' title='collapse'><b>_</b></div>");
-        }
+        // if ( $("#siteInfoClose").length == 0 ) {
+        //     $("#siteInfoDiv .dropdown").prepend("<div id='siteInfoClose' title='close'><b>X</b></div>");
+        //     $("#siteInfoDiv .dropdown").prepend("<div id='siteInfoMin' title='collapse'><b>_</b></div>");
+        // }
 
         var instance = $('#siteInfoDiv').data('lobiPanel');
                 var docHeight = $("#mapDiv").height();
@@ -566,11 +566,14 @@ require([
                 var newGraphic = new Graphic(event.graphic.geometry, symbol);
                 map.graphics.add(newGraphic);
                 
-                // Set up Lobipanel for popup
-
-                if ( $('#pvalue').val ){
+				// Set up Lobipanel for popup
+				// Initial set to 'click to calculate'
+				if ($('#pvalue').html() == '1'){
+					$("#pvalue").html('<i>click to calculate</i>')
+					
+                }else if ($('#pvalue').html()){
                     //reset pval input
-                    $("#pvalue").val('')
+                    $("#pvalue").html('')
                 }
                 createPanel();
                 $("#siteInfoDiv").css("visibility", "visible");
@@ -609,7 +612,8 @@ require([
                         gage_class = attr.trend_gages_gage_class;
                     }
                     currentSiteNo = attr.trend_gages_site_id;
-                    $("#siteInfoTabPane").append("<br/><b>Station Name: </b>" + attr.trend_gages_station_nm + "<br/>" +
+                    $("#siteInfoTabPane").append(
+						"<b>Station Name: </b>" + attr.trend_gages_station_nm + "<br/>" +
                         "<b>Site number: </b>" + attr.trend_gages_site_id + "<br/>" +
                         /*"<b>Agency: </b>U.S. Geological Survey<br/>" +*/
                         "<b>Gage class: </b>" + gage_class + "<br/>" +
@@ -793,7 +797,7 @@ require([
                                 max: 2015,
                                 values: [ xMin, 2015 ],
                                 slide: function( event, ui ) {
-                                    $( "#years" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+                                    $( "#years" ).text( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
                                     scatterPlot.update({
                                         xAxis: {
                                             min: ui.values[0],
@@ -804,12 +808,12 @@ require([
                                         //remove old pval and trend lines after slider moves
                                         scatterPlot.get('py-trend-line').remove();
                                         scatterPlot.get('trend-line').remove();
-                                        $("#pvalue").val('Recalculate for new custom period');
+                                        $("#pvalue").html('Recalculate for new custom period');
                                     }
                                 }
                             });
     
-                            $( "#years" ).val( $( "#trend-period-slider" ).slider( "values", 0 ) + " - " + $( "#trend-period-slider" ).slider( "values", 1 ) );
+                            $( "#years" ).text( $( "#trend-period-slider" ).slider( "values", 0 ) + " - " + $( "#trend-period-slider" ).slider( "values", 1 ) );
     
                         },
                         error: function (error) {
@@ -914,7 +918,7 @@ require([
                                     ]
                                 });
 
-                            $("#pvalue").val(data["p_value"]);
+                            $("#pvalue").html(data["p_value"]);
                             toggleLoadingScreen();
                           
                         },
@@ -1151,23 +1155,10 @@ require([
             $('#legendElement').css('height', 'initial');
         });
 
-        
-        // FAQ Modal controls.
-        $('#faq1header').click(function(){$('#faq1body').slideToggle(250);});
-        $('#faq2header').click(function(){$('#faq2body').slideToggle(250);});
-        $('#faq3header').click(function(){$('#faq3body').slideToggle(250);});
-        $('#faq4header').click(function(){$('#faq4body').slideToggle(250);});
-        $('#faq5header').click(function(){$('#faq5body').slideToggle(250);});
-        $('#faq6header').click(function(){$('#faq6body').slideToggle(250);});
-        $('#faq7header').click(function(){$('#faq7body').slideToggle(250);});
-        $('#faq8header').click(function(){$('#faq8body').slideToggle(250);});
-        $('#faq9header').click(function(){$('#faq9body').slideToggle(250);});
-        $('#faq10header').click(function(){$('#faq10body').slideToggle(250);});
-        $('#faq11header').click(function(){$('#faq11body').slideToggle(250);});
-        $('#faq12header').click(function(){$('#faq12body').slideToggle(250);});
-        $('#faq13header').click(function(){$('#faq13body').slideToggle(250);});
-        $('#faq14header').click(function(){$('#faq14body').slideToggle(250);});
-        $('#faq15header').click(function(){$('#faq15body').slideToggle(250);});
+        // FAQ Toggle
+		$('.faq-header').click(function(){
+			$(this).next('.faq-body').slideToggle(250);
+		});
 
         $('.fullsize').click(function(){
             //var data = "<img src='"+$(this).attr('src')+"'/>";
@@ -1175,109 +1166,6 @@ require([
             myWindow.focus();
         });
 
-        $("#faq1header").click(function () {
-            if (  $( "#angle1" ).css( "transform" ) == 'none' ){
-                $("#angle1").css("transform","rotate(90deg)");
-            } else {
-                $("#angle1").css("transform","" );
-            }
-        });
-        $("#faq2header").click(function () {
-            //alert($( this ).css( "transform" ));
-            if (  $( "#angle2" ).css( "transform" ) == 'none' ){
-                $("#angle2").css("transform","rotate(90deg)");
-            } else {
-                $("#angle2").css("transform","" );
-            }
-        });
-        $("#faq3header").click(function () {
-            //alert($( this ).css( "transform" ));
-            if (  $( "#angle3" ).css( "transform" ) == 'none' ){
-                $("#angle3").css("transform","rotate(90deg)");
-            } else {
-                $("#angle3").css("transform","" );
-            }
-        });
-        $("#faq4header").click(function () {
-            //alert($( this ).css( "transform" ));
-            if (  $( "#angle4" ).css( "transform" ) == 'none' ){
-                $("#angle4").css("transform","rotate(90deg)");
-            } else {
-                $("#angle4").css("transform","" );
-            }
-        });
-        $("#faq5header").click(function () {
-            //alert($( this ).css( "transform" ));
-            if (  $( "#angle5" ).css( "transform" ) == 'none' ){
-                $("#angle5").css("transform","rotate(90deg)");
-            } else {
-                $("#angle5").css("transform","" );
-            }
-        });
-        $("#faq6header").click(function () {
-            //alert($( this ).css( "transform" ));
-            if (  $( "#angle6" ).css( "transform" ) == 'none' ){
-                $("#angle6").css("transform","rotate(90deg)");
-            } else {
-                $("#angle6").css("transform","" );
-            }
-        });
-        $("#faq7header").click(function () {
-            //alert($( this ).css( "transform" ));
-            if (  $( "#angle7" ).css( "transform" ) == 'none' ){
-                $("#angle7").css("transform","rotate(90deg)");
-            } else {
-                $("#angle7").css("transform","" );
-            }
-        });
-        $("#faq8header").click(function () {
-            //alert($( this ).css( "transform" ));
-            if (  $( "#angle8" ).css( "transform" ) == 'none' ){
-                $("#angle8").css("transform","rotate(90deg)");
-            } else {
-                $("#angle8").css("transform","" );
-            }
-        });
-        $("#faq9header").click(function () {
-            //alert($( this ).css( "transform" ));
-            if (  $( "#angle9" ).css( "transform" ) == 'none' ){
-                $("#angle9").css("transform","rotate(90deg)");
-            } else {
-                $("#angle9").css("transform","" );
-            }
-        });
-        $("#faq10header").click(function () {
-            //alert($( this ).css( "transform" ));
-            if (  $( "#angle10" ).css( "transform" ) == 'none' ){
-                $("#angle10").css("transform","rotate(90deg)");
-            } else {
-                $("#angle10").css("transform","" );
-            }
-        });
-        $("#faq11header").click(function () {
-            //alert($( this ).css( "transform" ));
-            if (  $( "#angle11" ).css( "transform" ) == 'none' ){
-                $("#angle11").css("transform","rotate(90deg)");
-            } else {
-                $("#angle11").css("transform","" );
-            }
-        });
-        $("#faq12header").click(function () {
-            //alert($( this ).css( "transform" ));
-            if (  $( "#angle12" ).css( "transform" ) == 'none' ){
-                $("#angle12").css("transform","rotate(90deg)");
-            } else {
-                $("#angle12").css("transform","" );
-            }
-        });
-        $("#faq13header").click(function () {
-            //alert($( this ).css( "transform" ));
-            if (  $( "#angle13" ).css( "transform" ) == 'none' ){
-                $("#angle13").css("transform","rotate(90deg)");
-            } else {
-                $("#angle13").css("transform","" );
-            }
-        });
     });
 
     function printMap() {
@@ -1483,25 +1371,25 @@ require([
                 if (!$('#' + camelize(exclusiveGroupName)).length) {
                     var exGroupRoot;
                     if (exclusiveGroupName == "Data Source") {
-                        var exGroupRoot = $('<div id="' + camelize(exclusiveGroupName +" Root") + '" class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>&nbsp;&nbsp;' + exclusiveGroupName + '<span id="info' + camelize(exclusiveGroupName) + '" title="Data Source identifies the scale, year and emulsion of the imagery that was used to map the wetlands and riparian areas for a given area. It also identifies areas that have Scalable data, which is an interim data product in areas of the nation where standard compliant wetland data is not yet available. Click for more info on Scalable data." class="glyphspan glyphicon glyphicon-question-sign pull-right"></span><span id="opacity' + camelize(exclusiveGroupName) + '" style="padding-right: 5px" class="glyphspan glyphicon glyphicon-adjust pull-right"></span></button> </div>');
+                        var exGroupRoot = $('<div id="' + camelize(exclusiveGroupName +" Root") + '" class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan far fa-check-square"></i>&nbsp;&nbsp;' + exclusiveGroupName + '<span id="info' + camelize(exclusiveGroupName) + '" title="Data Source identifies the scale, year and emulsion of the imagery that was used to map the wetlands and riparian areas for a given area. It also identifies areas that have Scalable data, which is an interim data product in areas of the nation where standard compliant wetland data is not yet available. Click for more info on Scalable data." class="glyphspan far fa-question pull-right"></span><span id="opacity' + camelize(exclusiveGroupName) + '" style="padding-right: 5px" class="glyphspan far fa-adjust pull-right"></span></button> </div>');
                     } else {
-                        var exGroupRoot = $('<div id="' + camelize(exclusiveGroupName +" Root") + '" class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default "  style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i>&nbsp;&nbsp;' + exclusiveGroupName + '</button> </div>');
+                        var exGroupRoot = $('<div id="' + camelize(exclusiveGroupName +" Root") + '" class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default "  style="font-weight: bold;text-align: left"><i class="glyphspan far fa-square"></i>&nbsp;&nbsp;' + exclusiveGroupName + '</button> </div>');
                     }
 
                     exGroupRoot.click(function(e) {
-                        exGroupRoot.find('i.glyphspan').toggleClass('fa-check-square-o fa-square-o');
+                        exGroupRoot.find('i.glyphspan').toggleClass('fa-check-square fa-square');
 
                         $.each(mapLayers, function (index, currentLayer) {
 
                             var tempLayer = map.getLayer(currentLayer[2].id);
 
                             if (currentLayer[0] == exclusiveGroupName) {
-                                if ($("#" + currentLayer[1]).find('i.glyphspan').hasClass('fa-dot-circle-o') && exGroupRoot.find('i.glyphspan').hasClass('fa-check-square-o')) {
+                                if ($("#" + currentLayer[1]).find('i.glyphspan').hasClass('fa-dot-circle') && exGroupRoot.find('i.glyphspan').hasClass('fa-check-square')) {
                                     //console.log('adding layer: ',currentLayer[1]);
                                     map.addLayer(currentLayer[2]);
                                     var tempLayer = map.getLayer(currentLayer[2].id);
                                     tempLayer.setVisibility(true);
-                                } else if (exGroupRoot.find('i.glyphspan').hasClass('fa-square-o')) {
+                                } else if (exGroupRoot.find('i.glyphspan').hasClass('fa-square')) {
                                     //console.log('removing layer: ',currentLayer[1]);
                                     //map.removeLayer(currentLayer[2]);
                                     var tempLayer = map.getLayer(currentLayer[2].id);
@@ -1520,9 +1408,9 @@ require([
                 //create radio button
                 //var button = $('<input type="radio" name="' + camelize(exclusiveGroupName) + '" value="' + camelize(layerName) + '"checked>' + layerName + '</input></br>');
                 if (layer.visible) {
-                    var button = $('<div id="' + camelize(layerName) + '" class="btn-group-vertical lyrTog radioTog" style="cursor: pointer;" data-toggle="buttons"> <label class="btn btn-default"  style="font-weight: bold;text-align: left"> <input type="radio" name="' + camelize(exclusiveGroupName) + '" autocomplete="off"><i class="glyphspan fa fa-dot-circle-o ' + camelize(exclusiveGroupName) + '"></i>&nbsp;&nbsp;' + layerName + '</label> </div>');
+                    var button = $('<div id="' + camelize(layerName) + '" class="btn-group-vertical lyrTog radioTog" style="cursor: pointer;" data-toggle="buttons"> <label class="btn btn-default"  style="font-weight: bold;text-align: left"> <input type="radio" name="' + camelize(exclusiveGroupName) + '" autocomplete="off"><i class="glyphspan fa fa-dot-circle ' + camelize(exclusiveGroupName) + '"></i>&nbsp;&nbsp;' + layerName + '</label> </div>');
                 } else {
-                    var button = $('<div id="' + camelize(layerName) + '" class="btn-group-vertical lyrTog radioTog" style="cursor: pointer;" data-toggle="buttons"> <label class="btn btn-default"  style="font-weight: bold;text-align: left"> <input type="radio" name="' + camelize(exclusiveGroupName) + '" autocomplete="off"><i class="glyphspan fa fa-circle-o ' + camelize(exclusiveGroupName) + '"></i>&nbsp;&nbsp;' + layerName + '</label> </div>');
+                    var button = $('<div id="' + camelize(layerName) + '" class="btn-group-vertical lyrTog radioTog" style="cursor: pointer;" data-toggle="buttons"> <label class="btn btn-default"  style="font-weight: bold;text-align: left"> <input type="radio" name="' + camelize(exclusiveGroupName) + '" autocomplete="off"><i class="glyphspan fa fa-circle ' + camelize(exclusiveGroupName) + '"></i>&nbsp;&nbsp;' + layerName + '</label> </div>');
                 }
 
                 $('#' + camelize(exclusiveGroupName)).append(button);
@@ -1530,22 +1418,22 @@ require([
                 //click listener for radio button
                 button.click(function(e) {
 
-                    if ($(this).find('i.glyphspan').hasClass('fa-circle-o')) {
-                        $(this).find('i.glyphspan').toggleClass('fa-dot-circle-o fa-circle-o');
+                    if ($(this).find('i.glyphspan').hasClass('fa-circle')) {
+                        $(this).find('i.glyphspan').toggleClass('fa-dot-circle fa-circle');
 
                         var newLayer = $(this)[0].id;
 
                         $.each(mapLayers, function (index, currentLayer) {
 
                             if (currentLayer[0] == exclusiveGroupName) {
-                                if (currentLayer[1] == newLayer && $("#" + camelize(exclusiveGroupName + " Root")).find('i.glyphspan').hasClass('fa-check-square-o')) {
+                                if (currentLayer[1] == newLayer && $("#" + camelize(exclusiveGroupName + " Root")).find('i.glyphspan').hasClass('fa-check-square')) {
                                     console.log('adding layer: ',currentLayer[1]);
                                     map.addLayer(currentLayer[2]);
                                     var tempLayer = map.getLayer(currentLayer[2].id);
                                     tempLayer.setVisibility(true);
                                     ////$('#' + camelize(currentLayer[1])).toggle();
                                 }
-                                else if (currentLayer[1] == newLayer && $("#" + camelize(exclusiveGroupName + " Root")).find('i.glyphspan').hasClass('fa-square-o')) {
+                                else if (currentLayer[1] == newLayer && $("#" + camelize(exclusiveGroupName + " Root")).find('i.glyphspan').hasClass('fa-square')) {
                                     console.log('group heading not checked');
                                 }
                                 else {
@@ -1553,8 +1441,8 @@ require([
                                     //map.removeLayer(currentLayer[2]);
                                     var tempLayer = map.getLayer(currentLayer[2].id);
                                     tempLayer.setVisibility(false);
-                                    if ($("#" + currentLayer[1]).find('i.glyphspan').hasClass('fa-dot-circle-o')) {
-                                        $("#" + currentLayer[1]).find('i.glyphspan').toggleClass('fa-dot-circle-o fa-circle-o');
+                                    if ($("#" + currentLayer[1]).find('i.glyphspan').hasClass('fa-dot-circle')) {
+                                        $("#" + currentLayer[1]).find('i.glyphspan').toggleClass('fa-dot-circle fa-circle');
                                     }
                                     //$('#' + camelize(this[1])).toggle();
                                 }
@@ -1570,21 +1458,21 @@ require([
                 //create layer toggle
                 //var button = $('<div align="left" style="cursor: pointer;padding:5px;"><span class="glyphspan glyphicon glyphicon-check"></span>&nbsp;&nbsp;' + layerName + '</div>');
                 if ((layer.visible && wimOptions.hasOpacitySlider !== undefined && wimOptions.hasOpacitySlider == true && wimOptions.moreinfo !== undefined && wimOptions.moreinfo)) {
-                    var button = $('<div class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>&nbsp;&nbsp;' + layerName + '<span id="info' + camelize(layerName) + '" title="more info" class="glyphspan glyphicon glyphicon-question-sign pull-right"></span><span id="opacity' + camelize(layerName) + '" style="padding-right: 5px" class="glyphspan glyphicon glyphicon-adjust pull-right"></span></button></div>');
+                    var button = $('<div class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square"></i>&nbsp;&nbsp;' + layerName + '<span id="info' + camelize(layerName) + '" title="more info" class="glyphspan glyphicon glyphicon-question-sign pull-right"></span><span id="opacity' + camelize(layerName) + '" style="padding-right: 5px" class="glyphspan glyphicon glyphicon-adjust pull-right"></span></button></div>');
                 } else if ((!layer.visible && wimOptions.hasOpacitySlider !== undefined && wimOptions.hasOpacitySlider == true && wimOptions.moreinfo !== undefined && wimOptions.moreinfo)) {
-                    var button = $('<div class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i>&nbsp;&nbsp;' + layerName + '<span id="info' + camelize(layerName) + '" title="more info" class="glyphspan glyphicon glyphicon-question-sign pull-right"></span><span id="opacity' + camelize(layerName) + '" style="padding-right: 5px" class="glyphspan glyphicon glyphicon-adjust pull-right"></span></button></div>');
+                    var button = $('<div class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square"></i>&nbsp;&nbsp;' + layerName + '<span id="info' + camelize(layerName) + '" title="more info" class="glyphspan glyphicon glyphicon-question-sign pull-right"></span><span id="opacity' + camelize(layerName) + '" style="padding-right: 5px" class="glyphspan glyphicon glyphicon-adjust pull-right"></span></button></div>');
                 } else if (layer.visible && wimOptions.hasOpacitySlider !== undefined && wimOptions.hasOpacitySlider == true) {
-                    var button = $('<div class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>&nbsp;&nbsp;' + layerName + '<span id="info' + camelize(layerName) + '" title="more info" class="glyphspan glyphicon glyphicon-question-sign pull-right"></button></span></div>');
+                    var button = $('<div class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square"></i>&nbsp;&nbsp;' + layerName + '<span id="info' + camelize(layerName) + '" title="more info" class="glyphspan glyphicon glyphicon-question-sign pull-right"></button></span></div>');
                 } else if ((!layer.visible && wimOptions.hasOpacitySlider !== undefined && wimOptions.hasOpacitySlider == true)) {
-                    var button = $('<div class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i>&nbsp;&nbsp;' + layerName + '<span id="opacity' + camelize(layerName) + '" class="glyphspan glyphicon glyphicon-adjust pull-right"></button></span></div>');
+                    var button = $('<div class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square"></i>&nbsp;&nbsp;' + layerName + '<span id="opacity' + camelize(layerName) + '" class="glyphspan glyphicon glyphicon-adjust pull-right"></button></span></div>');
                 } else if ((layer.visible && wimOptions.moreinfo !== undefined && wimOptions.moreinfo)) {
-                    var button = $('<div class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>&nbsp;&nbsp;' + layerName + '<span id="opacity' + camelize(layerName) + '" class="glyphspan glyphicon glyphicon-adjust pull-right"></button></span></div>');
+                    var button = $('<div class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square"></i>&nbsp;&nbsp;' + layerName + '<span id="opacity' + camelize(layerName) + '" class="glyphspan glyphicon glyphicon-adjust pull-right"></button></span></div>');
                 } else if ((!layer.visible && wimOptions.moreinfo !== undefined && wimOptions.moreinfo)) {
-                    var button = $('<div class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i>&nbsp;&nbsp;' + layerName + '<span id="info' + camelize(layerName) + '" title="more info" class="glyphspan glyphicon glyphicon-question-sign pull-right"></button></span></div>');
+                    var button = $('<div class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square"></i>&nbsp;&nbsp;' + layerName + '<span id="info' + camelize(layerName) + '" title="more info" class="glyphspan glyphicon glyphicon-question-sign pull-right"></button></span></div>');
                 } else if (layer.visible) {
-                    var button = $('<div class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>&nbsp;&nbsp;' + layerName + '</button></span></div>');
+                    var button = $('<div class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square"></i>&nbsp;&nbsp;' + layerName + '</button></span></div>');
                 } else {
-                    var button = $('<div class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i>&nbsp;&nbsp;' + layerName + '</button> </div>');
+                    var button = $('<div class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square"></i>&nbsp;&nbsp;' + layerName + '</button> </div>');
                 }
 
 
@@ -1592,7 +1480,7 @@ require([
                 button.click(function(e) {
 
                     //toggle checkmark
-                    $(this).find('i.glyphspan').toggleClass('fa-check-square-o fa-square-o');
+                    $(this).find('i.glyphspan').toggleClass('fa-check-square fa-square');
                     $(this).find('button').button('toggle');
 
 
