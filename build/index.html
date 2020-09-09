@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.12.0/css/all.css" integrity="sha384-ekOryaXPbeCpWQNxMwSWVvQ0+1VrStoPJq54shlYhR8HzQgig1v5fas6YgOqLoKz" crossorigin="anonymous">
+
     <link rel="stylesheet" href="styles/vendor.css">
     <!-- CSS for the mapping components -->
     <link rel="stylesheet" href="https://js.arcgis.com/3.13/esri/css/esri.css">
@@ -25,6 +28,15 @@
     <script src="scripts/vendor.js"></script>
 
     <script src="scripts/handsontable.js"></script>
+
+    <!-- <script src="node_modules/ml-regression-theil-sen/lib/index.js"></script>
+    <script src="node_modules/jstat/dist/jstat.js"></script>
+ -->
+    <script>
+        
+   /*  var jstat = this.jStat([0,1]); */ // jStat will be added to the window
+    
+    </script>
 
     <script src="https://js.arcgis.com/3.13/"></script>
 
@@ -58,207 +70,253 @@
 </div>
 
 <div id="navbar" class="navbar navbar-static navbar-default navbar-fixed-top navbar-dark">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle toggle-left hidden-md hidden-lg" data-toggle="sidebar" data-target=".sidebar-left">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="https://usgs.gov">
-                <span>
-                    <img alt="USGS logo" height="38px" src="images/USGS_ID_white.png">
-                    <span class='hidden-xs header-longtitle'>
-                        Surface Water Flow Trends
-                        <small>in the Nation's Streams and Rivers</small>
-                    </span>
-                </span>
-            </a>
-        </div>
 
-        <button id="geosearchNav" type="button" class="btn btn-primary navbar-btn pull-right" onclick="ga('send','event','navbar','click','Find Location Modal Opened');">
-            <span class="glyphicon glyphicon-search"></span>
-            <span id="geosearchButtonText"> Find Location</span>
-        </button>
-        <!-- <button id="printNavButton" type="button" class="btn btn-primary navbar-btn pull-right" onclick="ga('send','event','navbar','click','Print Modal Opened');">
-            <span class="glyphicon glyphicon-print"></span>
-            <span id="printButtonText"> Print</span>
-        </button> -->
+	<div class="navbar-header">
+		<!-- Mobile menu button -->
+		<button type="button" class="navbar-toggle toggle-left hidden-md hidden-lg" data-toggle="sidebar" data-target=".sidebar-left">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+		
+		<!-- Branding - logo and text -->
+		<div class="branding">
+			<!-- Logo -->
+			<div class="branding-logo">
+				<a href="https://usgs.gov" target="_blank">
+					<img alt="USGS logo" src="images/USGS_ID_white.png">
+				</a>
+			</div>
+			<span class='header-longtitle'>
+				<span>Surface Water Flow Trends</span>
+				<small>in the Nation's Streams and Rivers</small>
+			</span>
+		</div>
+	</div>
+	
+	<!-- Navigation Buttons -->
+	<div class="nav-buttons">
+		<!-- Faq -->
+		<button id="faqNav" class="pull-right" onclick="ga('send','event','navbar','click','FAQ', 1);">
+			<i class="far fa-question-circle"></i>
+			<span>FAQ</span>
+		</button>
+		<!-- Use guide -->
+		<button id="userGuideNav" class="pull-right" onclick="ga('send','event','navbar','click','User Guide', 1);">
+			<i class="far fa-book"></i>
+			<span>User Guide</span>
+		</button>
+		<!-- About -->
+		<button id="aboutNav" class="pull-right" onclick="ga('send','event','navbar','click','About', 1);">
+			<i class="far fa-info-circle"></i>
+			<span>About</span>
+		</button>
 
-        <button id="faqNav" class="pull-right" onclick="ga('send','event','navbar','click','FAQ', 1);">
-            <i class="fa fa-question-circle"></i><span class="hidden-xs">&nbsp;&nbsp;FAQ</span>
-        </button>
-        <button id="userGuideNav" class="pull-right" onclick="ga('send','event','navbar','click','User Guide', 1);">
-            <i class="fa fa-book"></i><span class="hidden-xs">&nbsp;&nbsp;User Guide</span>
-        </button>
-        <button id="aboutNav" class="pull-right" onclick="ga('send','event','navbar','click','About', 1);">
-            <i class="fa fa-info-circle"></i><span class="hidden-xs">&nbsp;&nbsp;About</span>
-        </button>
-        <!-- comment -->
-        <!-- legend buttton for navbar. to be removed if we like the in-map legend toggle -->
-        <!--<button id="legendButtonNavBar" type="button" class="btn btn-primary navbar-btn pull-right" style="margin-right: 1em;"><span class="glyphicon glyphicon-list"></span> Legend</button>-->
-        <!-- toggle for a right sidebar (currently not in use) -->
-        <!--<button type="button" class="navbar-toggle toggle-right" data-toggle="sidebar" data-target=".sidebar-right">-->
-        <!--<span class="icon-bar"></span>-->
-        <!--<span class="icon-bar"></span>-->
-        <!--<span class="icon-bar"></span>-->
-        <!--</button>-->
-    </div>
+		<!-- Geosearch -->
+		<button id="geosearchNav" type="button" onclick="ga('send','event','navbar','click','Find Location Modal Opened');">
+			<i class="far fa-search"></i>
+			<span>Find Location</span>
+		</button>
+	</div>
+
+	
+	<!-- <button id="printNavButton" type="button" class="btn btn-primary navbar-btn pull-right" onclick="ga('send','event','navbar','click','Print Modal Opened');">
+		<span class="far fa-print"></span>
+		<span id="printButtonText"> Print</span>
+	</button> -->
+
+	
+	<!-- comment -->
+	<!-- legend buttton for navbar. to be removed if we like the in-map legend toggle -->
+	<!--<button id="legendButtonNavBar" type="button" class="btn btn-primary navbar-btn pull-right" style="margin-right: 1em;"><span class="far fa-list"></span> Legend</button>-->
+	<!-- toggle for a right sidebar (currently not in use) -->
+	<!--<button type="button" class="navbar-toggle toggle-right" data-toggle="sidebar" data-target=".sidebar-right">-->
+	<!--<span class="icon-bar"></span>-->
+	<!--<span class="icon-bar"></span>-->
+	<!--<span class="icon-bar"></span>-->
+	<!--</button>-->
 </div>
 
-<div class="modal" id="IEwarningModal">
-    <div class="modal-dialog">
+<!-- 
+	////////////////
+	////////////////
+	IE Warning Modal
+	////////////////
+	////////////////
+ -->
+<div class="modal fade" id="IEwarningModal">
+    <div class="modal-wrapper">
         <div class="modal-content">
-            <div class="modal-header">
-                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
-                <!--<h4 class="modal-title">{Event Name} Data Viewer</h4>-->
-                <h4><i class="fa fa-exclamation-triangle fa-lg"></i> Web browser warning</h4>
+            <div class="modal-top">
+				<b><i class="far fa-exclamation-triangle fa-lg"></i> Web Browser Warning</b>
             </div>
             <div class="modal-body">
                 <p>This web application does not support use of Microsoft Internet Explorer. It is not designed or tested for use with IE and functionality may be limited or impaired.</p>
                 <p>Please use this application in a modern, standards-compliant browser, such as Google Chrome, Microsoft Edge, or Mozilla Firefox.</p>
-
             </div>
-            <div class="modal-footer">
-                <button id="IEwarnContinue" type="button" class="btn btn-danger" data-dismiss="modal">Continue Anyway (Not recommended)</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div>
-
-<!-- Modal for Graphs. Kept from sw trends mapper as an example. -->
-<div class="modal fade overflow-y-hidden" id="chartModal" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <h4 class="modal-title">
-                    Graphs
-                    <div class="charts-model-loading">
-                        <img src="images/loader.gif"/>
-                    </div>
-                </h4>
-            </div>
-            <div class="modal-body charts-modal">
-
+            <div class="modal-buttons">
+                <button id="IEwarnContinue" type="button" class="red" data-dismiss="modal">Continue Anyway (Not recommended)</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
 
+
+<!-- 
+	////////////////
+	////////////////
+	Table Modal
+	////////////////
+	////////////////
+ -->
 <div class="modal fade overflow-y-hidden" id="tableModal" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-wrapper">
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close table-close" data-dismiss="modal" aria-hidden="true">x</button>
-                <h4 class="modal-title">Trend results <i id="trendResultHelp" class="fa fa-question-circle"></i> <button class="btn btn-primary download-table-btn">Download <i class="fa fa-cloud-download"></i></button></h4>
+            <div class="modal-top">
+                <b>Trend results</b>
+                <!-- <b>Trend results <i id="trendResultHelp" class="far fa-question-circle"></i> <button class="btn btn-primary download-table-btn">Download <i class="far fa-cloud-download"></i></button></b> -->
+                <button type="button" class="close table-close" data-dismiss="modal" aria-hidden="true"><i class="far fa-times"></i></button>
             </div>
             <div class="modal-body">
                 <small>Hover boxes with a "?" for more information.</small>
                 <div id="tableDiv" style="overflow: auto; height: 100%; width: 100%;">Loading...</div>
-            </div>
+			</div>
+			<div class="modal-buttons">
+                <button  type="button" class="blue" data-dismiss="modal">Close</button>
+			</div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
 
-<div class="modal fade overflow-y-hidden" id="geosearchModal" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <h4 class="modal-title">Find Location</h4>
+<!-- 
+	////////////////
+	////////////////
+	Find Location Modal
+	////////////////
+	////////////////
+ -->
+<div class="modal fade" id="geosearchModal" style="display: none;" aria-hidden="true">
+    <div class="modal-wrapper">
+        <div class="modal-content small">
+            <div class="modal-top">
+                <b>Find Location</b>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="far fa-times"></i></button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <div id="geosearch" align="center"></div>
-                    <br>
-                    <div align="center">
-                        <p>Supported Search Strings:</p>
-                            <div id="supportedSearchText">
-                                <ul style="list-style:none;">
-                                    <li>GNIS Locations</li>
-                                    <li>Lat/Long (ie. '43.9, -72.1')</li>
-                                    <li>States</li>
-                                    <li>Street Address</li>
-                                    <li>USGS Sites</li> 
-                                    <li>Zip Codes</li>
-                                </ul>
-                            </div>
-                        <hr>
-                        <p>Search provided by <a href="https://txpub.usgs.gov/dss/search_api/2.0/" target="_blank">USGS Search Javascript API</a></p>
-                    </div>
-                </div>
-                <form id="geosearch-form" class="form-inline geosearch-buttons">
-                    <button id="btnDismiss" type="submit" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <!-- <button id="btnGeosearch" type="button" class="btn btn-success" data-dismiss="modal" onclick="ga('send','event','navbar','click','Find Location Search Performed');"> Search </button> -->
-                </form>
-            </div>
+				<!-- Geosearch -->
+				<div id="geosearch" align="center"></div>
+				<!-- Error message -->
+				<div align="center" id="errorMsg" style="display:none">Unable to find requested location</div>
+				<!-- Supported search strings -->
+				<div class="supported-search-strings">
+					<label>Supported Search Strings:</label>
+					<ul>
+						<li>GNIS Locations,</li>
+						<li>Lat/Long (ie. '43.9, -72.1'),</li>
+						<li>States,</li>
+						<li>Street Address,</li>
+						<li>USGS Sites,</li> 
+						<li>Zip Codes</li>
+					</ul>
+				</div>
+				<small class="credit">Search provided by <a href="https://txpub.usgs.gov/dss/search_api/2.0/" target="_blank">USGS Search Javascript API</a></small>
+			</div>
+			<div class="modal-buttons">
+				<button id="btnDismiss" type="submit" data-dismiss="modal">Cancel</button>
+			</div>
+
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
 
+<!-- 
+	////////////////
+	////////////////
+	Print Modal
+	////////////////
+	////////////////
+ -->
 <div class="modal fade overflow-y-hidden" id="printModal" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <h4 class="modal-title"><span class="glyphicon glyphicon-print"></span> Print Map</h4>
+    <div class="modal-wrapper">
+        <form id="print-title-form" class="modal-content small">
+            <div class="modal-top">
+                <b><span class="far fa-print"></span> Print Map</b>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="far fa-times"></i></button>
             </div>
             <div id="printModalBody" class="modal-body">
 
-                <form id="print-title-form" class="form-group">
-                    <h3>Document ready for printing:</h3>
-                    <label id="printTitle" for="printTitle">Title </label><br/><br/>
-                    <!--</form>
+				<h3>Document ready for printing:</h3>
+				<label id="printTitle" for="printTitle">Title </label><br/><br/>
+				<!--</form>
 
-                    <form id="print-form" class="form-inline">-->
-                    <button id="printExecuteButton" type="submit" class="btn btn-success btn-fixed" data-loading-text="Printing..." onclick="ga('send','event','navbar','click','Print Job Performed');"> Print </button>
-                    <button id="printDismissButton" type="button" class="btn btn-default btn-fixed" data-dismiss="modal"> Dismiss</button>
-                </form>
+				<form id="print-form" class="form-inline">-->
 
                 <div id="printJobsDiv" style="margin-top: 5px;"><label>Print Jobs </label><p class="toRemove"> No print jobs yet</p></div>
-            </div>
-        </div><!-- /.modal-content -->
+			</div>
+			<div class="modal-buttons">
+				<button id="printDismissButton" type="button" class="" data-dismiss="modal"> Dismiss</button>
+				<button id="printExecuteButton" type="submit" class="blue" data-loading-text="Printing..." onclick="ga('send','event','navbar','click','Print Job Performed');"> Print </button>
+			</div>
+        </form><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
 
+
+<!-- 
+	////////////////
+	////////////////
+	About Modal
+	////////////////
+	////////////////
+ -->
 <div id="aboutModal" class="modal fade" tabindex="-1" role="dialog" >
-    <div class="modal-dialog  modal-lg">
+    <div class="modal-wrapper">
         <div class="modal-content">
-            <div class="modal-header">
-                <button class="close" type="button" data-dismiss="modal" aria-hidden="true" style="color:gray;">&times;</button>
-                <h4 class="modal-title">Surface Water Flow Trends</h4>
-            </div>
-            <div id="aboutModalBody" class="modal-body">
+			<!-- Top -->
+            <div class="modal-top">
+                <b>Surface Water Flow Trends</b>
+                <button class="close" type="button" data-dismiss="modal" aria-hidden="true"><i class="far fa-times"></i></button>
+			</div>
+			<!-- Body -->
+            <div id="aboutModalBody" class="modal-body tabs">
                 <ul class="nav nav-tabs" id="aboutModalTabs">
-                    <li role="presentation" class="active"><a id="aboutTab" href="#aboutTabPane" data-toggle="tab"><i class="fa fa-question-circle"></i>&nbsp;About</a></li>
-                    <li role="presentation"><a id="learnMoreTab" href="#learnMoreTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Learn More');"><i class="fa fa-exclamation-circle"></i>&nbsp;Learn More</a></li>
-                    <li role="presentation"><a id="partnerTab" href="#partnerTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Partner Organizations');"><i class="fa fa-id-card-o"></i>&nbsp;Partner Organizations</a></li>
-                    <li role="presentation"><a id="waterResourcesTab" href="#waterResourcesTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Related Resources');"><i class="fa fa-tint"></i>&nbsp;Related Resources</a></li>
-                    <li role="presentation"><a id="disclaimerTab" href="#disclaimerTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Disclaimer');"><i class="fa fa-check-circle-o"></i>&nbsp;Disclaimer</a></li>
+                    <li role="presentation" class="active"><a id="aboutTab" href="#aboutTabPane" data-toggle="tab"><i class="far fa-question-circle"></i>&nbsp;About</a></li>
+                    <li role="presentation"><a id="learnMoreTab" href="#learnMoreTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Learn More');"><i class="far fa-exclamation-circle"></i>&nbsp;Learn More</a></li>
+                    <li role="presentation"><a id="partnerTab" href="#partnerTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Partner Organizations');"><i class="far fa-id-card"></i>&nbsp;Partner Organizations</a></li>
+                    <li role="presentation"><a id="waterResourcesTab" href="#waterResourcesTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Related Resources');"><i class="far fa-tint"></i>&nbsp;Related Resources</a></li>
+                    <li role="presentation"><a id="disclaimerTab" href="#disclaimerTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Disclaimer');"><i class="far fa-check-circle"></i>&nbsp;Disclaimer</a></li>
                 </ul>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="aboutTabPane">
-                        <div class="abouttab-inner">
-                            <p>
-                                This mapper provides results from assessments of trends in low and high streamflows in the Nation's streams and rivers over the past 100, 75, and 50 years (1916-2015, 1941-2015 and 1966-2015). 
-                                Streamflow records from more than 2,000 U.S. Geological Survey (USGS) streamgages across the conterminous U.S. were used in these assessments. 
-                                Tracking changes in streamflow and investigating the reasons for these changes is crucial for informing management decisions to protect and sustain our valuable water resources.
-                                <br/>
-                                <br/>
-                                The mapper shows trend slopes and significance for several low-streamflow and related metrics 
-                                for 2,482 USGS streamgages including trends in annual low 1-, 3-, and 7-day low flows, mean annual flows, 
-                                and various trends related to stream-specific low-flow thresholds equal to the daily mean streamflow with 2-percent non-exceedance rank (Q2). 
-                                For high streamflows, the mapper shows peak-streamflow trend and change-point results for 2,683 USGS streamgages 
-                                including trend slopes and significance, peaks-over-threshold counts, trends in the numbers of peaks-over-threshold, 
-                                and change point years and values for median and scale. Trend significance for both high and low-flows is 
-                                reported for three different null hypotheses of the serial structure of the time-series data: independence (INDE), short-term persistence (AR1), 
-                                and long-term persistence (LTP).
-                            </p>
-                        </div>
+						<p>
+							This mapper provides results from assessments of trends in low and high streamflows in the Nation's streams and rivers over the past 100, 75, and 50 years (1916-2015, 1941-2015 and 1966-2015). 
+							Streamflow records from more than 2,000 U.S. Geological Survey (USGS) streamgages across the conterminous U.S. were used in these assessments. 
+							Tracking changes in streamflow and investigating the reasons for these changes is crucial for informing management decisions to protect and sustain our valuable water resources.
+							<br/>
+							<br/>
+							The mapper shows trend slopes and significance for several low-streamflow and related metrics 
+							for 2,482 USGS streamgages including trends in annual low 1-, 3-, and 7-day low flows, mean annual flows, 
+							and various trends related to stream-specific low-flow thresholds equal to the daily mean streamflow with 2-percent non-exceedance rank (Q2). 
+							For high streamflows, the mapper shows peak-streamflow trend and change-point results for 2,683 USGS streamgages 
+							including trend slopes and significance. Trend significance for both high and low-flows is 
+							reported for three different null hypotheses of the serial structure of the time-series data: independence (INDE), short-term persistence (AR1), 
+							and long-term persistence (LTP).
+						</p>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="learnMoreTabPane">
-                        <!-- learn more info -->
+                        <p>The trend information displayed by this mapper is based on work from the following publications.</p>
+                        <h5><b>Low flows:</b></h5>
+                        <p>
+                            Dudley, R.W., R.M. Hirsch, S.A. Archfield, A.G. Blum, and B. Renard (2020) 
+                            Low streamflow trends at human-impacted and reference basins in the United States, 
+                            Journal of Hydrology, 580, 124254, <a href="https://doi.org/10.1016/j.jhydrol.2019.124254" target="_blank">https://doi.org/10.1016/j.jhydrol.2019.124254</a>.
+                        </p>
+                        <h5><b>Peak flows:</b></h5>
+                        <p>
+                            Hodgkins, G.A., R.W. Dudley, S.A. Archfield, B. Renard (2019) 
+                            Effects of climate, regulation, and urbanization on historical flood trends in the United States, 
+                            Journal of Hydrology, 573, 697-709, <a href="https://doi.org/10.1016/j.jhydrol.2019.03.102" target="_blank">https://doi.org/10.1016/j.jhydrol.2019.03.102</a>.
+                        </p>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="waterResourcesTabPane">
                         <h5><b>Related U.S. Geological Survey (USGS) Web Applications</b></h5>
@@ -271,10 +329,10 @@
                         <p>
                             <a href="https://www.usgs.gov/" target="_blank">USGS homepage</a><br/>
                             <a href="https://water.usgs.gov/nawqa" target="_blank">USGS National Water-Quality Assessment Project</a><br/>
-                            <a href="http://water.usgs.gov/owq/" target="_blank">USGS Water Quality Information</a><br/>
-                            <a href="http://water.usgs.gov/nrp/" target="_blank">USGS National Research Program</a><br/>
-                            <a href="http://water.usgs.gov/programs.html" target="_blank">USGS Water Resources Programs</a><br/>
-                            <a href="http://water.usgs.gov/wsc" target="_blank">USGS Science in Your Watershed</a><br/>
+                            <a href="https://water.usgs.gov/owq/" target="_blank">USGS Water Quality Information</a><br/>
+                            <a href="https://water.usgs.gov/nrp/" target="_blank">USGS National Research Program</a><br/>
+                            <a href="https://water.usgs.gov/programs.html" target="_blank">USGS Water Resources Programs</a><br/>
+                            <a href="https://water.usgs.gov/wsc" target="_blank">USGS Science in Your Watershed</a><br/>
                             <a href="https://www.usgs.gov/science/mission-areas/water?qt-mission_areas_l2_landing_page_ta=0#qt-mission_areas_l2_landing_page_ta" target="_blank">USGS Water Mission Area</a><br/>
                             <a href="https://www.usgs.gov/science/mission-areas/climate-and-land-use-change?qt-mission_areas_l2_landing_page_ta=0" target="_blank">USGS Climate and Land Use Change Mission Area</a><br/>
                             <a href="https://www.usgs.gov/science/mission-areas/ecosystems?qt-mission_areas_l2_landing_page_ta=0#qt-mission_areas_l2_landing_page_ta" target="_blank">USGS Ecosystems Mission Area</a><br/>
@@ -286,20 +344,23 @@
                         </p>
                         <h5><b>Links to Other Federal Agencies</b></h5>
                         <p>
-                            <a href="http://www.epa.gov/" target="_blank">U.S. Environmental Protection Agency (USEPA) homepage</a><br/>
+                            <a href="https://www.epa.gov/" target="_blank">U.S. Environmental Protection Agency (USEPA) homepage</a><br/>
                             <a href="https://www.epa.gov/waterdata" target="_blank">USEPA Water Data and Tools</a><br/>
-                            <a href="http://www.epa.gov/OST/standards/wqcriteria.html" target="_blank">USEPA Recommended Water Quality Standards</a><br/>
+                            <a href="https://www.epa.gov/OST/standards/wqcriteria.html" target="_blank">USEPA Recommended Water Quality Standards</a><br/>
                             <a href="https://www.epa.gov/national-aquatic-resource-surveys" target="_blank">USEPA National Aquatic Resource Surveys</a><br/>
                             <a href="https://www.epa.gov/pesticides" target="_blank">USEPA Pesticide Information</a><br/>
                             <a href="https://cfpub.epa.gov/ecotox/" target="_blank">USEPA Ecotoxicology Database for Aquatic Life, Terrestrial Plants, and Wildlife</a><br/>
-                            <a href="http://www.epa.gov/surf/" target="_blank">USEPA Surf Your Watershed</a><br/>
+                            <a href="https://www.epa.gov/surf/" target="_blank">USEPA Surf Your Watershed</a><br/>
                             <a href="https://www.usda.gov/wps/portal/usda/usdahome" target="_blank">U.S. Department of Agriculture (USDA) homepage</a><br/>
                             <a href="https://www.nrcs.usda.gov/wps/portal/nrcs/site/national/home/" target="_blank">USDA Natural Resources Conservation Service</a><br/>
                             <a href="https://www.nrcs.usda.gov/wps/portal/nrcs/main/national/technical/nra/ceap/" target="_blank">USDA Conservation Effects Assessment Project (CEAP)</a><br/>
                         </p>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="partnerTabPane">
-                        <!-- partner organization info-->
+                        <p>
+                            This work was funded in part through interagency agreements with the U.S. Environmental Protection Agency and the Federal Highway Administration.  
+                            The USGS Water Mission Area also supported this effort.
+                        </p>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="disclaimerTabPane">
                         <p>Any use of trade, firm, or product names is for descriptive purposes only and does not imply endorsement by the U.S. Government.</p>
@@ -308,10 +369,9 @@
                 </div>
             </div>
 
-            <form id="disclaimerButtons" id="disclaimer-form" class="form-inline" style="text-align:center;">
-                <!--<button id="otherButton" type="button" class="btn btn-success btn-fixed" data-dismiss="modal"> More Info?</button>-->
-                <button id="enterMapper" type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-            </form>
+            <div class="modal-buttons">
+                <button  type="button" class="blue" data-dismiss="modal">Close</button>
+			</div>
 
         </div><!-- /.modal-content -->
     </div> <!-- /.modal-dialog -->
@@ -319,19 +379,25 @@
 
 
 
-
+<!-- 
+	////////////////
+	////////////////
+	User Guide Modal
+	////////////////
+	////////////////
+ -->
 <div id="userGuideModal" class="modal fade"  tabindex="-1" role="dialog" >
-    <div class="modal-dialog  modal-lg">
+    <div class="modal-wrapper">
         <div class="modal-content">
-            <div class="modal-header">
-                <button class="close" type="button" data-dismiss="modal" aria-hidden="true" style="color:gray;">&times;</button>
-                <h4 class="modal-title">Map Interface User Guide</h4>
+            <div class="modal-top">
+                <b>Map Interface User Guide</b>
+                <button class="close" type="button" data-dismiss="modal" aria-hidden="true"><i class="far fa-times"></i></button>
             </div>
-            <div id="aboutModalBody" class="modal-body">
+            <div class="modal-body tabs">
                 <ul class="nav nav-tabs" id="aboutModalTabs">
-                    <li role="presentation" class="active"><a id="searchTab" href="#searchTabPane" data-toggle="tab"><i class="fa fa-search"></i>&nbsp;Search, Zoom, Print</a></li>
-                    <li role="presentation"><a id="iconTab" href="#iconTabPane" data-toggle="tab"><i class="fa fa-list"></i>&nbsp;Explanation</a></li>
-                    <li role="presentation"><a id="layersTab" href="#layersTabPane" data-toggle="tab"><i class="fa fa-map"></i>&nbsp;Map selection options</a></li>
+                    <li role="presentation" class="active"><a id="searchTab" href="#searchTabPane" data-toggle="tab"><i class="far fa-search"></i>&nbsp;Search, Zoom, Print</a></li>
+                    <li role="presentation"><a id="iconTab" href="#iconTabPane" data-toggle="tab"><i class="far fa-list"></i>&nbsp;Explanation</a></li>
+                    <li role="presentation"><a id="layersTab" href="#layersTabPane" data-toggle="tab"><i class="far fa-map"></i>&nbsp;Map selection options</a></li>
                 </ul>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="searchTabPane">
@@ -350,15 +416,11 @@
                         </div>
                         <div class="user-guide-item">
                             <div class="user-guide-item-image"><img src="images/userguide/mappoints.png"/></div>
-                            <p><b>Opening a site</b>Clicking on an arrow or circle at a site will bring up a window with details about the site, graphs of the original data and model predictions (for some constituents), and a table of the other trend results at the same site.</p>
+                            <p><b>Opening a site</b>Clicking on an arrow or circle at a site will bring up a window with information about the site, as well as a Low Q - 1 day chart with options to select a custom trend period and calculate a custom trend line and p-value.</p>
                         </div>
                         <div class="user-guide-item">
                             <div class="user-guide-item-image"><img src="images/userguide/siteinfo.png"/></div>
-                            <p><b>Moving site window</b>Reposition the site info pop-up window with the mouse see the rest of the underlying map if necessary.</p>
-                        </div>
-                        <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/faq.png"/></div>
-                            <p><b>More site details</b>Additional details about the graphs are available in the FAQs. Additional details about the column headers in the table are available by hovering on the help button for each column header.</p>
+                            <p><b>Moving site window</b>To see the rest of the underlying map if necessary, you can reposition the site info popup window by dragging the popup title area with the mouse, or you can resize it by dragging the sides or corners.</p>
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="iconTabPane">
@@ -383,88 +445,76 @@
                             <p><b>Changing or adding map layers</b>The "Map Layers" sidebar allows a user to show land use for 1974, 1982, 1992, 2002, or 2012 as a background layer beneath the trend results.</p>
                         </div>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/constituent.png"/></div>
-                            <p><b>Selecting a constituent</b>The Constituent group selection allows a user to choose a constituent group and then choose a specific constituent from within that group. See About -&gt; Learn More for a list of constituents.</p>
+                            <div class="user-guide-item-image"><img src="images/userguide/selecttrend.jpg"/></div>
+                            <p><b>Selecting a Trend</b>The Available Trends selection allows a user to choose a Trend from a list grouped by Low Flows, Mean Flows, and Peak Flows.</p>
                         </div>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/trendtype.png"/></div>
-                            <p><b>Selecting a trend type</b>Based on the constituent selection, a user can choose from among the available trend types. Concentration is the amount of the constituent in the stream. Load is the mass of the constituent transported past the sampling point in a stream during a period of time. A metric is an index calculated to represent a specific characteristic of aquatic communities. Changes over time in water-quality concentration and load and changes in aquatic ecology-metrics can be strongly influenced by random and systematic variations in streamflow. Flow normalization removes the variation in concentration, load, or metric that is due to variations in streamflow. As a result, concentration and load trends are flow normalized and aquatic ecology metric trends are flow normalized. See FAQ #18 for more information. Note not all trend types are available for every constituent.</p>
+                            <div class="user-guide-item-image"><img src="images/userguide/selectmodeltrendperiod.jpg"/></div>
+                            <p><b>Selecting a Model</b>Use the radio buttons to choose between models LTP, AR1, and INDE.</p>
                         </div>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/trendperiod.png"/></div>
-                            <p><b>Selecting a trend period</b>Based on the constituent selection, a user can choose from among the available trend periods. Once the constituent, trend type, and trend period have been selected, the map will automatically update. Note not all trend periods are available for every constituent.</p>
+                            <div class="user-guide-item-image"><img src="images/userguide/selectmodeltrendperiod.jpg"/></div>
+                            <p><b>Selecting a Trend Period</b>Use the radio buttons to choose your trend period.</p>
+                        </div>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/customtrend.jpg"/></div>
+                            <p><b>Custom Trend Period</b>For particular trends at available sites, adjust the sliders below the charted flows to define a custom trend period for the site. Once the custom trend period is defined, the user can calculate a Thiel-Sen trend line and significance (p-value) of the custom trend period.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <form id="disclaimerButtons" id="disclaimer-form" class="form-inline" style="text-align:center;">
-                <button id="enterMapper" type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-            </form>
+            <div class="modal-buttons">
+                <button  type="button" class="blue" data-dismiss="modal">Close</button>
+			</div>
 
         </div><!-- /.modal-content -->
     </div> <!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-
-
-<div id="trendResultHelpModal" class="modal fade"  tabindex="-1" role="dialog" >
-    <div class="modal-dialog  modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button class="close" type="button" data-dismiss="modal" aria-hidden="true" style="color:gray;">&times;</button>
-                <h4 class="modal-title">Trend Results Help</h4>
-            </div>
-            <div id="trendResultHelpModalBody" class="modal-body">
-                <h4>Hello</h4>
-            </div>
-
-            <form id="disclaimerButtons" id="disclaimer-form" class="form-inline" style="text-align:center;">
-                <button id="enterMapper" type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-            </form>
-
-        </div><!-- /.modal-content -->
-    </div> <!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-
-
+<!-- 
+	////////////////
+	////////////////
+	FAQ Modal
+	////////////////
+	////////////////
+ -->
 <div id="faqModal" class="modal fade"  tabindex="-1" role="dialog" >
-    <div class="modal-dialog  modal-lg">
+    <div class="modal-wrapper">
         <div class="modal-content">
-            <div class="modal-header">
-                <button class="close" type="button" data-dismiss="modal" aria-hidden="false" style="color:gray;">&times;</button>
-                <h4 class="modal-title">Frequently Asked Questions</h4>
+            <div class="modal-top">
+                <b>Frequently Asked Questions</b>
+                <button class="close" type="button" data-dismiss="modal" aria-hidden="false"><i class="far fa-times"></i></button>
             </div>
-            <div class="faq-modal-body">
+            <div class="modal-body">
                 <h4 style="margin-bottom: 15px; font-weight: 600;">Study scope</h4>
-                <div class="faq-header" id="faq1header">1. What is the purpose of this study? <div id="angle1" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
+                <div class="faq-header" id="faq1header">1. What is the purpose of this study?</div>
                 <div class="faq-body" id="faq1body">
                     <p>The purpose of these studies is to determine low and high flows in the Nation's streams 
-                        and rivers have changed over time</p>
+                        and rivers have changed over time.</p>
                 </div>
 
-                <div class="faq-header" id="faq2header">2. Why evaluate changes in streamflow? <div id="angle2" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
+                <div class="faq-header" id="faq2header">2. Why evaluate changes in streamflow?</div>
                 <div class="faq-body" id="faq2body">
                     <p>The Nation's rivers and streams are a valuable resource, providing drinking water, irrigation, habitat, and recreational opportunities. 
                        Low streamflows play a an important role in water management for wastewater discharge and water withdrawals, and informing operating policies for low-streamflow releases from dams. 
                        Floods may cause fatalities, and damage property and transportation infrastructure. 
                        In order to more effectively manage and protect the Nation's people, water resources, and transportation infrastructure in the future we need to know how and why streamflows, both low and high flows, have been changing over time.</p>    
                 </div>
-                <div class="faq-header" id="faq3header">3. Who completed this study? <div id="angle3" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
+                <div class="faq-header" id="faq3header">3. Who completed this study?</div>
                 <div class="faq-body" id="faq3body">
                         <p>The U.S. Geological Survey (USGS) in cooperation with EPA and FHWA 
-                        conducted this study using streamflow data collected by the USGS</p>
+                        conducted this study using streamflow data which was collected by the USGS.</p>
                 </div>
-                <div class="faq-header" id="faq4header">4. What data were included in your analyses? <div id="angle4" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
+                <div class="faq-header" id="faq4header">4. What data were included in your analyses?</div>
                 <div class="faq-body" id="faq4body">
-                        <p>Publicly available streamflow data for streams and rivers were obtained from the U.S. Geological Survey's National Water Information System (NWIS) database at <a href="https://waterdata.usgs.gov/usa/nwis"></a></p> 
-                        <p>Publicly available gage characteristics were obtained from the Geospatial Attributes of Gages for Evaluating Streamflow, version II, (GAGES-II) database: Falcone, J.A., 2011, GAGES-II—Geospatial attributes of gages for evaluating streamflow: U.S. Geological Survey metadata, also available at <a href="http://water.usgs.gov/GIS/metadata/usgswrd/XML/gagesII_Sept2011.xml"></a></p>     
+                        <p>Publicly available streamflow data for streams and rivers were obtained from the U.S. Geological Survey's National Water Information System (NWIS) database <a href="https://waterdata.usgs.gov/usa/nwis"> here. </a></p> 
+                        <p>Publicly available gage characteristics were obtained from the Geospatial Attributes of Gages for Evaluating Streamflow, version II, (GAGES-II) database: Falcone, J.A., 2011, GAGES-II—Geospatial attributes of gages for evaluating streamflow: U.S. Geological Survey metadata, also available <a href="http://water.usgs.gov/GIS/metadata/usgswrd/XML/gagesII_Sept2011.xml"> here. </a></p>     
                 </div>
-                <div class="faq-header" id="faq5header">5. What streamflow metrics were included in your analyses? <div id="angle5" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
+                <div class="faq-header" id="faq5header">5. What streamflow metrics were included in your analyses?</div>
                 <div class="faq-body" id="faq5body">
-                        <p>Low-flow analyses were computed on the basis of climatic year which begins 
-                        April 1 and ends March 31 and named for the year in which it ends.</p>
+                        <p>Low-flow analyses were computed on the basis of climatic year which occurs from 
+                        April 1 through March 31 and named for the year in which it ends.</p>
                         <ul>
                             <li>Lowest annual 1-, 3-, and 7-day average streamflow</li>
                             <li>Mean annual streamflow</li>
@@ -477,14 +527,14 @@
                                 Daily deficits were computed as the difference between the Q2 threshold and daily mean streamflows equal to or lower than Q2; 
                                 those differences were then divided by Q2 to yield scaled deficits (dimensionless)</li>
                         </ul>
-                       <p>High-flow analyses were computed on the basis of water year which begins October 1 and ends September 30 and named for the year in which it ends.</p> 
+                       <p>High-flow analyses were computed on the basis of water year which occur from October 1 through September 30 and named for the year in which it ends.</p> 
                         <ul>
                             <li>Instantaneous annual peak streamflows</li>
                             <li>Number of peaks-over-threshold events determined by setting a streamflow threshold resulting in an average of X events per year (0.2 or 2) 
                                 for the base period 1941-1968</li>
                         </ul>
                 </div>
-                <div class="faq-header" id="faq6header">6. What does INDE, AR1, and LTP mean?  <div id="angle6" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
+                <div class="faq-header" id="faq6header">6. What does INDE, AR1, and LTP mean? </div>
                 <div class="faq-body" id="faq6body">
                          <p>Significance of trends over time are sensitive to assumptions of whether 
                              the time-series data are independent, have short-term persistence, or have 
@@ -497,28 +547,27 @@
                              trend test for autocorrelated data, Journal of Hydrology, 204: 182-196. </p>   
                 
                 </div>
-                <div class="faq-header" id="faq7header">7. What makes a trend significant?  <div id="angle6" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
+                <div class="faq-header" id="faq7header">7. What makes a trend significant?</div>
                 <div class="faq-body" id="faq7body">
                          <p>A trend is significant if the trend-test result indicates a p-value 
                             less than or equal to 0.05 for the given null hypothesis of the serial 
-                            structure of the time-series data (INDE, AR1, LTP; see question above) </p>   
+                            structure of the time-series data (INDE, AR1, LTP; see previous question). </p>   
                 
                 </div>
-                <div class="faq-header" id="faq8header">8. What time periods did you assess in your trend analyses?  <div id="angle6" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
+                <div class="faq-header" id="faq8header">8. What time periods did you assess in your trend analyses?</div>
                 <div class="faq-body" id="faq8body">
                          <p>1916-2015, 1941-2015 and 1966-2015 </p>   
-                
                 </div>
                 <h4 style="margin-bottom: 15px; font-weight: 600;">Features of The Mapper</h4>
-                <div class="faq-header" id="faq9header">9. Where can I find help for navigating this mapper?  <div id="angle7" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
+                <div class="faq-header" id="faq9header">9. Where can I find help for navigating this mapper? </div>
                 <div class="faq-body" id="faq9body">
                     <p>An explanation of the arrows and icons on the map and what they mean can be found in the User Guide Explanation tab. 
                         A description of how to activate map layers can be found in the User Guide Map Select Options tab. 
-                        A description of the search, zoom, and print capabilities can be found in the User Guide Search, Zoom, Print tab</p>
+                        A description of the search, zoom, and print capabilities can be found in the User Guide Search, Zoom, Print tab.</p>
                 </div>
-                <div class="faq-header" id="faq10header">10. Are the data used in your trend analyses available for download? <div id ="angle8" style="display: -webkit-inline-box;"><i class = "fa fa-angle-right"></i></div></div>
+                <div class="faq-header" id="faq10header">10. Are the data used in your trend analyses available for download? <div id ="angle8" style="display: -webkit-inline-box;"><i class = "far fa-angle-right"></i></div></div>
                 <div class="faq-body" id="faq10body">
-                    <p>Yes. All daily streamflow data and instantaneous peak streamflow data are publicly available and can be downloaded from the U.S. Geological Survey's National Water Information System (NWIS) database at <a href="https://waterdata.usgs.gov/usa/nwis"></a></p>
+                    <p>Yes. All daily streamflow data and instantaneous peak streamflow data are publicly available and can be downloaded from the U.S. Geological Survey's National Water Information System (NWIS) database <a href="https://waterdata.usgs.gov/usa/nwis">here.</a></p>
                     <p>Streamgage characteristics and trend results can be downloaded from the following USGS Data Releases:</p>
                     <ul>
                         <li>Dudley, R.W., Hirsch, R.M., Archfield, S.A., Blum, A.G., and Renard, B., 2019, Low-streamflow trends and basin characteristics for 2,482 
@@ -527,7 +576,7 @@
                         <li></li>    
                     </ul>
                 </div> 
-                <div class="faq-header" id="faq11header">11. I am having trouble downloading the trends table for a site. What should I try? ?  <div id="angle9" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
+                <div class="faq-header" id="faq11header">11. I am having trouble downloading the trends table for a site. What should I try?</div>
                 <div class="faq-body" id="faq11body">
                     <p>If you are using Safari, the table will not automatically download. 
                         When you see the comma-delimited trends table displayed in your browser, go to the "File tab" in Safari, 
@@ -538,29 +587,29 @@
                         you will need to use a different browser.</p>
                 </div>
                 <h4 style="margin-bottom: 15px; font-weight: 600;">Study methods</h4>
-                <div class="faq-header" id="faq12header">12. What trend methods did you use? <div id="angle10" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
+                <div class="faq-header" id="faq12header">12. What trend methods did you use?</div>
                 <div class="faq-body" id="faq12body">
                     <p>Magnitude of monotonic trends were computed using the Sen slope
                         <br>Sen, P.K., 1968. Estimates of the regression coefficient based on Kendall's tau. J. Am. Stat. Assoc. 63, 1379-1389</br>
                     <p>Significance of monotonic trends were computed using the Mann-Kendall test that included methods that considered the possibility of short- and long-term persistence in the time-series data</p>
-                        <br>R-code for our general Mann-Kendall test can be downloaded from:
+                        <br>R-code for our general Mann-Kendall test can be downloaded  <a href ="https://www.sciencebase.gov/catalog/item/5b183960e4b092d965219d62" >here. </a>
                         <br>Dudley, R.W., Hirsch, R.M., Archfield, S.A., Blum, A.G., and Renard, B., 2019, Low-streamflow trends and basin characteristics for 2,482 U.S. Geological Survey streamgages in the conterminous U.S. (ver. 2.0, February 2019): U.S. Geological Survey data release, <a href="https://doi.org/10.5066/P9LO24MG"></a>
                         <br>Dudley, R.W., Archfield, S.A., Hodgkins, G.A., Renard, B., and Ryberg, K.R., 2018, Peak-streamflow trends and change-points and basin characteristics for 2,683 U.S. Geological Survey streamgages in the conterminous U.S. (ver. 2.0, October 2018): U.S. Geological Survey data release, <a href="https://doi.org/10.5066/P9AEGXY0"></a>
                     <p>Change point in median (step change) was computed using the Pettit test</p>
                         <br>Pettitt, A.N., 1979. A non-parametric approach to the change-point problem. Journal of the Royal Statistical Society. Series C (Applied Statistics) 28, 126-135. <a href="https://doi.org/10.2307/2346729"></a>
                     <p>Change point in scale (step change) was computed using the Mood test</p>
-                        <br>Mood, A.M., 1954. On the asymptotic efficiency of certain nonparametric two-sample tests. The Annals of Mathematical Statistics 25, 514-522
+                        <br>Mood, A.M., 1954. On the asymptotic efficiency of certain nonparametric two-sample tests. The Annals of Mathematical Statistics 25, 514-522.
                 </div>
-                <div class="faq-header" id="faq13header">13. How did you decide which sites were suitable for trend analysis? <div id="angle11" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
+                <div class="faq-header" id="faq13header">13. How did you decide which sites were suitable for trend analysis?</div>
                 <div class="faq-body" id="faq13body">
                     <br>Candidate sites were considered from among the 9,062 gages in the Geospatial Attributes of Gages for Evaluating Streamflow, 
                     version II, (GAGES-II) database: Falcone, J.A., 2011, GAGES-II—Geospatial attributes of gages for evaluating streamflow: 
-                    U.S. Geological Survey metadata, also available at <a href ="http://water.usgs.gov/GIS/metadata/usgswrd/XML/gagesII_Sept2011.xml"></a>
+                    U.S. Geological Survey metadata, also available  <a href ="http://water.usgs.gov/GIS/metadata/usgswrd/XML/gagesII_Sept2011.xml">here. </a>
                     <br>Data downloaded from the USGS National Water Information System (NWIS) for all candidate gages were then subjected to length and completeness criteria. 
                     Study gages were required to have complete data for at least 8 out of every 10 years for each decade (e.g. 1990-1999) in the time periods tested.
                 </div>
                 <h4 style="margin-bottom: 15px; font-weight: 600;">Citations</h4>
-                <div class="faq-header" id="faq14header">14. How should this mapper be cited? <div id="angle12" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
+                <div class="faq-header" id="faq14header">14. How should this mapper be cited?</div>
                 <div class="faq-body" id="faq14body">
                     <p>All of the results in the mapper are reported in these USGS Data Releases:</p>
                         Dudley, R.W., Hirsch, R.M., Archfield, S.A., Blum, A.G., and Renard, B., 2019, 
@@ -572,14 +621,18 @@
                         Survey streamgages in the conterminous U.S. (ver. 2.0, October 2018): U.S. Geological Survey 
                         data release, <a href="https://doi.org/10.5066/P9AEGXY0">https://doi.org/10.5066/P9AEGXY0</a>
                 </div>
-                <div class="faq-header" id="faq15header">15. Who can I contact for more information on this mapper? <div id="angle13" style="display: -webkit-inline-box;"><i class="fa fa-angle-right"></i></div></div>
+                <div class="faq-header" id="faq15header">15. Who can I contact for more information on this mapper?</div>
                 <div class="faq-body" id="faq15body">
                     <p>For questions related to the operation of the mapper, you can contact:</p>
                     <br>Hans Vraga
                     <br>Project Manager, Web Informatics and Mapping (WiM)
                     <br>Email: <a href="hvraga@usgs.gov">hvraga@usgs.gov</a>
                     </div>
-            </div>
+			</div>
+			<!-- Buttons -->
+			<div class="modal-buttons">
+                <button  type="button" class="blue" data-dismiss="modal">Close</button>
+			</div>
         </div><!-- /.modal-content -->
     </div> <!-- /.modal-dialog -->
 </div><!-- /.modal -->
@@ -589,117 +642,145 @@
 <!-- Begin page content -->
 <div class="container-fluid keepit100">
     <div class="row keepit100">
+
+		<!-- 
+			=========================
+			Sidebar
+			=========================
+		 -->
         <!--<div id="sidebar" class="col-xs-7 col-sm-3 col-md-3 sidebar sidebar-left sidebar-animate sidebar-md-show no-col-padding">-->
-        <div id="sidebar" class="col-xs-11 col-sm-10 col-md-3 col-lg-2 sidebar sidebar-left sidebar-animate sidebar-md-show no-col-padding">
-            <!-- # include line below to get accordion effect with panels - opening one closes the others. remember closing div tag at bottom -->
-            <!--<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">-->
-            <!-- include btn-toolbar below to put legend and geosearch buttons next to eachother -->
-            <!--<div class="btn-toolbar" style="margin-bottom: 2px;">-->
-            <!--<div class="btn-group no-col-padding">-->
-            <!-- sidebar legend button. to be rmoved if we like the in-map legend toggle -->
-            <!--<button id="legendButtonSidebar" type="button" class="btn btn-default" ><span class="glyphicon glyphicon-list"></span> Legend</button>-->
-            <!--<button id="geosearchButtonSidebar" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Geosearch</button>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--<button id="legendButtonSidebar" type="button" class="btn btn-default" ><span class="glyphicon glyphicon-list"></span> Legend</button>-->
-            <div class="panel panel-default wim-sidebar-panel">
-                <div class="panel-heading" id="basemapsHeader">
-                    <h4 class="panel-title">
-                        <a class="accordion-toggle collapsed" data-toggle="collapse"  href="#basemapsPanel" aria-expanded="false" aria-controls="basemapsPanel">
-                            Basemaps
-                        </a>
-                    </h4>
-                </div>
+        <div id="sidebar" class="no-scrollbars col-xs-11 col-sm-10 col-md-3 col-lg-2 sidebar sidebar-left sidebar-animate sidebar-md-show no-col-padding">
+
+			<!-- Basemaps panel -->
+			<div class="panel panel-default wim-sidebar-panel">
+				<a class="panel-title collapsed" data-toggle="collapse" id="basemapsHeader" href="#basemapsPanel" aria-expanded="false" aria-controls="basemapsPanel">
+					Basemaps
+				</a>
                 <div id="basemapsPanel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="basemapsHeader">
                     <div class="panel-body collapse in">
-                        <button id="btnStreets" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/streets.jpg"><br class="basemapThumb">Streets</button>
-                        <button id="btnSatellite" class="btn btn-default basemapBtn equalize" ><img class="basemapThumb" alt="" src="images/satellite.jpg"><br class="basemapThumb">Satellite</button>
-                        <button id="btnHybrid" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/imagery_labels.jpg"><br class="basemapThumb">Hybrid</button>
-                        <button id="btnTopo" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/topo.jpg"><br class="basemapThumb">Topo</button>
-                        <button id="btnTerrain" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/terrain.jpg"><br class="basemapThumb">Terrain</button>
-                        <button id="btnGray" class="btn btn-default basemapBtn equalize" ><img class="basemapThumb" alt="" src="images/gray.jpg"><br class="basemapThumb">Gray</button>
-                        <button id="btnOSM" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/osm.jpg"><br class="basemapThumb">OSM</button>
-                        <button id="btnNatGeo" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/natgeo.jpg"><br class="basemapThumb">NatGeo</button>
-                        <button id="btnNatlMap" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/national_map.jpg"><br class="basemapThumb">Nat'l Map</button>
+                        <button id="btnStreets" class="basemap-button">
+							<img alt="" src="images/basemaps/streets.jpg">
+							<span>Streets</span>
+						</button>
+                        <button id="btnSatellite" class="basemap-button" >
+							<img alt="" src="images/basemaps/satellite.jpg">
+							<span>Satellite</span>
+						</button>
+                        <button id="btnHybrid" class="basemap-button">
+							<img alt="" src="images/basemaps/imagery_labels.jpg">
+							<span>Hybrid</span>
+						</button>
+                        <button id="btnTopo" class="basemap-button">
+							<img alt="" src="images/basemaps/topo.jpg">
+							<span>Topo</span>
+						</button>
+                        <button id="btnTerrain" class="basemap-button">
+							<img alt="" src="images/basemaps/terrain.jpg">
+							<span>Terrain</span>
+						</button>
+                        <button id="btnGray" class="basemap-button" >
+							<img alt="" src="images/basemaps/gray.jpg">
+							<span>Grery</span>
+						</button>
+                        <button id="btnOSM" class="basemap-button">
+							<img alt="" src="images/basemaps/osm.jpg">
+							<span>OSM</span>
+						</button>
+                        <button id="btnNatGeo" class="basemap-button">
+							<img alt="" src="images/basemaps/natgeo.jpg">
+							<span>NatGeo</span>
+						</button>
+                        <button id="btnNatlMap" class="basemap-button">
+							<img alt="" src="images/basemaps/national_map.jpg">
+							<span>Nat'l Map</span>
+						</button>
                     </div>
 
                 </div>
             </div>
-            
+			
+			<!-- Map Layers -->
             <div class="panel panel-default wim-sidebar-panel">
-                <div class="panel-heading" id="layersPanelHeader">
-                    <h4 class="panel-title">
-                        <a class="accordion-toggle collapsed" data-toggle="collapse" href="#layersPanel" aria-expanded="true" aria-controls="layersPanel">
-                            Map Layers
-                        </a>
-                    </h4>
-                </div>
+				<a class="panel-title collapsed" id="layersPanelHeader" data-toggle="collapse" href="#layersPanel" aria-expanded="true" aria-controls="layersPanel">
+					Map Layers
+				</a>
                 <div id="layersPanel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="layersPanelHeader">
-                    <div id="toggle" style="padding: 2px 2px;"></div>
+                    <div id="toggle" class="panel-body"></div>
                 </div>
-            </div>
-            <!-- panel for constituent and trend selections -->
+			</div>
+			
+            <!-- Constituent and trend selections -->
             <div class="panel panel-default wim-sidebar-panel">
-                <div class="panel-heading" id="constPanelHeader">
-                    <h4 class="panel-title">
-                        <a class="accordion-toggle" data-toggle="collapse" href="#constPanel" aria-expanded="true" aria-controls="constDropdowns">
-                            Trend Select
-                        </a>
-                    </h4>
-                </div>
+				<a class="panel-title collapsed" id="constPanelHeader" data-toggle="collapse" href="#constPanel" aria-expanded="true" aria-controls="constDropdowns">
+					Trend Select
+				</a>
                 <div id="constPanel" class="panel-collapse collapse in constituent-panel" role="tabpanel" aria-labelledby="constPanelHeader">
-                    <div id="constDropdowns" style="padding: 2px 2px;">
+					<div id="constDropdowns">
                         <label for="layerSelect">Available Trends:</label>
                         <span>
                             <select id="layerSelect">
-                                <option value="lowQ_1day" selected>LowQ 1Day</option>
-                                <option value="lowQ_3day" >LowQ 3Day</option>
-                                <option value="lowQ_7day" >LowQ 7day</option>
-                                <option value="Q2_scaled_deficit">Scaled Deficit</option>
-                                <option value="Q2_nDays">Q2 nDays</option>
-                                <option value="JD_last_Q2">Last Julian date flow <= the Q2 threshold</option>
-                                <option value="JD_first_Q2">First Julian date flow <= the Q2 threshold</option>
-                                <option value="JD_diff_Q2">JD Difference Q2</option>
-                                <option value="mean_annual_Q">Mean Annual Q</option>
-                                <option value="zeroQ_nDays">ZeroQ</option>
-                                <option value="peak_flows">Instantaneous Annual Peak Flows</option>
+                                <optgroup label="Low flows">
+                                    <option value="lowQ_1day" selected>LowQ 1Day</option>
+                                    <option value="lowQ_3day" >LowQ 3Day</option>
+                                    <option value="lowQ_7day" >LowQ 7day</option>
+                                    <option value="Q2_scaled_deficit">Scaled Deficit</option>
+                                    <option value="Q2_nDays">Q2 nDays</option>
+                                    <option value="JD_last_Q2">Last Julian date flow <= the Q2 threshold</option>
+                                    <option value="JD_first_Q2">First Julian date flow <= the Q2 threshold</option>
+                                    <option value="JD_diff_Q2">JD Difference Q2</option>
+                                    <option value="zeroQ_nDays">ZeroQ</option>
+                                </optgroup>
+                                <optgroup label="Mean flows">
+                                    <option value="mean_annual_Q">Mean Annual Q</option>
+                                </optgroup>
+                                <optgroup label="Peak flows">
+                                    <option value="peak_flows">Instantaneous Annual Peak Flows</option>
+                                </optgroup>
+                                
+                                
                             </select>
                         </span>
                     </div>
 
-                    <div id="trendTypes" style="align-content: center; width: 100%; padding-top: 20px; text-align: left;">
-                        <label>Model</label>
-                        <span class="sidebar-radio-wrapper">
-                            <input id="ltpModle" name="trendType" class="trendType" type="radio" value="LTP" checked> LTP
-                        </span>
-                        <span class="sidebar-radio-wrapper">
-                            <input id="ar1Model" name="trendType" class="trendType" type="radio" value="AR1"> AR1
-                        </span>
-                        <span class="sidebar-radio-wrapper">
-                            <input id="indeModel" name="trendType" class="trendType" type="radio" value="INDE"> INDE
-                        </span>
-                    </div>
-
-                    <div style="width: 100%; padding-top: 20px; text-align: left;">
-                        <label>Trend period</label>
-                        <span id="trend3" class="sidebar-radio-wrapper">
-                            <input id="trend3input" name="trendPeriod" class="trendPeriod" type="radio" value="1916" checked> 1916-2015
-                        </span>
-                        <span id="trend2" class="sidebar-radio-wrapper">
-                            <input id="trend2input" name="trendPeriod" class="trendPeriod" type="radio" value="1941"> 1941-2015
-                        </span>
-                        <span id="trend1" class="sidebar-radio-wrapper">
-                            <input id="trend1input" name="trendPeriod" class="trendPeriod" type="radio" value="1966"> 1966-2015
-                        </span>
-                    </div>
+					<label style="margin-top: 15px;">Model</label>
+					<div class="sidebar-radio-group">
+						<span class="radio">
+							<input id="ltpModle" name="trendType" class="trendType" type="radio" value="LTP" checked> 
+							<label for="ltpModle">LTP</label>
+						</span>
+						<span class="radio">
+							<input id="ar1Model" name="trendType" class="trendType" type="radio" value="AR1">
+							<label for="ar1Model">AR1</label>
+						</span>
+						<span class="radio">
+							<input id="indeModel" name="trendType" class="trendType" type="radio" value="INDE">
+							<label for="indeModel">INDE</label>
+						</span>
+					</div>
+					
+					<label style="margin-top: 15px;">Trend period</label>
+					<div class="sidebar-radio-group">
+						<span id="trend3" class="radio">
+							<input id="trend3input" name="trendPeriod" class="trendPeriod" type="radio" value="1916" checked>
+							<label for="trend3input">1916-2015</label>
+						</span>
+						<span id="trend2" class="radio">
+							<input id="trend2input" name="trendPeriod" class="trendPeriod" type="radio" value="1941">
+							<label for="trend2input">1941-2015</label>
+						</span>
+						<span id="trend1" class="radio">
+							<input id="trend1input" name="trendPeriod" class="trendPeriod" type="radio" value="1966">
+							<label for="trend1input">1966-2015</label>
+						</span>
+					</div>
 
                 </div>
-            </div>
-
+			</div>
+		
             <!-- # closing div tag for accordion style panels -->
             <!--</div>-->
             <div class="footer-links">
-                <div class="identification"><a href="https://wim.usgs.gov/" target="_blank">Powered by WiM</a></div>
+                <div class="identification"><a href="https://wim.usgs.gov/" target="_blank">Powered by WIM</a></div>
                 <a href="https://usgs.gov" target="_blank">USGS Home</a>
                 <a href="https://answers.usgs.gov" target="_blank">Contact USGS</a>
                 <a href="https://search.usgs.gov" target="_blank">Search USGS</a>
@@ -708,60 +789,105 @@
                 <a href="https://www2.usgs.gov/laws/privacy.html" target="_blank">Privacy</a>
                 <a href="https://www2.usgs.gov/laws/policies_notices.html" target="_blank">Policies & Notices</a>
             </div>
-        </div>
-        <div class="col-md-9 col-lg-10 col-md-offset-3 col-lg-offset-2 no-col-padding keepit100">
-            <!-- legend, associated with legend buttons. to be removed if we stick with the in-map legend toggle -->
-            <!--<div id="legend" class="legend" style="display: none" >-->
-            <!--<button id="legendClose" type="button" class="close" data-dismiss="legend" aria-label="Close" aria-hidden="true">x</button>-->
-            <!--<h4><b>Explanation</b></h4>-->
-            <!--<div id="legendDiv"></div>-->
-            <!--</div>-->
+		</div> <!-- End sidebar -->
+		
+
+
+		<!--
+			//////////////////////// 
+			Map Wrapper
+			//////////////////////// 
+		 -->
+        <div class="map-wrapper">
 
             <div id="mapDiv">
 
-                <div id="siteInfoDiv" class="panel panel-defaults siteInfoClass">
+                <div id="siteInfoDiv" class="modal-content">
                     <div class="panel-heading">
-                        <div class="panel-title">
-                            <h4 id="siteInfoPanelHeader">Site Information</h4>
+                        <div class="modal-top">
+							<b>Site Information</b>
+							<button class="close" type="button" id="siteInfoClose"><i class="far fa-times"></i></button>
                         </div>
                     </div>
-                    <div class="panel-body">
-                        <div id="siteInfoPanel" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="siteInfoPanelHeader">
-                            <ul class="nav nav-tabs" id="siteInfoTabs">
-                                <li role="presentation" class="active"><a id="siteInfoTab" href="#siteInfoTabPane" data-toggle="tab"><i class="fa fa-info-circle"></i>&nbsp;Site Information</a></li>
-                                <li role="presentation"><a id="chartTab" href="#chartTabPane" data-toggle="tab"><i class="fa fa-info-circle"></i>&nbsp;Chart</a></li>
-                            </ul>
-                            <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane active" id="siteInfoTabPane"></br>
+					<div id="siteInfoPanel" class="modal-body tabs">
+						<ul class="nav nav-tabs" id="siteInfoTabs">
+							<li role="presentation" class="active"><a id="siteInfoTab" href="#siteInfoTabPane" data-toggle="tab"><i class="far fa-info-circle"></i>&nbsp;Site Information</a></li>
+							<li role="presentation"><a id="chartTab" href="#chartTabPane" data-toggle="tab"><i class="far fa-info-circle"></i>&nbsp;Chart</a></li>
+						</ul>
+						
+						<div class="tab-content no-padding">
+							<!-- Site info tab -->
+							<div role="tabpanel" class="tab-pane active" id="siteInfoTabPane">
+							</div>
+							<!-- Chart tab -->
+							<div role="tabpanel" class="tab-pane" id="chartTabPane">
+								<div id="chartDiv"></div>
 
-                                </div>
-                                <div role="tabpanel" class="tab-pane" id="chartTabPane"></br>
-                                    <div id="chartDiv"></div>
-                                    <p>
-                                        <label for="year">Custom trend period (year-year):</label>
-                                        <input type="text" id="years" readonly style="border:0; color:#21851e; font-weight:bold;">
-                                    </p>
-                                    <div id="trend-period-slider"></div>
-                                    <br/>
-                                    <button id="trendCalcButton">Calculate custom trend</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+								<div class="pval-wrapper">
+									<label>Custom trend period (year-year):</label>
+									<div class="pval-val" id="years"></div>
+								</div>
+
+								<div id="trend-period-slider"></div>
+
+								<div class="pval-wrapper">
+									<label>Custom p-value:</label>
+									<div class="pval-val" id="pvalue">1</div>
+								</div>
+
+								<button id="trendCalcButton">Calculate custom trend line and p-value</button>
+							</div>
+						</div>
+					</div>
                 </div>
 
                 <div id="legendElement" class="panel panel-default legendClass">
                     <div id="legendHeading" class=" legendHeading" role="tab">
                         <h4 class="panel-title">
                             <a data-toggle="collapse" id="legendButton" style="text-decoration: none"  href="#legendCollapse" aria-expanded="true" aria-controls="collapseOne">
-                                <span class="glyphicon glyphicon-list"></span>
+                                <i class="far fa-list-ul"></i>
                                 Explanation
                             </a>
                         </h4>
                     </div>
                     <div id="legendCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
                         <small style="display: block; text-align: center; font-size: 8pt; color: rgba(0,0,0,0.65); font-weight: 400; padding: 5px 0;">For more information, see <a class="showUserGuide2" onclick="ga('send','event','navbar','click','User Guide');">User Guide</a>.</small>
-                        <div id="legendDiv" class="panel-body">
+						<!-- Custom legend -->
+						<div class="custom-legend">
+							<div class="legend-row">
+								<div class="legend-icon">
+									<img src="images/legend/triangle-solid-red-up.png"/>
+								</div>
+								<div class="legend-text">Significant Trend Up</div>
+							</div>
+							<div class="legend-row">
+								<div class="legend-icon">
+									<img src="images/legend/triangle-border-red-up.png"/>
+								</div>
+								<div class="legend-text">Non-significant Trend Up</div>
+							</div>
+							<div class="legend-row">
+								<div class="legend-icon">
+									<img src="images/legend/circle-border-black.png"/>
+								</div>
+								<div class="legend-text">No Trend</div>
+							</div>
+							<div class="legend-row">
+								<div class="legend-icon">
+									<img src="images/legend/triangle-border-black-down.png"/>
+								</div>
+								<div class="legend-text">Non-significant Trend Down</div>
+							</div>
+							<div class="legend-row">
+								<div class="legend-icon">
+									<img src="images/legend/triangle-solid-black-down.png"/>
+								</div>
+								<div class="legend-text">Significant Trend Down</div>
+							</div>
+						</div>
+						
+						<div id="legendDiv" class="panel-body">
+							
                             <!-- <p class="legendSpacing"><div class="squareDiv huc8"></div>HUC8 Watershed Boundary</p> -->
                         </div>
                     </div>
