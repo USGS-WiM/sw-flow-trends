@@ -575,6 +575,13 @@ require([
                     //reset pval input
                     $("#pvalue").html('')
                 }
+                if ($('#slope').html() == '1'){
+					$("#slope").html('<i>click to calculate</i>')
+					
+                }else if ($('#slope').html()){
+                    //reset slope input
+                    $("#slope").html('')
+                }
                 createPanel();
                 $("#siteInfoDiv").css("visibility", "visible");
                 toggleLoadingScreen();
@@ -698,6 +705,7 @@ require([
                     //enable chartTab if it was previously turned off
                     if ( $('#chartTab').attr('data-toggle') == undefined ){
                         $('#chartTab').attr('data-toggle', 'tab').css('cursor', 'default');
+                        $('#chartTab').show();
                     }
                     $.ajax({
                         dataType: 'json',
@@ -825,6 +833,7 @@ require([
                     //Switch to SiteInfoTab and Disable chart tab for layers without chart data.
                     $('.nav-tabs a[href="#siteInfoTabPane"]').tab('show');
                     $('#chartTab').removeAttr('data-toggle').css('cursor', 'not-allowed');
+                    $('#chartTab').hide();
                     toggleLoadingScreen();
                 }
             });
@@ -902,23 +911,13 @@ require([
                                     ]
                                 });
 
-                            //calculate point B for swft-py-script slope
-                            var py_point_b = data["intercept"] - (data["slope"]*inputs[0]) + (data["slope"]*inputs[inputs.length-1]);
+                            //trend slope handling TODO: get value from thiel-sen calc in service
+                            var trendSlopeNum = (data["regg_slope"]).toFixed(2);
+                            $("#slope").html(trendSlopeNum.toString() + " cfs/yr");
 
-                            //using values from swft-py-script
-                            scatterPlot.addSeries(
-                                {
-                                    id: 'py-trend-line',
-                                    name: 'python trend',
-                                    type: 'line',
-                                    color: 'rgba(0, 255, 0, 1.0)',
-                                    data: [
-                                        [inputs[0], Number(data["intercept"])],
-                                        [inputs[inputs.length-1], py_point_b]
-                                    ]
-                                });
-
-                            $("#pvalue").html(data["p_value"]);
+                            //p value handling
+                            var pValNum = Number(data["p_value"]).toFixed(5);
+                            $("#pvalue").html(pValNum.toString());
                             toggleLoadingScreen();
                           
                         },

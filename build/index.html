@@ -821,21 +821,28 @@
 							</div>
 							<!-- Chart tab -->
 							<div role="tabpanel" class="tab-pane" id="chartTabPane">
-								<div id="chartDiv"></div>
-
-								<div class="pval-wrapper">
-									<label>Custom trend period (year-year):</label>
-									<div class="pval-val" id="years"></div>
-								</div>
+                                <div id="chartDiv"></div>
+                                
+                                <div>Calculate trend significance for custom time periods</div>
 
 								<div id="trend-period-slider"></div>
 
 								<div class="pval-wrapper">
-									<label>Custom p-value:</label>
+									<label>Trend period (year-year):</label>
+									<div class="pval-val" id="years"></div>
+                                </div>
+                                
+                                <div class="pval-wrapper">
+									<label>Trend line slope (Thiel-Sen method):</label>
+									<div class="pval-val" id="slope">1</div>
+								</div>
+
+								<div class="pval-wrapper">
+									<label>p-value (using INDE assumption):</label>
 									<div class="pval-val" id="pvalue">1</div>
 								</div>
 
-								<button id="trendCalcButton">Calculate custom trend line and p-value</button>
+								<button id="trendCalcButton">Calculate custom trend values</button>
 							</div>
 						</div>
 					</div>
