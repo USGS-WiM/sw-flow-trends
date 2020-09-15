@@ -486,7 +486,7 @@
                 <b>Frequently Asked Questions</b>
                 <button class="close" type="button" data-dismiss="modal" aria-hidden="false"><i class="far fa-times"></i></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="faqModalBody">
                 <h4 style="margin-bottom: 15px; font-weight: 600;">Study scope</h4>
                 <div class="faq-header" id="faq1header">1. What is the purpose of this study?</div>
                 <div class="faq-body" id="faq1body">
@@ -556,7 +556,7 @@
                 </div>
                 <div class="faq-header" id="faq8header">8. What time periods did you assess in your trend analyses?</div>
                 <div class="faq-body" id="faq8body">
-                         <p>1916-2015, 1941-2015 and 1966-2015 </p>   
+                        <p>1916-2015, 1941-2015 and 1966-2015 </p>   
                 </div>
                 <h4 style="margin-bottom: 15px; font-weight: 600;">Features of The Mapper</h4>
                 <div class="faq-header" id="faq9header">9. Where can I find help for navigating this mapper? </div>
@@ -821,28 +821,45 @@
 							</div>
 							<!-- Chart tab -->
 							<div role="tabpanel" class="tab-pane" id="chartTabPane">
-                                <div id="chartDiv"></div>
-                                
-                                <div>Calculate trend significance for custom time periods</div>
+								<div id="chartDiv"></div>
+								
+								<div id="trendSection">
+									
+									<div id="trendHelp">
+										Adjust slider to calculate trend significance for custom time periods
+									</div>
 
-								<div id="trend-period-slider"></div>
+									<div id="trend-period-slider"></div>
 
-								<div class="pval-wrapper">
-									<label>Trend period (year-year):</label>
-									<div class="pval-val" id="years"></div>
-                                </div>
-                                
-                                <div class="pval-wrapper">
-									<label>Trend line slope (Thiel-Sen method):</label>
-									<div class="pval-val" id="slope">1</div>
-								</div>
+									<div class="pval-wrapper">
+										<label>
+											<span>Trend period</span> 
+											<small>(year-year)</small>
+										</label>
+										<div class="pval-val" id="years"></div>
+									</div>
+									
+									<div class="pval-wrapper">
+										<label>
+											<span>Trend line slope</span>
+											<small>(Thiel-Sen <a class="help-tooltip" id="thielSenHelp"><i class="fas fa-question-circle"></i></a> method)</small>
+										</label>
+										<div class="pval-val" id="slope">1</div>
+									</div>
 
-								<div class="pval-wrapper">
-									<label>p-value (using INDE assumption):</label>
-									<div class="pval-val" id="pvalue">1</div>
-								</div>
+									<div class="pval-wrapper">
+										<label>
+											<span>p-value</span>
+											<small>(using INDE <a class="help-tooltip" id="indeHelp"><i class="fas fa-question-circle"></i></a> assumption)</small>
+										</label>
+										<div class="pval-val" id="pvalue">1</div>
+									</div>
 
-								<button id="trendCalcButton">Calculate custom trend values</button>
+									<button id="trendCalcButton">Calculate custom trend values</button>
+								
+								</div> <!-- End Trend Section -->
+
+
 							</div>
 						</div>
 					</div>
