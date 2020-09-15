@@ -569,14 +569,14 @@ require([
 				// Set up Lobipanel for popup
 				// Initial set to 'click to calculate'
 				if ($('#pvalue').html() == '1'){
-					$("#pvalue").html('<i>click to calculate</i>')
+					$("#pvalue").html('<i class="text-fade">click to calculate</i>')
 					
                 }else if ($('#pvalue').html()){
                     //reset pval input
                     $("#pvalue").html('')
                 }
                 if ($('#slope').html() == '1'){
-					$("#slope").html('<i>click to calculate</i>')
+					$("#slope").html('<i class="text-fade">click to calculate</i>')
 					
                 }else if ($('#slope').html()){
                     //reset slope input
@@ -734,6 +734,13 @@ require([
                                     type: 'scatter',
                                     zoomType: 'xy'
                                 },
+								responsive: {  
+									rules: [{  
+										condition: {  
+											maxWidth: 470  
+										},  
+									}]  
+								},
                                 title: {
                                     text: trendConfig[trendLayerForQuery].chartTitle
                                 },
@@ -1163,9 +1170,30 @@ require([
             //var data = "<img src='"+$(this).attr('src')+"'/>";
             var myWindow = window.open($(this).attr('src'),"_blank");
             myWindow.focus();
-        });
+		});
+		
 
-    });
+		// Tooltips to open help modal
+		$('#thielSenHelp').click(function(){
+            $('#faqModal').modal('show');
+			$("#faq12body").slideDown(250);
+			$('#faqModalBody').scroll();
+			$("#faqModalBody").animate({
+				scrollTop: 600
+			}, 500);
+		});
+		$('#indeHelp').click(function(){
+            $('#faqModal').modal('show');
+			$("#faq6body").slideDown(250);
+			$('#faqModalBody').scroll();
+			$("#faqModalBody").animate({
+				scrollTop: 250
+			}, 500);
+		});	
+
+
+	});
+	
 
     function printMap() {
 
