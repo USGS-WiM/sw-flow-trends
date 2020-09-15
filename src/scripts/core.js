@@ -913,7 +913,9 @@ require([
                                     name: 'Trend',
                                     type: 'line',
                                     color: 'rgba(0, 0, 0, 1.0)',
-                                    enableMouseTracking: false,
+                                    marker: {
+                                        enabled: false
+                                    },
                                     data: [
                                         [inputs[0], data["point-a"]],
                                         [inputs[inputs.length-1], data["point-b"]]
