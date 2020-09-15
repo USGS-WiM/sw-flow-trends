@@ -569,14 +569,14 @@ require([
 				// Set up Lobipanel for popup
 				// Initial set to 'click to calculate'
 				if ($('#pvalue').html() == '1'){
-					$("#pvalue").html('<i class="text-fade">click to calculate</i>')
+					$("#pvalue").html('<i class="text-fade">click to calculate</i>');
 					
                 }else if ($('#pvalue').html()){
                     //reset pval input
                     $("#pvalue").html('')
                 }
                 if ($('#slope').html() == '1'){
-					$("#slope").html('<i class="text-fade">click to calculate</i>')
+					$("#slope").html('<i class="text-fade">click to calculate</i>');
 					
                 }else if ($('#slope').html()){
                     //reset slope input
@@ -819,11 +819,12 @@ require([
                                             max: ui.values[1]
                                         }
                                     });
-                                    if( scatterPlot.get('py-trend-line') !== undefined ){
+                                    if( scatterPlot.get('trend-line') !== undefined ){
                                         //remove old pval and trend lines after slider moves
-                                        scatterPlot.get('py-trend-line').remove();
+                                        //scatterPlot.get('py-trend-line').remove();
                                         scatterPlot.get('trend-line').remove();
-                                        $("#pvalue").html('Recalculate for new custom period');
+                                        $("#pvalue").html('<i class="text-fade">click to calculate</i>');
+                                        $("#slope").html('<i class="text-fade">click to calculate</i>');
                                     }
                                 }
                             });
@@ -912,6 +913,7 @@ require([
                                     name: 'Trend',
                                     type: 'line',
                                     color: 'rgba(0, 0, 0, 1.0)',
+                                    enableMouseTracking: false,
                                     data: [
                                         [inputs[0], data["point-a"]],
                                         [inputs[inputs.length-1], data["point-b"]]
