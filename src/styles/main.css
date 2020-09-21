@@ -866,4 +866,16 @@ input[type="checkbox"], input[type="radio"] {
     color: red;
 }
 
+/*Geosearch Styles*/
+
+.search-api-menu{
+    z-index: 1000000 !important;
+}
+
+
+
+
+  
+  
+ 
 

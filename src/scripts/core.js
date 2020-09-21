@@ -959,18 +959,15 @@ require([
                             ymin: o.result.properties.LatMin,
                             xmax: o.result.properties.LonMax,
                             ymax: o.result.properties.LatMax,
-                            spatialReference: {"wkid":4326}
+                            spatialReference: {wkid :4326}
                         }),
                         true
                     );
                 } else {
-                    //map.setCenter();
-                    require( ["esri/geometry/Point"], function(Point) {
-                        map.centerAndZoom(
-                            new Point( o.result.properties.Lon, o.result.properties.Lat ),
-                            12
-                        );
-                    });
+                    map.centerAndZoom(
+                        new Point( o.result.properties.Lon, o.result.properties.Lat ),
+                        12
+                    );
                 }
             });
              
