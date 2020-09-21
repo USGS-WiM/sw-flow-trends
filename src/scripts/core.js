@@ -964,10 +964,12 @@ require([
                         true
                     );
                 } else {
-                    map.centerAndZoom(
-                        new Point( o.result.properties.Lon, o.result.properties.Lat ),
-                        12
-                    );
+                    require( ["esri/geometry/Point"], function(Point) {
+                        map.centerAndZoom(
+                            new Point( o.result.properties.Lon, o.result.properties.Lat ),
+                            12
+                        );
+                    });
                 }
             });
              
