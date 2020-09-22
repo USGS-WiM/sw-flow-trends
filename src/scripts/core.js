@@ -532,9 +532,6 @@ require([
         $("#chartDiv").highcharts().reflow(); //NOTE: this works but it seems to cause a bit of jankiness
     });
 
-    
-
-    var pestPDFs = "";
 
     //variable to store listener for custom trend calc button click
     var trendCalcListener;
@@ -895,7 +892,7 @@ require([
                     $.ajax({
                         dataType: 'json',
                         type: 'GET',
-                        url: "https://jump.wim.usgs.gov/thiel-sen-node-service?inputs=" + inputs + "&outputs=" + outputs + "&begin_year=" + begin_year + "&end_year=" + end_year + "&s_id=" + s_id + "&layer_selected=" + layer_selected,
+                        url: "https://nawqatrends.wim.usgs.gov/thiel-sen-node-service?inputs=" + inputs + "&outputs=" + outputs + "&begin_year=" + begin_year + "&end_year=" + end_year + "&s_id=" + s_id + "&layer_selected=" + layer_selected,
                         headers: {'Accept': '*/*'},
                         success: function (data) {
 
