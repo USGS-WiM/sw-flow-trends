@@ -654,13 +654,13 @@ require([
                         "yAxis": "Stream Flow (cfs)",
                         "tooltipUnits": "cfs"
                     },
-                    {
+                   /*  {
                         "layerSelected": "zeroQ_nDays",
                         "mapLayer": "2",
                         "chartTitle": "Zero Q - nDays",
                         "yAxis": "Days",
                         "tooltipUnits": "days"
-                    },
+                    }, */
                     {
                         "layerSelected": "peak_flows",
                         "mapLayer": "3",
