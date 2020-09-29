@@ -132,12 +132,26 @@ a:hover{
 #legendDiv {
     overflow-y: auto;
 	width: 300px;
-	display: none;
     /*max-height: inherit;*/
 }
 
 #legendCollapse {
-    /*max-height: inherit;*/
+	/*max-height: inherit;*/
+	max-height: 80vh;
+	overflow: auto;
+}
+.esriLegendMsg{
+	display: none;
+}
+
+.esriLegendLayer{
+	padding: 8px 0;
+	margin-top: 10px;
+}
+.esriLegendLayer tbody tr td table tbody tr td{
+	font-size: 14px;
+	line-height: 14px;
+	padding: 6px 0;
 }
 
 /*#legendElement {*/
@@ -599,12 +613,6 @@ input[type="checkbox"], input[type="radio"] {
 }
 
 
-
-
-/*Legend Adjustments*/
-#legendDiv{
-    min-height: 220px;
-}
 
 
 

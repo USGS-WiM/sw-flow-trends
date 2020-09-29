@@ -38,7 +38,7 @@ require([
                         "layerType": "agisFeature",
                         "includeInLayerList": false,
                         "hasOpacitySlider": true,
-                        "includeLegend": true
+                        "includeLegend": false
                     }
                 },
                 "For layer info" : {
