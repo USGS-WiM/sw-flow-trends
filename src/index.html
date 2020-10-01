@@ -326,7 +326,7 @@
 							Tracking changes in streamflow and investigating the reasons for these changes is crucial for informing management decisions to protect and sustain our valuable water resources and to mitigate water-related hazards.
 							<br/>
 							<br/>
-							The mapper shows trend slopes and significance for several low-streamflow and related metrics 
+							The mapper shows trend and significance results for several low-streamflow and related metrics 
 							for 2,482 USGS streamgages including trends in annual low 1-, 3-, and 7-day low flows, mean annual flows, 
 							and various trends related to stream-specific low-flow thresholds equal to the daily mean streamflow with 2-percent non-exceedance rank (Q2). 
 							For high streamflows, the mapper shows peak-streamflow trend and change-point results for 2,683 USGS streamgages 
@@ -616,15 +616,19 @@
                 <div class="faq-header" id="faq11header">11. What trend methods did you use?</div>
                 <div class="faq-body" id="faq11body">
                     <p>Magnitude of monotonic trends were computed using the Sen slope
-                        <br>Sen, P.K., 1968. Estimates of the regression coefficient based on Kendall's tau. J. Am. Stat. Assoc. 63, 1379-1389</br>
+                    <br/><ul><li>Sen, P.K., 1968. Estimates of the regression coefficient based on Kendall's tau. J. Am. Stat. Assoc. 63, 1379-1389</li></ul></p>
+                    <br/>
                     <p>Significance of monotonic trends were computed using the Mann-Kendall test that included methods that considered the possibility of short- and long-term persistence in the time-series data</p>
-                        <br>R-code for our general Mann-Kendall test can be downloaded  <a href ="https://www.sciencebase.gov/catalog/item/5b183960e4b092d965219d62" >here. </a>
-                        <br>Dudley, R.W., Hirsch, R.M., Archfield, S.A., Blum, A.G., and Renard, B., 2019, Low-streamflow trends and basin characteristics for 2,482 U.S. Geological Survey streamgages in the conterminous U.S. (ver. 2.0, February 2019): U.S. Geological Survey data release, <a href="https://doi.org/10.5066/P9LO24MG"></a>
-                        <br>Dudley, R.W., Archfield, S.A., Hodgkins, G.A., Renard, B., and Ryberg, K.R., 2018, Peak-streamflow trends and change-points and basin characteristics for 2,683 U.S. Geological Survey streamgages in the conterminous U.S. (ver. 2.0, October 2018): U.S. Geological Survey data release, <a href="https://doi.org/10.5066/P9AEGXY0"></a>
-                    <p>Change point in median (step change) was computed using the Pettit test</p>
-                        <br>Pettitt, A.N., 1979. A non-parametric approach to the change-point problem. Journal of the Royal Statistical Society. Series C (Applied Statistics) 28, 126-135. <a href="https://doi.org/10.2307/2346729" target="_blank"></a>
-                    <p>Change point in scale (step change) was computed using the Mood test</p>
-                        <br>Mood, A.M., 1954. On the asymptotic efficiency of certain nonparametric two-sample tests. The Annals of Mathematical Statistics 25, 514-522.
+                    <br/>
+                    <p>R-code for our general Mann-Kendall test can be downloaded from either of the following data releases:
+                        <br><ul><li>Dudley, R.W., Hirsch, R.M., Archfield, S.A., Blum, A.G., and Renard, B., 2019, Low-streamflow trends and basin characteristics for 2,482 U.S. Geological Survey streamgages in the conterminous U.S. (ver. 2.0, February 2019): U.S. Geological Survey data release <a target="_blank" href="https://doi.org/10.5066/P9LO24MG">https://doi.org/10.5066/P9LO24MG</a></li>
+                        <li>Dudley, R.W., Archfield, S.A., Hodgkins, G.A., Renard, B., and Ryberg, K.R., 2018, Peak-streamflow trends and change-points and basin characteristics for 2,683 U.S. Geological Survey streamgages in the conterminous U.S. (ver. 2.0, October 2018): U.S. Geological Survey data release <a target="_blank" href="https://doi.org/10.5066/P9AEGXY0">https://doi.org/10.5066/P9AEGXY0</a></li></ul></p>
+                    <br/>
+                    <p>Change point in median (step change) was computed using the Pettit test
+                        <br><ul><li>Pettitt, A.N., 1979. A non-parametric approach to the change-point problem. Journal of the Royal Statistical Society. Series C (Applied Statistics) 28, 126-135. <a href="https://doi.org/10.2307/2346729" target="_blank"></a></li></ul></p>
+                    <br/>
+                    <p>Change point in scale (step change) was computed using the Mood test
+                        <br><ul><li>Mood, A.M., 1954. On the asymptotic efficiency of certain nonparametric two-sample tests. The Annals of Mathematical Statistics 25, 514-522.</li></ul></p>
                 </div>
                 <div class="faq-header" id="faq12header">12. How did you decide which sites were suitable for trend analysis?</div>
                 <div class="faq-body" id="faq13body">
@@ -868,7 +872,7 @@
 									<div class="pval-wrapper">
 										<label>
 											<span>Trend line slope</span>
-											<small>(Thiel-Sen <a class="help-tooltip" id="thielSenHelp"><i class="fas fa-question-circle"></i></a> method)</small>
+											<small>(Sen slope <a class="help-tooltip" id="thielSenHelp"><i class="fas fa-question-circle"></i></a>)</small>
 										</label>
 										<div class="pval-val" id="slope">1</div>
 									</div>
