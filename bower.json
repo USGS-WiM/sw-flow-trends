@@ -8,7 +8,7 @@
     "lobipanel": "arboshiki/lobipanel#v0.6",
     "jquery.nicescroll": "inuyaksa/jquery.nicescroll#~3.6.0",
     "bootstrap": "latest",
-    "wim-styles": "USGS-WiM/wim-styles",
+    "wim-styles": "USGS-WIM/wim-styles",
     "bootstrap-sidebar": "^0.2.0",
     "bootstrap-map-js": "latest",
     "handsontable": "~0.29.1",

@@ -2,12 +2,12 @@ import arcpy
 import os
 from arcpy import env
 
-env.workspace = r"D:/Projects/Data/sw-flow-trends/Low_streamflowt"
+env.workspace = r"C:/Data/Projects/Data/sw-flow-trends/Low_streamflowt"
 env.overwriteOutput = True
 
 gdb_name = "test.gdb"
 final_gdb_name = "sw-flow-trends.gdb"
-out_path = r"D:/Projects/Data/sw-flow-trends/temp/"
+out_path = r"C:/Data/Projects/Data/sw-flow-trends/temp/"
 out_gdb_path = out_path + gdb_name
 ## check for existing gdb, create if not there
 
@@ -21,6 +21,8 @@ elif arcpy.Exists(out_gdb_path) is True:
 ## Use Table to Table to Import csvs to gdb
 
 in_rows = ["trends_JD.diff.Q2.csv", "trends_JD.first.Q2.csv", "trends_JD.last.Q2.csv", "trends_lowQ.1day.csv", "trends_lowQ.3day.csv", "trends_lowQ.7day.csv", "trends_mean.annual.Q.csv", "trends_Q2.nDays.csv", "trends_Q2.scaled.deficit.csv", "trends_zeroQ.nDays.csv", "trends_peak_flows.csv"]
+## in_rows = ["trends_peak_flows.csv"]
+
 in_tables = []
 
 for index, item in enumerate(in_rows):
@@ -62,7 +64,7 @@ arcpy.FeatureClassToFeatureClass_conversion(out_Layer, out_gdb_path, outfc)
 print "feature class created for sites"
 
 # Loop through feature classes to join all tables to trends_gages layer and create new feature classes
-env.workspace = r"D:/Projects/Data/sw-flow-trends/temp/" + gdb_name
+env.workspace = r"C:/Data/Projects/Data/sw-flow-trends/temp/" + gdb_name
 
 tables = arcpy.ListTables()
 for table in tables:
@@ -78,17 +80,17 @@ for table in tables:
     # Copy the layer to a new permanent feature class
     arcpy.CopyFeatures_management(table_layer_name, table_layer_name + "_join")
 
-    # print "made " + table_layer_name + "_join"
+    print "made " + table_layer_name + "_join"
 
 print "made joined layers"
 
 
 # Copy test gdb into final trend gdb and remove all extra tables 
-env.workspace = r"D:/Projects/Data/sw-flow-trends/temp/"
+env.workspace = r"C:/Data/Projects/Data/sw-flow-trends/temp/"
 
 arcpy.Copy_management(gdb_name, final_gdb_name)
 
-env.workspace = r"D:/Projects/Data/sw-flow-trends/temp/" + final_gdb_name
+env.workspace = r"C:/Data/Projects/Data/sw-flow-trends/temp/" + final_gdb_name
 
 for table in tables:
 
@@ -101,7 +103,9 @@ print "deleted tables"
 ## set models and years for adding symbology fields and making calculations
 fcl = arcpy.ListFeatureClasses("*")
 models = ["INDE","AR1","LTP"]
+## models = ["LTP"]
 years = ["1916","1941","1966"]
+## years = ["1916"]
 for fc in fcl:
     """ fields = arcpy.ListFields(fc)
     print fc + "-------------------------------------------"
@@ -123,7 +127,6 @@ for fc in fcl:
                 layer = fc.replace("_layer_join","")
 
                 # field calculations for symbology
-                
                 with arcpy.da.UpdateCursor(fc, [layer + "_trend_" + year, layer + "_pvalue_" + model + "_" + year, "sym_" + model + "_" + year, "trend_gages_site_id"]) as cursor:
                     for row in cursor:
                         #if row[0].find("NA") == -1:
@@ -168,14 +171,14 @@ for fc in fcl:
                 layer = fc.replace("_layer_join","")
 
                 # Set layer that output symbology will be based on
-                symbologyLayer = r"D:/Projects/Data/sw-flow-trends/temp/trends_" + model + "_" + year + ".lyr"
+                symbologyLayer = r"C:/Data/Projects/Data/sw-flow-trends/temp/trends_" + model + "_" + year + ".lyr"
 
                 # The symbology layer is symbolized by population normalized by area.
                 # Symbolize the input by Pop2014 field normalized to Square Miles
                 symbologyFields = [["VALUE_FIELD", "#", "sym_" + model + "_" + year]]
                 
                 out_Layer = layer + "_" + model + "_" + year
-                saved_Layer = r"D:/Projects/Data/sw-flow-trends/temp/layers/" + layer + "_" + model + "_" + year + ".lyr"
+                saved_Layer = r"C:/Data/Projects/Data/sw-flow-trends/temp/layers/" + layer + "_" + model + "_" + year + ".lyr"
                 # Create a feature layer
                 arcpy.MakeFeatureLayer_management(inputLayer, out_Layer)
 

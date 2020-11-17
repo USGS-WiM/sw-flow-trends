@@ -1,7 +1,7 @@
 {
 	"name": "nawqa-sw-trends",
 	"version": "1.2.3",
-	"description": "WiM generator",
+	"description": "WIM generator",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/marsmith/generator-wim"

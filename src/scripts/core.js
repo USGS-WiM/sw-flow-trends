@@ -848,7 +848,7 @@ require([
                 trendCalcListener = $("#trendCalcButton").click(function(evt) {
                     toggleLoadingScreen();
 
-                    /*require(["dojo/node!ml-regression-theil-sen"], function(thielSen){
+                    /*require(["dojo/node!ml-regression-theil-sen"], function{
                         
                         var inputs = [1, 2, 3, 4, 5, 6, 7, 8, 9];
                         var outputs = [2, 3, 4, 20, 6, 7, 8, 9, 10];
@@ -1172,12 +1172,20 @@ require([
 		
 
 		// Tooltips to open help modal
-		$('#thielSenHelp').click(function(){
+		$('#thielSenHelp').on("click", function(){
             $('#faqModal').modal('show');
-			$("#faq12body").slideDown(250);
+			$("#faq11body").slideDown(250);
 			$('#faqModalBody').scroll();
 			$("#faqModalBody").animate({
 				scrollTop: 600
+			}, 500);
+        });
+        $('#trendTypeHelp').on("click", function(){
+            $('#faqModal').modal('show');
+			$("#faq5body").slideDown(250);
+			$('#faqModalBody').scroll();
+			$("#faqModalBody").animate({
+				scrollTop: 200
 			}, 500);
 		});
 		$('#indeHelp').click(function(){
