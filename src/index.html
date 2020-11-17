@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Surface Water Flow Trends in the Nation's Streams and Rivers</title>
+    <title>Integrated Water Availability Assessments - Surface Water Flow Trends in the Nation's Streams and Rivers</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" charset="utf-8" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
@@ -120,8 +120,8 @@
 				</a>
 			</div>
 			<span class='header-longtitle'>
-				<span>Surface Water Flow Trends</span>
-				<small>in the Nation's Streams and Rivers</small>
+				<span>Integrated Water Availability Assessments</span>
+				<small>Surface Water Flow Trends in the Nation's Streams and Rivers</small>
 			</span>
 		</div>
 	</div>
@@ -321,7 +321,13 @@
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="aboutTabPane">
 						<p>
-							This mapper provides results from assessments of trends in low and high streamflows in the Nation's streams and rivers over the past 100, 75, and 50 years (1916-2015, 1941-2015 and 1966-2015). 
+                            The U.S. Geological Survey (USGS) Water Resources Mission Area (WMA) has established the 
+                            <a target="_blank" href="https://www.usgs.gov/mission-areas/water-resources/science/integrated-water-availability-assessments-using-cooperative?qt-science_center_objects=0#qt-science_center_objects">Integrated Water Availability Assessments</a> 
+                            (IWAAs) to capitalize on the operational and scientific strengths of the USGS to support understanding and management of the nation’s complex water resource issues. In this effort, IWAAs provides nationally and regionally 
+                            consistent assessments of water for human and ecological needs at a range of spatial and temporal scales. Defining trends in water availability is necessary to better understand the factors limiting supply and use and inform water availability forecasts.
+                            <br/>
+                            <br/>
+                            This mapper provides results from assessments of trends in low and high streamflows in the Nation's streams and rivers over the past 100, 75, and 50 years (1916-2015, 1941-2015 and 1966-2015). 
 							Streamflow records from more than 2,000 U.S. Geological Survey (USGS) streamgages across the conterminous U.S. were used in these assessments. 
 							Tracking changes in streamflow and investigating the reasons for these changes is crucial for informing management decisions to protect and sustain our valuable water resources and to mitigate water-related hazards.
 							<br/>
@@ -631,7 +637,7 @@
                         <br><ul><li>Mood, A.M., 1954. On the asymptotic efficiency of certain nonparametric two-sample tests. The Annals of Mathematical Statistics 25, 514-522.</li></ul></p>
                 </div>
                 <div class="faq-header" id="faq12header">12. How did you decide which sites were suitable for trend analysis?</div>
-                <div class="faq-body" id="faq13body">
+                <div class="faq-body" id="faq12body">
                     <br>Candidate sites were considered from among the 9,062 gages in the Geospatial Attributes of Gages for Evaluating Streamflow, 
                     version II, (GAGES-II) database: Falcone, J.A., 2011, GAGES-II—Geospatial attributes of gages for evaluating streamflow: 
                     U.S. Geological Survey metadata, also available  <a href ="http://water.usgs.gov/GIS/metadata/usgswrd/XML/gagesII_Sept2011.xml" target="_blank">here. </a>
@@ -655,7 +661,7 @@
                 <div class="faq-body" id="faq14body">
                     <p>For questions related to the operation of the mapper, you can contact:</p>
                     <br>Hans Vraga
-                    <br>Project Manager, Web Informatics and Mapping (WiM)
+                    <br>Project Manager, Web Informatics and Mapping (WIM)
                     <br>Email: <a href="hvraga@usgs.gov">hvraga@usgs.gov</a>
                     </div>
 			</div>
@@ -732,7 +738,7 @@
 			<!-- Map Layers -->
             <div class="panel panel-default wim-sidebar-panel">
 				<a class="panel-title collapsed" id="layersPanelHeader" data-toggle="collapse" href="#layersPanel" aria-expanded="true" aria-controls="layersPanel">
-					Map Layers
+					Land Use Layers
 				</a>
                 <div id="layersPanel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="layersPanelHeader">
                     <div id="toggle" class="panel-body"></div>
@@ -746,7 +752,7 @@
 				</a>
                 <div id="constPanel" class="panel-collapse collapse in constituent-panel" role="tabpanel" aria-labelledby="constPanelHeader">
 					<div id="constDropdowns">
-                        <label for="layerSelect">Available Trends:</label>
+                        <label for="layerSelect">Available Trends <a class="help-tooltip" id="trendTypeHelp"><i class="fas fa-question-circle"></i></a>:</label>
                         <span>
                             <select id="layerSelect">
                                 <optgroup label="Low flows">
@@ -772,19 +778,19 @@
                         </span>
                     </div>
 
-					<label style="margin-top: 15px;">Model</label>
+					<label style="margin-top: 15px;">Time-series assumption <a class="help-tooltip" id="indeHelp"><i class="fas fa-question-circle"></i></a></label>
 					<div class="sidebar-radio-group">
 						<span class="radio">
-							<input id="ltpModle" name="trendType" class="trendType" type="radio" value="LTP" checked> 
-							<label for="ltpModle">LTP</label>
-						</span>
+							<input id="indeModel" name="trendType" class="trendType" type="radio" value="INDE" checked>
+							<label for="indeModel">INDE</label>
+                        </span>
 						<span class="radio">
 							<input id="ar1Model" name="trendType" class="trendType" type="radio" value="AR1">
 							<label for="ar1Model">AR1</label>
 						</span>
-						<span class="radio">
-							<input id="indeModel" name="trendType" class="trendType" type="radio" value="INDE">
-							<label for="indeModel">INDE</label>
+                        <span class="radio">
+							<input id="ltpModle" name="trendType" class="trendType" type="radio" value="LTP"> 
+							<label for="ltpModle">LTP</label>
 						</span>
 					</div>
 					

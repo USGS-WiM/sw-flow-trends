@@ -1,4 +1,4 @@
-![WiM](wim.png)
+![WIM](wim.png)
 
 
 # Surface water flow trends in the nation's streams and rivers
@@ -28,7 +28,7 @@ Please read [CONTRIBUTING.md]() for details on the process for submitting pull r
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/USGS-WiM/nawqa-sw-trends/tags).
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/USGS-WIM/nawqa-sw-trends/tags).
 
 Advance the version when adding features, fixing bugs or making minor enhancement. Follow semver principles. To add tag in git, type git tag v{major}.{minor}.{patch}. Example: git tag v2.0.5
 
@@ -44,7 +44,7 @@ To push tags to remote origin: `git push origin --tags`
 * **[Mitch Samuels](https://wim.usgs.gov/team/#/mitch)**  - *Developer* - [USGS Web Informatics & Mapping](https://wim.usgs.gov/)
 * **[Erik Myers](https://www.usgs.gov/staff-profiles/erik-s-myers)**  - *Developer* - [USGS Web Informatics & Mapping](https://wim.usgs.gov/)
 
-See also the list of [contributors](https://github.com/USGS-WiM/sw-flow-trends/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/USGS-WIM/sw-flow-trends/contributors) who participated in this project.
 
 ## License
 
