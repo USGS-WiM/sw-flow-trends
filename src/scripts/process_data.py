@@ -21,7 +21,7 @@ elif arcpy.Exists(out_gdb_path) is True:
 ## Use Table to Table to Import csvs to gdb
 
 in_rows = ["trends_JD.diff.Q2.csv", "trends_JD.first.Q2.csv", "trends_JD.last.Q2.csv", "trends_lowQ.1day.csv", "trends_lowQ.3day.csv", "trends_lowQ.7day.csv", "trends_mean.annual.Q.csv", "trends_Q2.nDays.csv", "trends_Q2.scaled.deficit.csv", "trends_zeroQ.nDays.csv", "trends_peak_flows.csv"]
-## in_rows = ["trends_peak_flows.csv"]
+## in_rows = ["trends_lowQ.7day.csv"]
 
 in_tables = []
 
@@ -131,10 +131,10 @@ for fc in fcl:
                     for row in cursor:
                         #if row[0].find("NA") == -1:
                         if "NA" not in str(row[0]) and "None" not in str(row[0]):
-                            #print "row[0] is " + str(row[0])
-                            if float(row[0]) < 0:
-                                #print "row[0] is " + str(row[0])
-                                if row[1] < .000001 and row[1] > 0:
+                            if row[0] == 0:
+                                    row[2] = 0
+                            elif float(row[0]) < 0:
+                                if float(row[1]) < .000001 and float(row[1]) > 0:
                                     row[1] = .000001
                                     row[2] = float(row[1])*-1
                                 else:
