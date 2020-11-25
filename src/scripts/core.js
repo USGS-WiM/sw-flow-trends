@@ -322,6 +322,11 @@ require([
                 map.addLayer(featureLayer)
             }
         }
+        gtag('event', 'filter', {
+            'event_category': 'Trend Select',
+            'event_label': 'trend: ' + document.getElementById("layerSelect").value + '; time-series: ' + $('input[name=trendType]:checked').val() + '; ' + $('input[name=trendPeriod]:checked').val(),
+            'value': 1
+          });
     });
 
     $(".trendPeriod").on("change", function(event) {
@@ -343,6 +348,11 @@ require([
                 map.addLayer(featureLayer)
             }
         }
+        gtag('event', 'filter', {
+            'event_category': 'Trend Select',
+            'event_label': 'trend: ' + document.getElementById("layerSelect").value + '; time-series: ' + $('input[name=trendType]:checked').val() + '; ' + $('input[name=trendPeriod]:checked').val(),
+            'value': 1
+          });
     });
 
     $(".trendType").on("change", function(event) {
@@ -364,6 +374,11 @@ require([
                 map.addLayer(featureLayer)
             }
         }
+        gtag('event', 'filter', {
+            'event_category': 'Trend Select',
+            'event_label': 'trend: ' + document.getElementById("layerSelect").value + '; time-series: ' + $('input[name=trendType]:checked').val() + '; ' + $('input[name=trendPeriod]:checked').val(),
+            'value': 1
+          });
     });
 
     //displays map scale on map load

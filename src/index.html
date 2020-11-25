@@ -78,22 +78,17 @@
     <!-- CSS for jQuery UI -->
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css">
 
-    <!-- Google Analytics -->
+
+    <!-- Analytics -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LM6G1LJ1JX"></script>
     <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-61219868-19', 'auto');
-    ga('send', 'pageview');
-
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-LM6G1LJ1JX');
     </script>
-
-    <!--Federated Analytics -->
-    <!-- We participate in the US government's analytics program. See the data at analytics.usa.gov. -->
-    <script async type="text/javascript" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=DOI&subagency=FWS" id="_fed_an_ua_tag"></script>
-
 </head>
 <body>
 
@@ -129,30 +124,46 @@
 	<!-- Navigation Buttons -->
 	<div class="nav-buttons">
 		<!-- Faq -->
-		<button id="faqNav" class="pull-right" onclick="ga('send','event','navbar','click','FAQ', 1);">
+		<button id="faqNav" class="pull-right" onclick="gtag('event', 'click', {
+            'event_category': 'navbar',
+            'event_label': 'FAQ',
+            'value': 1
+          });">
 			<i class="far fa-question-circle"></i>
 			<span>FAQ</span>
 		</button>
 		<!-- Use guide -->
-		<button id="userGuideNav" class="pull-right" onclick="ga('send','event','navbar','click','User Guide', 1);">
+		<button id="userGuideNav" class="pull-right"  onclick="gtag('event', 'click', {
+            'event_category': 'navbar',
+            'event_label': 'User Guide',
+            'value': 1
+          });">
 			<i class="far fa-book"></i>
 			<span>User Guide</span>
 		</button>
 		<!-- About -->
-		<button id="aboutNav" class="pull-right" onclick="ga('send','event','navbar','click','About', 1);">
+		<button id="aboutNav" class="pull-right" onclick="gtag('event', 'click', {
+            'event_category': 'navbar',
+            'event_label': 'About',
+            'value': 1
+          });">
 			<i class="far fa-info-circle"></i>
 			<span>About</span>
 		</button>
 
 		<!-- Geosearch -->
-		<button id="geosearchNav" type="button" onclick="ga('send','event','navbar','click','Find Location Modal Opened');">
+		<button id="geosearchNav" type="button" onclick="gtag('event', 'click', {
+            'event_category': 'navbar',
+            'event_label': 'Find Location Modal Opened',
+            'value': 1
+          });">
 			<i class="far fa-search"></i>
 			<span>Find Location</span>
 		</button>
 	</div>
 
 	
-	<!-- <button id="printNavButton" type="button" class="btn btn-primary navbar-btn pull-right" onclick="ga('send','event','navbar','click','Print Modal Opened');">
+	<!-- <button id="printNavButton" type="button" class="btn btn-primary navbar-btn pull-right" onclick="gtag('send','event','navbar','click','Print Modal Opened');">
 		<span class="far fa-print"></span>
 		<span id="printButtonText"> Print</span>
 	</button> -->
@@ -287,7 +298,11 @@
 			</div>
 			<div class="modal-buttons">
 				<button id="printDismissButton" type="button" class="" data-dismiss="modal"> Dismiss</button>
-				<button id="printExecuteButton" type="submit" class="blue" data-loading-text="Printing..." onclick="ga('send','event','navbar','click','Print Job Performed');"> Print </button>
+				<button id="printExecuteButton" type="submit" class="blue" data-loading-text="Printing..." onclick="gtag('event', 'click', {
+                    'event_category': 'navbar',
+                    'event_label': 'Print Job Performed',
+                    'value': 1
+                  });"> Print </button>
 			</div>
         </form><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -313,10 +328,26 @@
             <div id="aboutModalBody" class="modal-body tabs">
                 <ul class="nav nav-tabs" id="aboutModalTabs">
                     <li role="presentation" class="active"><a id="aboutTab" href="#aboutTabPane" data-toggle="tab"><i class="far fa-question-circle"></i>&nbsp;About</a></li>
-                    <li role="presentation"><a id="learnMoreTab" href="#learnMoreTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Learn More');"><i class="far fa-exclamation-circle"></i>&nbsp;Learn More</a></li>
-                    <li role="presentation"><a id="partnerTab" href="#partnerTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Partner Organizations');"><i class="far fa-id-card"></i>&nbsp;Partner Organizations</a></li>
-                    <li role="presentation"><a id="waterResourcesTab" href="#waterResourcesTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Related Resources');"><i class="far fa-tint"></i>&nbsp;Related Resources</a></li>
-                    <li role="presentation"><a id="disclaimerTab" href="#disclaimerTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Disclaimer');"><i class="far fa-check-circle"></i>&nbsp;Disclaimer</a></li>
+                    <li role="presentation"><a id="learnMoreTab" href="#learnMoreTabPane" data-toggle="tab" onclick="gtag('event', 'click', {
+                        'event_category': 'About Modal',
+                        'event_label': 'Learn More',
+                        'value': 1
+                      });"><i class="far fa-exclamation-circle"></i>&nbsp;Learn More</a></li>
+                    <li role="presentation"><a id="partnerTab" href="#partnerTabPane" data-toggle="tab" onclick="gtag('event', 'click', {
+                        'event_category': 'About Modal',
+                        'event_label': 'Partner Organizations',
+                        'value': 1
+                      });"><i class="far fa-id-card"></i>&nbsp;Partner Organizations</a></li>
+                    <li role="presentation"><a id="waterResourcesTab" href="#waterResourcesTabPane" data-toggle="tab" onclick="gtag('event', 'click', {
+                        'event_category': 'About Modal',
+                        'event_label': 'Related Resources',
+                        'value': 1
+                      });"><i class="far fa-tint"></i>&nbsp;Related Resources</a></li>
+                    <li role="presentation"><a id="disclaimerTab" href="#disclaimerTabPane" data-toggle="tab" onclick="gtag('event', 'click', {
+                        'event_category': 'About Modal',
+                        'event_label': 'Disclaimer',
+                        'value': 1
+                      });"><i class="far fa-check-circle"></i>&nbsp;Disclaimer</a></li>
                 </ul>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="aboutTabPane">
@@ -913,7 +944,11 @@
                         </h4>
                     </div>
                     <div id="legendCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                        <small style="display: block; text-align: center; font-size: 8pt; color: rgba(0,0,0,0.65); font-weight: 400; padding: 5px 0;">For more information, see <a class="showUserGuide2" onclick="ga('send','event','navbar','click','User Guide');">User Guide</a>.</small>
+                        <small style="display: block; text-align: center; font-size: 8pt; color: rgba(0,0,0,0.65); font-weight: 400; padding: 5px 0;">For more information, see <a class="showUserGuide2" onclick="gtag('event', 'click', {
+                            'event_category': 'navbar',
+                            'event_label': 'User Guide',
+                            'value': 1
+                          });">User Guide</a>.</small>
 						<!-- Custom legend -->
 						<div class="custom-legend">
 							<div class="legend-row">
@@ -957,8 +992,16 @@
 
             </div>
 
-            <div onclick="ga('send','event','Map Button','click','Home icon');"><div id="homeButton"></div></div>
-            <div  onclick="ga('send','event','Map Button','click','Location icon');"><div id="locateButton"></div></div>
+            <div onclick="gtag('event', 'click', {
+                'event_category': 'Map Button',
+                'event_label': 'Home icon',
+                'value': 1
+              });"><div id="homeButton"></div></div>
+            <div onclick="gtag('event', 'click', {
+                'event_category': 'Map Button',
+                'event_label': 'Location icon',
+                'value': 1
+              });"><div id="locateButton"></div></div>
 
             <div class="latLngScale">
                 <span class="hover-content"> <b>Map scale </b></span>
