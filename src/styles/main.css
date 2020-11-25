@@ -55,14 +55,15 @@ a:hover{
 }
 .basemapThumb {
     border:1px solid #ffffff;
-    border-radius: 5px;
+    border-radius: 3px;
 }
 
 /*basemapBtn elements manually set to width of widest - temp solution until dynamic solution is implemented */
 .basemapBtn {
     width: 86px;
     margin-bottom: 2px;
-    padding:2px;
+	padding:2px;
+	font-weight: 600;
 }
 
 
