@@ -9,11 +9,10 @@ Mitch Samuels
 
 /* 
 ========================
-========================
 Navbar
 ========================
-========================
 */
+
 /* Mobile menu button */
 .navbar-toggle{
 	border-color: transparent !important;
@@ -33,7 +32,7 @@ Navbar
 	background: transparent !important;
 }
 
-/* Navbar */
+/* Navbar Element */
 #navbar{
 	background-color: #141D3A !important;
 	display: flex;
@@ -45,7 +44,7 @@ Navbar
 	box-sizing: border-box;
 }
 
-/* Branding - logo */
+/* Branding - USGS logo */
 .navbar-header .branding{
 	display: flex;
 	height: 100%;
@@ -60,7 +59,7 @@ Navbar
 	height: 36px;
 }
 
-/*Long title header*/
+/*Long title header - Shrinks on smaller screens, extended title hidden mobile*/
 .header-longtitle{
 	font-size:16px;
 	display: flex;
@@ -93,11 +92,11 @@ Navbar
 }
 
 
-/* Links at right */
+/* Links at right on navbar */
 .nav-buttons{
 	display: flex;
 	justify-content: flex-end;
-	padding-right: 15px;
+	padding-right: 10px;
 	flex-grow: 3;
 }
 .nav-buttons button{
@@ -130,7 +129,7 @@ Navbar
 .nav-buttons button span{
 	font-size: 13px;
 	line-height: 13px;
-	font-weight: 600;
+	font-weight: 500;
 	white-space: pre;
 	padding-top: 1px;
 	letter-spacing: 0px;
@@ -154,15 +153,17 @@ Navbar
 	text-decoration-color: white;
 }
 
-/* Geosearch */
+/* Geosearch nav button */
 #geosearchNav{
 	background-color: #2286FB !important;
 	padding: 0 10px;
 }
+
+/* Geosearch modal tweaks */
 .supported-search-strings{
 	display: block;
 	box-sizing: border-box;
-	padding: 15px 0;
+	padding: 10px 0;
 }
 .supported-search-strings label{
 	text-align: center;
@@ -177,7 +178,7 @@ Navbar
 	justify-content: space-between;
 }
 .supported-search-strings ul li{
-	margin: 4px 8px;
+	margin: 2px 8px;
 	font-family: monospace;
 }
 small.credit{
@@ -189,9 +190,7 @@ small.credit{
 
 
 
-
-
-/* Sidebar */
+/* Sidebar - hides at md screen, toggle with top menu button */
 #sidebar{
 	border: none;
 	padding: 0;
@@ -315,12 +314,29 @@ small.credit{
 }
 
 /* Map Layers */
+#displayLandUseRoot{
+	margin-bottom: 5px;
+}
 #layersPanel .btn-default{
 	border: none !important;
 	background: none !important;
 	box-shadow: none !important;
-	padding: 3px 0 !important;
+	padding: 0 !important;
+	/* padding: 3px 0 !important; */
 }
+
+.btn-group-vertical.lyrTog.radioTog{
+	margin: 4px 0;
+	padding-left: 15px;
+}
+
+#sites .btn-default:hover{
+	text-decoration: underline;
+}
+#sites .btn-default i{
+	margin-right: 5px;
+}
+
 #layersPanel .btn-default i{
 	font-weight: 500 !important;
 }
