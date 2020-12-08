@@ -1153,6 +1153,9 @@ require([
         $('#faqNav').click(function(){
             $('#faqModal').modal('show');
         });
+        $('.showFAQNav').click(function(){
+            $('#faqModal').modal('show');
+        });
 
         $("#html").niceScroll();
         $("#sidebar").niceScroll();

@@ -377,13 +377,11 @@
 							Tracking changes in streamflow and investigating the reasons for these changes is crucial for informing management decisions to protect and sustain our valuable water resources and to mitigate water-related hazards.
 							<br/>
 							<br/>
-							The mapper shows trend and significance results for several low-streamflow and related metrics 
-							for 2,482 USGS streamgages including trends in annual low 1-, 3-, and 7-day low flows, mean annual flows, 
-							and various trends related to stream-specific low-flow thresholds equal to the daily mean streamflow with 2-percent non-exceedance rank (Q2). 
-							For high streamflows, the mapper shows peak-streamflow trend and change-point results for 2,683 USGS streamgages 
-							including trend slopes and significance. Trend significance for both high and low-flows is 
-							reported for three different null hypotheses of the serial structure of the time-series data: independence (INDE), short-term persistence (AR1), 
-							and long-term persistence (LTP).
+                            The mapper shows trend and significance (p-value &lt; 0.05) results for several low-streamflow and related metrics for 2,482 USGS streamgages including trends in annual low 1-, 3-, and 7-day low flows, mean annual flows, 
+                            and various trends related to a stream-specific threshold defined as the streamflow value having the probability of not being exceeded 2-percent of the time over the period of record (Q2). For high streamflows (instantaneous 
+                            annual peak streamflows), the mapper shows peak-streamflow trend and change-point results for 2,683 USGS streamgages including trend slopes and significance. Trend significance for both high and low-flows is reported for three 
+                            different null hypotheses that consider different assumptions regarding the serial correlation structure of the time-series data from which the trends are estimated: the data are independent (INDE), the data exhibit 
+                            short-term persistence (AR1), and the data exhibit long-term persistence (LTP).
 						</p>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="learnMoreTabPane">
@@ -601,22 +599,23 @@
                         <p>Low-flow analyses were computed on the basis of climatic year which occurs from 
                         April 1 through March 31 and named for the year in which it ends.</p>
                         <ul>
-                            <li>Lowest annual 1-, 3-, and 7-day average streamflow</li>
-                            <li>Mean annual streamflow</li>
-                            <li>Number of annual zero-flow days</li>
-                            <li>Number of annual days the daily mean streamflow value was less than or equal to the daily mean streamflow with 2-percent non-exceedance rank (Q2)</li>
-                            <li>First annual Julian date when the daily mean streamflow value was less than or equal to Q2</li> 
-                            <li>Last annual Julian date when the daily mean streamflow value was less than or equal to Q2</li>
-                            <li>Difference between the last and first annual Julian date when the daily mean streamflow value was less than or equal to Q2</li>
-                            <li>The Q2 annual deficit computed as the mean of all daily scaled deficits for all days when daily mean streamflows were equal to or lower than the daily mean streamflow with 2-percent non-exceedance rank (Q2). 
-                                Daily deficits were computed as the difference between the Q2 threshold and daily mean streamflows equal to or lower than Q2; 
-                                those differences were then divided by Q2 to yield scaled deficits (dimensionless)</li>
+                            <li>LowQ 1Day, LowQ 3Day, LowQ 7Day: Lowest annual 1-, 3-, and 7-day average streamflow, respectively.</li>
+                            <li>Scaled Deficit: Daily deficits were first computed as the difference between the daily mean streamflow having the probability of not being exceeded 2-percent of the time over the period of record (Q2) threshold and 
+                                daily mean streamflows equal to or lower than Q2; those differences were then divided by the Q2 value to yield scaled deficits. The Q2 annual deficit is computed as the mean of all daily scaled deficits for all days 
+                                when daily mean streamflows were equal to or lower than the Q2. (dimensionless)</li>
+                            <li>Q2 nDays: Number of annual days the daily mean streamflow value was less than or equal to the Q2.</li>
+                            <li>First Julian date flow &lt;= the Q2 threshold: First annual Julian date when the daily mean streamflow value was less than or equal to Q2</li>
+                            <li>Last Julian date flow <= the Q2 threshold: Last annual Julian date when the daily mean streamflow value was less than or equal to Q2</li> 
+                            <li>JD Difference Q2: Difference between the last and first annual Julian date when the daily mean streamflow value was less than or equal to Q2</li>
+                            <li>ZeroQ nDays: Number of annual zero-flow days</li>
                         </ul>
-                       <p>High-flow analyses were computed on the basis of water year which occur from October 1 through September 30 and named for the year in which it ends.</p> 
+                        <p>Mean annual flows were computed on the basis of climatic year which occurs from April 1 through March 31 and named for the year in which it ends.</p> 
+                        <ul>
+                            <li>Mean Annual Q: Mean annual streamflow</li>
+                        </ul>
+                        <p>High-flow analyses were computed on the basis of water year which occur from October 1 through September 30 and named for the year in which it ends.</p> 
                         <ul>
                             <li>Instantaneous annual peak streamflows</li>
-                            <li>Number of peaks-over-threshold events determined by setting a streamflow threshold resulting in an average of X events per year (0.2 or 2) 
-                                for the base period 1941-1968</li>
                         </ul>
                 </div>
                 <div class="faq-header" id="faq6header">6. What does INDE, AR1, and LTP mean? </div>
@@ -958,11 +957,16 @@
                         </h4>
                     </div>
                     <div id="legendCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                        <small style="display: block; text-align: center; font-size: 8pt; color: rgba(0,0,0,0.65); font-weight: 400; padding: 5px 0;">For more information, see <a class="showUserGuide2" onclick="gtag('event', 'click', {
+                        <small style="display: block; text-align: center; font-size: 8pt; color: rgba(0,0,0,0.65); font-weight: 400; padding: 5px 0;">For more Mapper information, see <a class="showUserGuide2" onclick="gtag('event', 'click', {
                             'event_category': 'navbar',
                             'event_label': 'User Guide',
                             'value': 1
                           });">User Guide</a>.</small>
+                        <small style="display: block; text-align: center; font-size: 8pt; color: rgba(0,0,0,0.65); font-weight: 400; padding: 5px 0;">For more study details, see <a class="showFAQNav" onclick="gtag('event', 'click', {
+                            'event_category': 'navbar',
+                            'event_label': 'FAQ',
+                            'value': 1
+                          });">FAQ</a>.</small>
 						<!-- Custom legend -->
 						<div class="custom-legend">
 							<div class="legend-row">
