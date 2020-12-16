@@ -649,21 +649,21 @@ require([
                         "layerSelected": "lowQ_1day",
                         "mapLayer": "1",
                         "chartTitle": "Low Q - 1 day",
-                        "yAxis": "Stream Flow (cfs)",
+                        "yAxis": "Streamflow (cfs)",
                         "tooltipUnits": "cfs"
                     },
                     {
                         "layerSelected": "lowQ_3day",
                         "mapLayer": "6",
                         "chartTitle": "Low Q - 3 day",
-                        "yAxis": "Stream Flow (cfs)",
+                        "yAxis": "Streamflow (cfs)",
                         "tooltipUnits": "cfs"
                     },
                     {
                         "layerSelected": "lowQ_7day",
                         "mapLayer": "5",
                         "chartTitle": "Low Q - 7 day",
-                        "yAxis": "Stream Flow (cfs)",
+                        "yAxis": "Streamflow (cfs)",
                         "tooltipUnits": "cfs"
                     },
                    /*  {
@@ -677,14 +677,14 @@ require([
                         "layerSelected": "peak_flows",
                         "mapLayer": "3",
                         "chartTitle": "Peak Flows",
-                        "yAxis": "Stream Flow (cfs)",
+                        "yAxis": "Streamflow (cfs)",
                         "tooltipUnits": "cfs"
                     },
                     {
                         "layerSelected": "mean_annual_Q",
                         "mapLayer": "4",
                         "chartTitle": "Mean Annual Q",
-                        "yAxis": "Stream Flow (cfs)",
+                        "yAxis": "Streamflow (cfs)",
                         "tooltipUnits": "cfs"
                     }
                 ];
@@ -1029,7 +1029,7 @@ require([
         $('#geosearchModal').modal('hide');
     }
     function geocodeSelect(item) {
-        clearFindGraphics();
+        clearFindGraphics(); geocode
         var g = (item.graphic ? item.graphic : item.result.feature);
         g.setSymbol(sym);
         //addPlaceGraphic(item.result,g.symbol);
