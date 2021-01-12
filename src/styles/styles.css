@@ -337,6 +337,13 @@ small.credit{
 	margin-right: 5px;
 }
 
+#landUseRef{
+	height: 0px;
+    display: block;
+    position: relative;
+    top: -37px;
+	left: 16px;
+}
 #layersPanel .btn-default i{
 	font-weight: 500 !important;
 }
