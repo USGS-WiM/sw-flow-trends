@@ -636,9 +636,9 @@ require([
                         "<b>Site number: </b>" + attr.trend_gages_site_id + "<br/>" +
                         /*"<b>Agency: </b>U.S. Geological Survey<br/>" +*/
                         "<b>Gage class: </b>" + gage_class + "<br/>" +
-                        "<b>Latitude: </b>" + attr.trend_gages_dec_lat_va + "<br/>" +
-                        "<b>Longitude: </b>" + attr.trend_gages_dec_long_va + "<br/>" +
-                        "<b>Drainage area: </b>" + attr.trend_gages_drainSqKm + " (km<sup>2</sup>)<br/>" +
+                        "<b>Latitude: </b>" + Number(attr.trend_gages_dec_lat_va).toFixed(2).toString() + "<br/>" +
+                        "<b>Longitude: </b>" + Number(attr.trend_gages_dec_long_va).toFixed(2).toString() + "<br/>" +
+                        "<b>Drainage area: </b>" + Number(attr.trend_gages_drainSqKm).toFixed(2).toString() + " (km<sup>2</sup>)<br/>" +
                         "<b>Trend: </b>" + trendText);
                 }
 
@@ -649,21 +649,21 @@ require([
                         "layerSelected": "lowQ_1day",
                         "mapLayer": "1",
                         "chartTitle": "Low Q - 1 day",
-                        "yAxis": "Stream Flow (cfs)",
+                        "yAxis": "Streamflow (cfs)",
                         "tooltipUnits": "cfs"
                     },
                     {
                         "layerSelected": "lowQ_3day",
                         "mapLayer": "6",
                         "chartTitle": "Low Q - 3 day",
-                        "yAxis": "Stream Flow (cfs)",
+                        "yAxis": "Streamflow (cfs)",
                         "tooltipUnits": "cfs"
                     },
                     {
                         "layerSelected": "lowQ_7day",
                         "mapLayer": "5",
                         "chartTitle": "Low Q - 7 day",
-                        "yAxis": "Stream Flow (cfs)",
+                        "yAxis": "Streamflow (cfs)",
                         "tooltipUnits": "cfs"
                     },
                    /*  {
@@ -677,14 +677,14 @@ require([
                         "layerSelected": "peak_flows",
                         "mapLayer": "3",
                         "chartTitle": "Peak Flows",
-                        "yAxis": "Stream Flow (cfs)",
+                        "yAxis": "Streamflow (cfs)",
                         "tooltipUnits": "cfs"
                     },
                     {
                         "layerSelected": "mean_annual_Q",
                         "mapLayer": "4",
                         "chartTitle": "Mean Annual Q",
-                        "yAxis": "Stream Flow (cfs)",
+                        "yAxis": "Streamflow (cfs)",
                         "tooltipUnits": "cfs"
                     }
                 ];
@@ -755,9 +755,6 @@ require([
 								},
                                 title: {
                                     text: trendConfig[trendLayerForQuery].chartTitle
-                                },
-                                subtitle: {
-                                    text: 'data'
                                 },
                                 credits: {
                                     enabled: false
@@ -1029,7 +1026,7 @@ require([
         $('#geosearchModal').modal('hide');
     }
     function geocodeSelect(item) {
-        clearFindGraphics();
+        clearFindGraphics(); geocode
         var g = (item.graphic ? item.graphic : item.result.feature);
         g.setSymbol(sym);
         //addPlaceGraphic(item.result,g.symbol);
