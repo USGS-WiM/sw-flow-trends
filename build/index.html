@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Surface Water Flow Trends in the Nation's Streams and Rivers</title>
+    <title>Integrated Water Availability Assessments - Surface Water Flow Trends in the Nation's Streams and Rivers</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="viewport" charset="utf-8" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	
+	<meta name="description" content="This mapper provides results from assessments of trends in low and high streamflows in the Nation's streams and rivers over the past 100, 75, and 50 years (1916-2015, 1941-2015 and 1966-2015). Tracking changes in streamflow and investigating the reasons for these changes is crucial for informing management decisions to protect and sustain our valuable water resources and to mitigate water-related hazards.	" />
+	<meta name="keywords" content="USGS, WMA, IWAA, water, assesment, trends, streamflows, stream, streamgage, streamgages, low flows, annual flows, mean flows, independence, INDE, short-term persistence, AR1, long-term persistence, LTP" />
+	<meta name="theme-color" content="#23E9FF">
+
 
 	<!-- Font Awesome -->
 	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.12.0/css/all.css" integrity="sha384-ekOryaXPbeCpWQNxMwSWVvQ0+1VrStoPJq54shlYhR8HzQgig1v5fas6YgOqLoKz" crossorigin="anonymous">
@@ -19,7 +24,7 @@
     <!-- <link rel="stylesheet" href="styles/base.css"> -->
     <link rel="stylesheet" href="styles/base.css">
 
-    <link rel="shortcut icon" id="favicon" type="image/ico" href="images/favicon-dark.png" />
+    <link rel="shortcut icon" id="favicon" type="image/ico" href="images/favicon.png" />
 
     <!-- USGS Geosearch -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -46,22 +51,26 @@
     <!-- CSS for jQuery UI -->
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css">
 
-    <!-- Google Analytics -->
+
+    <!-- Analytics -->
+    <!-- Global site tag (gtag.js) - Google Analytics GA4 (WIM Account) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LM6G1LJ1JX"></script>
     <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-61219868-19', 'auto');
-    ga('send', 'pageview');
-
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-LM6G1LJ1JX');
     </script>
+    <!-- Global site tag (gtag.js) - Google Analytics (Universal Analytics/WMA Internal Analytics) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-61219868-45"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-    <!--Federated Analytics -->
-    <!-- We participate in the US government's analytics program. See the data at analytics.usa.gov. -->
-    <script async type="text/javascript" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=DOI&subagency=FWS" id="_fed_an_ua_tag"></script>
-
+    gtag('config', 'UA-61219868-45');
+    </script>
 </head>
 <body>
 
@@ -88,8 +97,8 @@
 				</a>
 			</div>
 			<span class='header-longtitle'>
-				<span>Surface Water Flow Trends</span>
-				<small>in the Nation's Streams and Rivers</small>
+				<span>Integrated Water Availability Assessments</span>
+				<small>Surface Water Flow Trends in the Nation's Streams and Rivers</small>
 			</span>
 		</div>
 	</div>
@@ -97,30 +106,46 @@
 	<!-- Navigation Buttons -->
 	<div class="nav-buttons">
 		<!-- Faq -->
-		<button id="faqNav" class="pull-right" onclick="ga('send','event','navbar','click','FAQ', 1);">
+		<button id="faqNav" class="pull-right" onclick="gtag('event', 'click', {
+            'event_category': 'navbar',
+            'event_label': 'FAQ',
+            'value': 1
+          });">
 			<i class="far fa-question-circle"></i>
 			<span>FAQ</span>
 		</button>
 		<!-- Use guide -->
-		<button id="userGuideNav" class="pull-right" onclick="ga('send','event','navbar','click','User Guide', 1);">
+		<button id="userGuideNav" class="pull-right"  onclick="gtag('event', 'click', {
+            'event_category': 'navbar',
+            'event_label': 'User Guide',
+            'value': 1
+          });">
 			<i class="far fa-book"></i>
 			<span>User Guide</span>
 		</button>
 		<!-- About -->
-		<button id="aboutNav" class="pull-right" onclick="ga('send','event','navbar','click','About', 1);">
+		<button id="aboutNav" class="pull-right" onclick="gtag('event', 'click', {
+            'event_category': 'navbar',
+            'event_label': 'About',
+            'value': 1
+          });">
 			<i class="far fa-info-circle"></i>
 			<span>About</span>
 		</button>
 
 		<!-- Geosearch -->
-		<button id="geosearchNav" type="button" onclick="ga('send','event','navbar','click','Find Location Modal Opened');">
+		<button id="geosearchNav" type="button" onclick="gtag('event', 'click', {
+            'event_category': 'navbar',
+            'event_label': 'Find Location Modal Opened',
+            'value': 1
+          });">
 			<i class="far fa-search"></i>
 			<span>Find Location</span>
 		</button>
 	</div>
 
 	
-	<!-- <button id="printNavButton" type="button" class="btn btn-primary navbar-btn pull-right" onclick="ga('send','event','navbar','click','Print Modal Opened');">
+	<!-- <button id="printNavButton" type="button" class="btn btn-primary navbar-btn pull-right" onclick="gtag('send','event','navbar','click','Print Modal Opened');">
 		<span class="far fa-print"></span>
 		<span id="printButtonText"> Print</span>
 	</button> -->
@@ -204,7 +229,7 @@
             </div>
             <div class="modal-body">
 				<!-- Geosearch -->
-				<div id="geosearch" align="center"></div>
+				<div id="geosearch" class="search" align="center"></div>
 				<!-- Error message -->
 				<div align="center" id="errorMsg" style="display:none">Unable to find requested location</div>
 				<!-- Supported search strings -->
@@ -255,7 +280,11 @@
 			</div>
 			<div class="modal-buttons">
 				<button id="printDismissButton" type="button" class="" data-dismiss="modal"> Dismiss</button>
-				<button id="printExecuteButton" type="submit" class="blue" data-loading-text="Printing..." onclick="ga('send','event','navbar','click','Print Job Performed');"> Print </button>
+				<button id="printExecuteButton" type="submit" class="blue" data-loading-text="Printing..." onclick="gtag('event', 'click', {
+                    'event_category': 'navbar',
+                    'event_label': 'Print Job Performed',
+                    'value': 1
+                  });"> Print </button>
 			</div>
         </form><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -281,26 +310,45 @@
             <div id="aboutModalBody" class="modal-body tabs">
                 <ul class="nav nav-tabs" id="aboutModalTabs">
                     <li role="presentation" class="active"><a id="aboutTab" href="#aboutTabPane" data-toggle="tab"><i class="far fa-question-circle"></i>&nbsp;About</a></li>
-                    <li role="presentation"><a id="learnMoreTab" href="#learnMoreTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Learn More');"><i class="far fa-exclamation-circle"></i>&nbsp;Learn More</a></li>
-                    <li role="presentation"><a id="partnerTab" href="#partnerTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Partner Organizations');"><i class="far fa-id-card"></i>&nbsp;Partner Organizations</a></li>
-                    <li role="presentation"><a id="waterResourcesTab" href="#waterResourcesTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Related Resources');"><i class="far fa-tint"></i>&nbsp;Related Resources</a></li>
-                    <li role="presentation"><a id="disclaimerTab" href="#disclaimerTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Disclaimer');"><i class="far fa-check-circle"></i>&nbsp;Disclaimer</a></li>
+                    <li role="presentation"><a id="learnMoreTab" href="#learnMoreTabPane" data-toggle="tab" onclick="gtag('event', 'click', {
+                        'event_category': 'About Modal',
+                        'event_label': 'Learn More',
+                        'value': 1
+                      });"><i class="far fa-exclamation-circle"></i>&nbsp;Learn More</a></li>
+                    <li role="presentation"><a id="partnerTab" href="#partnerTabPane" data-toggle="tab" onclick="gtag('event', 'click', {
+                        'event_category': 'About Modal',
+                        'event_label': 'Partner Organizations',
+                        'value': 1
+                      });"><i class="far fa-id-card"></i>&nbsp;Partner Organizations</a></li>
+                    <li role="presentation"><a id="waterResourcesTab" href="#waterResourcesTabPane" data-toggle="tab" onclick="gtag('event', 'click', {
+                        'event_category': 'About Modal',
+                        'event_label': 'Related Resources',
+                        'value': 1
+                      });"><i class="far fa-tint"></i>&nbsp;Related Resources</a></li>
+                    <li role="presentation"><a id="disclaimerTab" href="#disclaimerTabPane" data-toggle="tab" onclick="gtag('event', 'click', {
+                        'event_category': 'About Modal',
+                        'event_label': 'Disclaimer',
+                        'value': 1
+                      });"><i class="far fa-check-circle"></i>&nbsp;Disclaimer</a></li>
                 </ul>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="aboutTabPane">
 						<p>
-							This mapper provides results from assessments of trends in low and high streamflows in the Nation's streams and rivers over the past 100, 75, and 50 years (1916-2015, 1941-2015 and 1966-2015). 
-							Streamflow records from more than 2,000 U.S. Geological Survey (USGS) streamgages across the conterminous U.S. were used in these assessments. 
-							Tracking changes in streamflow and investigating the reasons for these changes is crucial for informing management decisions to protect and sustain our valuable water resources.
+                            This mapper shows trends in low and high streamflows in the Nation's streams and rivers over the past 100, 75, and 50 years (1916-2015, 1941-2015 and 1966-2015). 
+							Streamflow records from more than 2,000 U.S. Geological Survey (USGS) streamgages across the conterminous U.S. were used. 
+							Tracking changes in streamflow and investigating the reasons for these changes is crucial for informing management decisions to protect and sustain our valuable water resources and to mitigate water-related hazards.
 							<br/>
+                            <br/>
+                            The U.S. Geological Survey (USGS) Water Resources Mission Area (WMA) has established the 
+                            <a target="_blank" href="https://www.usgs.gov/mission-areas/water-resources/science/integrated-water-availability-assessments-using-cooperative?qt-science_center_objects=0#qt-science_center_objects">Integrated Water Availability Assessments</a> 
+                            (IWAAs) to capitalize on the operational and scientific strengths of the USGS to support understanding and management of the nation’s complex water resource issues. In this effort, IWAAs provides nationally and regionally 
+                            consistent assessments of water for human and ecological needs at a range of spatial and temporal scales. Determining trends in water availability is necessary to better understand the factors limiting water supply and use and inform forecasts of hydrologic extremes.
+                            <br/>
 							<br/>
-							The mapper shows trend slopes and significance for several low-streamflow and related metrics 
-							for 2,482 USGS streamgages including trends in annual low 1-, 3-, and 7-day low flows, mean annual flows, 
-							and various trends related to stream-specific low-flow thresholds equal to the daily mean streamflow with 2-percent non-exceedance rank (Q2). 
-							For high streamflows, the mapper shows peak-streamflow trend and change-point results for 2,683 USGS streamgages 
-							including trend slopes and significance. Trend significance for both high and low-flows is 
-							reported for three different null hypotheses of the serial structure of the time-series data: independence (INDE), short-term persistence (AR1), 
-							and long-term persistence (LTP).
+                            The mapper shows trend and significance results for several low-streamflow and related metrics for 2,482 USGS streamgages including trends in annual low 1-, 3-, and 7-day low flows, mean annual flows, and various 
+                            trends related to stream-specific low-flow thresholds equal to the daily mean streamflow with a 2-percent non-exceedance rank probability (Q2). For high streamflows, the mapper shows annual
+                            peak flow trends for 2,683 USGS streamgages including trend slopes and their significance. Trend significance for both high and low-flows is reported for three different 
+                            null hypotheses of the serial structure of the time-series data: independence (INDE), short-term persistence (AR1), and long-term persistence (LTP).
 						</p>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="learnMoreTabPane">
@@ -363,6 +411,8 @@
                         </p>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="disclaimerTabPane">
+                        <p>Unless otherwise stated, all data, metadata and related materials are considered to satisfy the quality standards relative to the purpose for which the data were collected. Although these data and associated metadata have been reviewed for accuracy and completeness and approved for release by the U.S. Geological Survey (USGS), no warranty expressed or implied is made regarding the display or utility of the data for other purposes, nor on all computer systems, nor shall the act of distribution constitute any such warranty.</p>
+                        <p>This software has been approved for release by the U.S. Geological Survey (USGS). Although the software has been subjected to rigorous review, the USGS reserves the right to update the software as needed pursuant to further analysis and review. No warranty, expressed or implied, is made by the USGS or the U.S. Government as to the functionality of the software and related material nor shall the fact of release constitute any such warranty. Furthermore, the software is released on condition that neither the USGS nor the U.S. Government shall be held liable for any damages resulting from its authorized or unauthorized use.</p>
                         <p>Any use of trade, firm, or product names is for descriptive purposes only and does not imply endorsement by the U.S. Government.</p>
                         <p>Version x.x.x</p>
                     </div>
@@ -442,7 +492,7 @@
                         </div>
                         <div class="user-guide-item">
                             <div class="user-guide-item-image"><img src="images/userguide/maplayers.png"/></div>
-                            <p><b>Changing or adding map layers</b>The "Map Layers" sidebar allows a user to show land use for 1974, 1982, 1992, 2002, or 2012 as a background layer beneath the trend results.</p>
+                            <p><b>Changing or adding land use layers</b>The "Land Use Layers" sidebar allows a user to show land use for 1974, 1982, 1992, 2002, or 2012 as a background layer beneath the trend results. Source data available <a target="_blank" href="https://catalog.data.gov/dataset/u-s-conterminous-wall-to-wall-anthropogenic-land-use-trends-nwalt-1974-2012">here.</a></p>
                         </div>
                         <div class="user-guide-item">
                             <div class="user-guide-item-image"><img src="images/userguide/selecttrend.jpg"/></div>
@@ -488,75 +538,91 @@
             </div>
             <div class="modal-body" id="faqModalBody">
                 <h4 style="margin-bottom: 15px; font-weight: 600;">Study scope</h4>
-                <div class="faq-header" id="faq1header">1. What is the purpose of this study?</div>
+                <div class="faq-header" id="faq1header">1. What is the purpose of this online mapper?</div>
                 <div class="faq-body" id="faq1body">
-                    <p>The purpose of these studies is to determine low and high flows in the Nation's streams 
+                    <p>The purpose of this mapper is to allow easy access to results of two studies on trends in streamflow. These studies describe how low and high flows in the Nation's streams 
                         and rivers have changed over time.</p>
+                    <p>
+                        Dudley, R.W., R.M. Hirsch, S.A. Archfield, A.G. Blum, and B. Renard (2020) 
+                        Low streamflow trends at human-impacted and reference basins in the United States, 
+                        Journal of Hydrology, 580, 124254, <a href="https://doi.org/10.1016/j.jhydrol.2019.124254" target="_blank">https://doi.org/10.1016/j.jhydrol.2019.124254</a>.
+                    </p>
+                    <p>
+                        Hodgkins, G.A., R.W. Dudley, S.A. Archfield, B. Renard (2019) 
+                        Effects of climate, regulation, and urbanization on historical flood trends in the United States, 
+                        Journal of Hydrology, 573, 697-709, <a href="https://doi.org/10.1016/j.jhydrol.2019.03.102" target="_blank">https://doi.org/10.1016/j.jhydrol.2019.03.102</a>.
+                    </p>
                 </div>
 
                 <div class="faq-header" id="faq2header">2. Why evaluate changes in streamflow?</div>
                 <div class="faq-body" id="faq2body">
                     <p>The Nation's rivers and streams are a valuable resource, providing drinking water, irrigation, habitat, and recreational opportunities. 
-                       Low streamflows play a an important role in water management for wastewater discharge and water withdrawals, and informing operating policies for low-streamflow releases from dams. 
+                       Low streamflows play a an important role in water management for wastewater discharge and water withdrawals, informing operating policies for low-streamflow releases from dams. 
                        Floods may cause fatalities, and damage property and transportation infrastructure. 
-                       In order to more effectively manage and protect the Nation's people, water resources, and transportation infrastructure in the future we need to know how and why streamflows, both low and high flows, have been changing over time.</p>    
+                       In order to more effectively manage and protect the Nation's people, water resources, aquatic ecosystems, and transportation infrastructure in the future we need to know how and why low flows, mean flows, and high flows, have been changing over time.</p>    
                 </div>
                 <div class="faq-header" id="faq3header">3. Who completed this study?</div>
                 <div class="faq-body" id="faq3body">
-                        <p>The U.S. Geological Survey (USGS) in cooperation with EPA and FHWA 
-                        conducted this study using streamflow data which was collected by the USGS.</p>
+                        <p>The U.S. Geological Survey (USGS) in cooperation with the Environmental Protection Agency (EPA) and Federal Highways Administration 
+                        conducted this work using streamflow data which was collected by the USGS.</p>
                 </div>
                 <div class="faq-header" id="faq4header">4. What data were included in your analyses?</div>
                 <div class="faq-body" id="faq4body">
                         <p>Publicly available streamflow data for streams and rivers were obtained from the U.S. Geological Survey's National Water Information System (NWIS) database <a href="https://waterdata.usgs.gov/usa/nwis"> here. </a></p> 
                         <p>Publicly available gage characteristics were obtained from the Geospatial Attributes of Gages for Evaluating Streamflow, version II, (GAGES-II) database: Falcone, J.A., 2011, GAGES-II—Geospatial attributes of gages for evaluating streamflow: U.S. Geological Survey metadata, also available <a href="http://water.usgs.gov/GIS/metadata/usgswrd/XML/gagesII_Sept2011.xml"> here. </a></p>     
-                </div>
+                        <p>Note that this dataset includes both regulated and unregulated rivers and streams.  Regulation by upstream dams or other human modifications to streamflow can have a sizeable impact on downstream flow, resulting in trends in the streamflow record.  This mapping tool does not provide information on upstream conditionsupstream conditions, so additional investigation of individual streamgages may be needed before drawing conclusions.</p>
+                    </div>
                 <div class="faq-header" id="faq5header">5. What streamflow metrics were included in your analyses?</div>
                 <div class="faq-body" id="faq5body">
-                        <p>Low-flow analyses were computed on the basis of climatic year which occurs from 
-                        April 1 through March 31 and named for the year in which it ends.</p>
+                        <p>Low-flow analyses were computed based on climatic years which run from 
+                        April 1 through March 31 of the ensuing calendar year and were named for the year in which it ends.</p>
                         <ul>
-                            <li>Lowest annual 1-, 3-, and 7-day average streamflow</li>
-                            <li>Mean annual streamflow</li>
-                            <li>Number of annual zero-flow days</li>
-                            <li>Number of annual days the daily mean streamflow value was less than or equal to the daily mean streamflow with 2-percent non-exceedance rank (Q2)</li>
-                            <li>First annual Julian date when the daily mean streamflow value was less than or equal to Q2</li> 
-                            <li>Last annual Julian date when the daily mean streamflow value was less than or equal to Q2</li>
-                            <li>Difference between the last and first annual Julian date when the daily mean streamflow value was less than or equal to Q2</li>
-                            <li>The Q2 annual deficit computed as the mean of all daily scaled deficits for all days when daily mean streamflows were equal to or lower than the daily mean streamflow with 2-percent non-exceedance rank (Q2). 
-                                Daily deficits were computed as the difference between the Q2 threshold and daily mean streamflows equal to or lower than Q2; 
-                                those differences were then divided by Q2 to yield scaled deficits (dimensionless)</li>
+                            <li>LowQ 1Day, LowQ 3Day, LowQ 7Day: Lowest annual 1-, 3-, and 7-day average streamflow, respectively.</li>
+                            <li>Scaled Deficit: Daily deficits were first computed as the difference between the daily mean streamflow having the probability of not being exceeded 2-percent of the time over the period of record (Q2) threshold and 
+                                daily mean streamflows equal to or lower than Q2; those differences were then divided by the Q2 value to yield scaled deficits. The Q2 annual deficit is computed as the mean of all daily scaled deficits for all days 
+                                when daily mean streamflows were equal to or lower than the Q2. (dimensionless)</li>
+                            <li>Q2 nDays: Number of annual days the daily mean streamflow value was less than or equal to the Q2.</li>
+                            <li>First Julian date flow &lt;= the Q2 threshold: First annual Julian date when the daily mean streamflow value was less than or equal to Q2</li>
+                            <li>Last Julian date flow <= the Q2 threshold: Last annual Julian date when the daily mean streamflow value was less than or equal to Q2</li> 
+                            <li>JD Difference Q2: Difference between the last and first annual Julian date when the daily mean streamflow value was less than or equal to Q2</li>
+                            <li>ZeroQ nDays: Number of annual zero-flow days</li>
                         </ul>
-                       <p>High-flow analyses were computed on the basis of water year which occur from October 1 through September 30 and named for the year in which it ends.</p> 
+                        <p>Mean annual flows were computed on the basis of climatic year which occurs from April 1 through March 31 and named for the year in which it ends.</p> 
+                        <ul>
+                            <li>Mean Annual Q: Mean annual streamflow</li>
+                        </ul>
+                        <p>High-flow analyses were computed on the basis of water year which occur from October 1 through September 30 and named for the year in which it ends.</p> 
                         <ul>
                             <li>Instantaneous annual peak streamflows</li>
-                            <li>Number of peaks-over-threshold events determined by setting a streamflow threshold resulting in an average of X events per year (0.2 or 2) 
-                                for the base period 1941-1968</li>
                         </ul>
                 </div>
                 <div class="faq-header" id="faq6header">6. What does INDE, AR1, and LTP mean? </div>
                 <div class="faq-body" id="faq6body">
-                         <p>Significance of trends over time are sensitive to assumptions of whether 
-                             the time-series data are independent, have short-term persistence, or have 
+                         <p>The significance of trends over time are sensitive to assumptions regarding whether 
+                             the time-series data are independent, exhibit short-term persistence, or have 
                              long-term persistence. Trend significance is reported for three different 
                              null hypotheses of the serial structure of the time-series data: independence 
                              (INDE), short-term persistence (AR1), and long-term persistence (LTP). 
-                             For more information see: Hamed, K.H., 2008, Trend detection in hydrologic data: 
+                             For instance, a trend may be statistically significant (p &lt; 0.05) when assuming an 
+                             "independent" null hypothesis but might not be significant when a null LTP hypothesis 
+                             is considered instead. For more information see: Hamed, K.H., 2008, Trend detection in hydrologic data: 
                              The Mann-Kendall trend test under the scaling hypothesis, Journal of Hydrology, 
-                             349: 350-363; and Hamed, K.H., and Rao, R., 1998, A modified Mann-Kendall 
-                             trend test for autocorrelated data, Journal of Hydrology, 204: 182-196. </p>   
+                             349: 350-363; Hamed, K.H., and Rao, R., 1998, A modified Mann-Kendall 
+                             trend test for autocorrelated data, Journal of Hydrology, 204: 182-196; and Cohn, T.A., Lins, H.F., 2005, 
+                             Nature’s style - Naturally trendy: Geophysical Research Letters, doi.org/10.1029/2005GL024476.</p>   
                 
                 </div>
                 <div class="faq-header" id="faq7header">7. What makes a trend significant?</div>
                 <div class="faq-body" id="faq7body">
-                         <p>A trend is significant if the trend-test result indicates a p-value 
+                         <p>A trend is significant if the trend-test yields a p-value 
                             less than or equal to 0.05 for the given null hypothesis of the serial 
                             structure of the time-series data (INDE, AR1, LTP; see previous question). </p>   
+                        <p>Tests for trend significance were computed using the Mann-Kendall test that included methods that considered the possibility of short- and long-term persistence in the time-series data. The magnitude of monotonic trends were computed using the Sen slope which is the median of all pairwise slopes. A positive magnitude is an upward trend (increase over time), a negative magnitude is a downward trend (decrease over time), and a magnitude of zero indicates no trend.</p>
                 
                 </div>
                 <div class="faq-header" id="faq8header">8. What time periods did you assess in your trend analyses?</div>
                 <div class="faq-body" id="faq8body">
-                        <p>1916-2015, 1941-2015 and 1966-2015 </p>   
+                        <p>The trends from the two studies used 3 periods: 1916-2015, 1941-2015 and 1966-2015.  Clicking on a streamgage will allow you to customize the trend period using the INDE assumption.</p>   
                 </div>
                 <h4 style="margin-bottom: 15px; font-weight: 600;">Features of The Mapper</h4>
                 <div class="faq-header" id="faq9header">9. Where can I find help for navigating this mapper? </div>
@@ -565,65 +631,57 @@
                         A description of how to activate map layers can be found in the User Guide Map Select Options tab. 
                         A description of the search, zoom, and print capabilities can be found in the User Guide Search, Zoom, Print tab.</p>
                 </div>
-                <div class="faq-header" id="faq10header">10. Are the data used in your trend analyses available for download? <div id ="angle8" style="display: -webkit-inline-box;"><i class = "far fa-angle-right"></i></div></div>
+                <div class="faq-header" id="faq10header">10. Are the data used in your trend analyses available for download? </div>
                 <div class="faq-body" id="faq10body">
-                    <p>Yes. All daily streamflow data and instantaneous peak streamflow data are publicly available and can be downloaded from the U.S. Geological Survey's National Water Information System (NWIS) database <a href="https://waterdata.usgs.gov/usa/nwis">here.</a></p>
+                    <p>Yes. All daily streamflow data and instantaneous peak streamflow data are publicly available and can be downloaded from the U.S. Geological Survey's National Water Information System (NWIS) database <a href="https://waterdata.usgs.gov/usa/nwis" target="_blank">here.</a> Additional information on the data preparation and screening processes is available in the two papers referenced in FAQ #1.</p>
                     <p>Streamgage characteristics and trend results can be downloaded from the following USGS Data Releases:</p>
                     <ul>
                         <li>Dudley, R.W., Hirsch, R.M., Archfield, S.A., Blum, A.G., and Renard, B., 2019, Low-streamflow trends and basin characteristics for 2,482 
                             U.S. Geological Survey streamgages in the conterminous U.S. (ver. 2.0, February 2019): U.S. Geological Survey data release, 
-                            <a href="https://doi.org/10.5066/P9LO24MG"></a>.</li>
-                        <li></li>    
+                            <a href="https://doi.org/10.5066/P9LO24MG" target="_blank">https://doi.org/10.5066/P9LO24MG</a>.
+                        </li>
+                        <li>Dudley, R.W., Archfield, S.A., Hodgkins, G.A., Renard, B., and Ryberg, K.R., 2018, 
+                            Peak-streamflow trends and change-points and basin characteristics for 2,683 U.S. Geological Survey streamgages in the conterminous U.S. 
+                            (ver. 3.0, April 2019): U.S. Geological Survey data release, <a href="https://doi.org/10.5066/P9AEGXY0" target="_blank">https://doi.org/10.5066/P9AEGXY0</a>.
+                        </li>    
                     </ul>
                 </div> 
-                <div class="faq-header" id="faq11header">11. I am having trouble downloading the trends table for a site. What should I try?</div>
-                <div class="faq-body" id="faq11body">
-                    <p>If you are using Safari, the table will not automatically download. 
-                        When you see the comma-delimited trends table displayed in your browser, go to the "File tab" in Safari, 
-                        select "Save As", enter your desired filename in the "Export As" field, 
-                        and change the "Format" field to "Page Source". Then select save, and you will see the .csv 
-                        file in the location you specified on your local computer. 
-                        The download functionality does not work in Internet Explorer; 
-                        you will need to use a different browser.</p>
-                </div>
                 <h4 style="margin-bottom: 15px; font-weight: 600;">Study methods</h4>
-                <div class="faq-header" id="faq12header">12. What trend methods did you use?</div>
-                <div class="faq-body" id="faq12body">
-                    <p>Magnitude of monotonic trends were computed using the Sen slope
-                        <br>Sen, P.K., 1968. Estimates of the regression coefficient based on Kendall's tau. J. Am. Stat. Assoc. 63, 1379-1389</br>
-                    <p>Significance of monotonic trends were computed using the Mann-Kendall test that included methods that considered the possibility of short- and long-term persistence in the time-series data</p>
-                        <br>R-code for our general Mann-Kendall test can be downloaded  <a href ="https://www.sciencebase.gov/catalog/item/5b183960e4b092d965219d62" >here. </a>
-                        <br>Dudley, R.W., Hirsch, R.M., Archfield, S.A., Blum, A.G., and Renard, B., 2019, Low-streamflow trends and basin characteristics for 2,482 U.S. Geological Survey streamgages in the conterminous U.S. (ver. 2.0, February 2019): U.S. Geological Survey data release, <a href="https://doi.org/10.5066/P9LO24MG"></a>
-                        <br>Dudley, R.W., Archfield, S.A., Hodgkins, G.A., Renard, B., and Ryberg, K.R., 2018, Peak-streamflow trends and change-points and basin characteristics for 2,683 U.S. Geological Survey streamgages in the conterminous U.S. (ver. 2.0, October 2018): U.S. Geological Survey data release, <a href="https://doi.org/10.5066/P9AEGXY0"></a>
-                    <p>Change point in median (step change) was computed using the Pettit test</p>
-                        <br>Pettitt, A.N., 1979. A non-parametric approach to the change-point problem. Journal of the Royal Statistical Society. Series C (Applied Statistics) 28, 126-135. <a href="https://doi.org/10.2307/2346729"></a>
-                    <p>Change point in scale (step change) was computed using the Mood test</p>
-                        <br>Mood, A.M., 1954. On the asymptotic efficiency of certain nonparametric two-sample tests. The Annals of Mathematical Statistics 25, 514-522.
+                <div class="faq-header" id="faq11header">11. What trend methods did you use?</div>
+                <div class="faq-body" id="faq11body">
+                    <p>The magnitudes of monotonic trends were computed using the Sen slope, a nonparametric approach.
+                    <br/><ul><li>Sen, P.K., 1968. Estimates of the regression coefficient based on Kendall's tau. J. Am. Stat. Assoc. 63, 1379-1389</li></ul></p>
+                    <br/>
+                    <p>The significance of monotonic trends was computed using the nonparametric Mann-Kendall test including variations that considered the possibility of short- and long-term persistence in the time-series data. Note that in rare cases, a time series may have a significant trend result while the computed magnitude of the trend is zero due do the presence of many ties in the pairwise slope computations (e.g. sites with many years of zero flow).</p>
+                    <br/>
+                    <p>R-code for our general Mann-Kendall test can be downloaded from either of the following data releases:
+                        <br><ul><li>Dudley, R.W., Hirsch, R.M., Archfield, S.A., Blum, A.G., and Renard, B., 2019, Low-streamflow trends and basin characteristics for 2,482 U.S. Geological Survey streamgages in the conterminous U.S. (ver. 2.0, February 2019): U.S. Geological Survey data release <a target="_blank" href="https://doi.org/10.5066/P9LO24MG">https://doi.org/10.5066/P9LO24MG</a></li>
+                        <li>Dudley, R.W., Archfield, S.A., Hodgkins, G.A., Renard, B., and Ryberg, K.R., 2018, Peak-streamflow trends and change-points and basin characteristics for 2,683 U.S. Geological Survey streamgages in the conterminous U.S. (ver. 2.0, October 2018): U.S. Geological Survey data release <a target="_blank" href="https://doi.org/10.5066/P9AEGXY0">https://doi.org/10.5066/P9AEGXY0</a></li></ul></p>
                 </div>
-                <div class="faq-header" id="faq13header">13. How did you decide which sites were suitable for trend analysis?</div>
-                <div class="faq-body" id="faq13body">
+                <div class="faq-header" id="faq12header">12. How did you decide which sites were suitable for trend analysis?</div>
+                <div class="faq-body" id="faq12body">
                     <br>Candidate sites were considered from among the 9,062 gages in the Geospatial Attributes of Gages for Evaluating Streamflow, 
                     version II, (GAGES-II) database: Falcone, J.A., 2011, GAGES-II—Geospatial attributes of gages for evaluating streamflow: 
-                    U.S. Geological Survey metadata, also available  <a href ="http://water.usgs.gov/GIS/metadata/usgswrd/XML/gagesII_Sept2011.xml">here. </a>
+                    U.S. Geological Survey metadata, also available  <a href ="http://water.usgs.gov/GIS/metadata/usgswrd/XML/gagesII_Sept2011.xml" target="_blank">here. </a>
                     <br>Data downloaded from the USGS National Water Information System (NWIS) for all candidate gages were then subjected to length and completeness criteria. 
-                    Study gages were required to have complete data for at least 8 out of every 10 years for each decade (e.g. 1990-1999) in the time periods tested.
+                    Study gages were required to have complete data for at least 8 out of every 10 years for each decade (e.g. 1990-1999) in the time periods tested. Further detail on the data preparation is available in the two papers references in FAQ#1. Also noted in FAQ #4, the selected streamgages include a range of conditions in terms of upstream land use, regulation, and withdrawals.
                 </div>
                 <h4 style="margin-bottom: 15px; font-weight: 600;">Citations</h4>
-                <div class="faq-header" id="faq14header">14. How should this mapper be cited?</div>
-                <div class="faq-body" id="faq14body">
+                <div class="faq-header" id="faq13header">13. How should this mapper be cited?</div>
+                <div class="faq-body" id="faq13body">
                     <p>All of the results in the mapper are reported in these USGS Data Releases:</p>
                         Dudley, R.W., Hirsch, R.M., Archfield, S.A., Blum, A.G., and Renard, B., 2019, 
                         Low-streamflow trends and basin characteristics for 2,482 U.S. Geological Survey 
                         streamgages in the conterminous U.S. (ver. 2.0, February 2019): U.S. Geological Survey 
-                        data release, <a href="https://doi.org/10.5066/P9LO24MG">https://doi.org/10.5066/P9LO24MG</a>
+                        data release, <a href="https://doi.org/10.5066/P9LO24MG" target="_blank">https://doi.org/10.5066/P9LO24MG</a>
                         <br>Dudley, R.W., Archfield, S.A., Hodgkins, G.A., Renard, B., and Ryberg, K.R., 2018, 
                         Peak-streamflow trends and change-points and basin characteristics for 2,683 U.S. Geological 
                         Survey streamgages in the conterminous U.S. (ver. 2.0, October 2018): U.S. Geological Survey 
-                        data release, <a href="https://doi.org/10.5066/P9AEGXY0">https://doi.org/10.5066/P9AEGXY0</a>
+                        data release, <a href="https://doi.org/10.5066/P9AEGXY0" target="_blank">https://doi.org/10.5066/P9AEGXY0</a>
                 </div>
-                <div class="faq-header" id="faq15header">15. Who can I contact for more information on this mapper?</div>
-                <div class="faq-body" id="faq15body">
-                    <p>For questions related to the operation of the mapper, you can contact:</p>
+                <div class="faq-header" id="faq14header">14. Who can I contact for more information on this mapper?</div>
+                <div class="faq-body" id="faq14body">
+                    <p>For questions related to the operation of the Trend Mapper, you can contact:</p>
                     <br>Hans Vraga
                     <br>Project Manager, Web Informatics and Mapping (WIM)
                     <br>Email: <a href="hvraga@usgs.gov">hvraga@usgs.gov</a>
@@ -680,7 +738,7 @@
 						</button>
                         <button id="btnGray" class="basemap-button" >
 							<img alt="" src="images/basemaps/gray.jpg">
-							<span>Grery</span>
+							<span>Grey</span>
 						</button>
                         <button id="btnOSM" class="basemap-button">
 							<img alt="" src="images/basemaps/osm.jpg">
@@ -702,7 +760,7 @@
 			<!-- Map Layers -->
             <div class="panel panel-default wim-sidebar-panel">
 				<a class="panel-title collapsed" id="layersPanelHeader" data-toggle="collapse" href="#layersPanel" aria-expanded="true" aria-controls="layersPanel">
-					Map Layers
+					Land Use Layers <a class="help-tooltip" id="landUseRef" target="_blank" href="https://catalog.data.gov/dataset/u-s-conterminous-wall-to-wall-anthropogenic-land-use-trends-nwalt-1974-2012"><i class="fas fa-question-circle"></i></a>
 				</a>
                 <div id="layersPanel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="layersPanelHeader">
                     <div id="toggle" class="panel-body"></div>
@@ -716,7 +774,7 @@
 				</a>
                 <div id="constPanel" class="panel-collapse collapse in constituent-panel" role="tabpanel" aria-labelledby="constPanelHeader">
 					<div id="constDropdowns">
-                        <label for="layerSelect">Available Trends:</label>
+                        <label for="layerSelect">Available Trends <a class="help-tooltip" id="trendTypeHelp"><i class="fas fa-question-circle"></i></a>:</label>
                         <span>
                             <select id="layerSelect">
                                 <optgroup label="Low flows">
@@ -728,7 +786,7 @@
                                     <option value="JD_last_Q2">Last Julian date flow <= the Q2 threshold</option>
                                     <option value="JD_first_Q2">First Julian date flow <= the Q2 threshold</option>
                                     <option value="JD_diff_Q2">JD Difference Q2</option>
-                                    <option value="zeroQ_nDays">ZeroQ</option>
+                                    <option value="zeroQ_nDays">ZeroQ nDays</option>
                                 </optgroup>
                                 <optgroup label="Mean flows">
                                     <option value="mean_annual_Q">Mean Annual Q</option>
@@ -742,22 +800,6 @@
                         </span>
                     </div>
 
-					<label style="margin-top: 15px;">Model</label>
-					<div class="sidebar-radio-group">
-						<span class="radio">
-							<input id="ltpModle" name="trendType" class="trendType" type="radio" value="LTP" checked> 
-							<label for="ltpModle">LTP</label>
-						</span>
-						<span class="radio">
-							<input id="ar1Model" name="trendType" class="trendType" type="radio" value="AR1">
-							<label for="ar1Model">AR1</label>
-						</span>
-						<span class="radio">
-							<input id="indeModel" name="trendType" class="trendType" type="radio" value="INDE">
-							<label for="indeModel">INDE</label>
-						</span>
-					</div>
-					
 					<label style="margin-top: 15px;">Trend period</label>
 					<div class="sidebar-radio-group">
 						<span id="trend3" class="radio">
@@ -772,9 +814,25 @@
 							<input id="trend1input" name="trendPeriod" class="trendPeriod" type="radio" value="1966">
 							<label for="trend1input">1966-2015</label>
 						</span>
+                    </div>
+                    
+                    <label style="margin-top: 15px;">Time-series assumption <a class="help-tooltip" id="indeHelp"><i class="fas fa-question-circle"></i></a></label>
+					<div class="sidebar-radio-group">
+						<span class="radio">
+							<input id="indeModel" name="trendType" class="trendType" type="radio" value="INDE" checked>
+							<label for="indeModel">INDE</label>
+                        </span>
+						<span class="radio">
+							<input id="ar1Model" name="trendType" class="trendType" type="radio" value="AR1">
+							<label for="ar1Model">AR1</label>
+						</span>
+                        <span class="radio">
+							<input id="ltpModle" name="trendType" class="trendType" type="radio" value="LTP"> 
+							<label for="ltpModle">LTP</label>
+						</span>
 					</div>
-
-                </div>
+					
+				</div>
 			</div>
 		
             <!-- # closing div tag for accordion style panels -->
@@ -842,7 +900,7 @@
 									<div class="pval-wrapper">
 										<label>
 											<span>Trend line slope</span>
-											<small>(Thiel-Sen <a class="help-tooltip" id="thielSenHelp"><i class="fas fa-question-circle"></i></a> method)</small>
+											<small>(Sen slope <a class="help-tooltip" id="thielSenHelp"><i class="fas fa-question-circle"></i></a>)</small>
 										</label>
 										<div class="pval-val" id="slope">1</div>
 									</div>
@@ -875,7 +933,16 @@
                         </h4>
                     </div>
                     <div id="legendCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                        <small style="display: block; text-align: center; font-size: 8pt; color: rgba(0,0,0,0.65); font-weight: 400; padding: 5px 0;">For more information, see <a class="showUserGuide2" onclick="ga('send','event','navbar','click','User Guide');">User Guide</a>.</small>
+                        <small style="display: block; text-align: center; font-size: 8pt; color: rgba(0,0,0,0.65); font-weight: 400; padding: 5px 0;">For more Mapper information, see <a class="showUserGuide2" onclick="gtag('event', 'click', {
+                            'event_category': 'navbar',
+                            'event_label': 'User Guide',
+                            'value': 1
+                          });">User Guide</a>.</small>
+                        <small style="display: block; text-align: center; font-size: 8pt; color: rgba(0,0,0,0.65); font-weight: 400; padding: 5px 0;">For more study details, see <a class="showFAQNav" onclick="gtag('event', 'click', {
+                            'event_category': 'navbar',
+                            'event_label': 'FAQ',
+                            'value': 1
+                          });">FAQ</a>.</small>
 						<!-- Custom legend -->
 						<div class="custom-legend">
 							<div class="legend-row">
@@ -919,10 +986,18 @@
 
             </div>
 
-            <div onclick="ga('send','event','Map Button','click','Home icon');"><div id="homeButton"></div></div>
-            <div  onclick="ga('send','event','Map Button','click','Location icon');"><div id="locateButton"></div></div>
+            <div onclick="gtag('event', 'click', {
+                'event_category': 'Map Button',
+                'event_label': 'Home icon',
+                'value': 1
+              });"><div id="homeButton"></div></div>
+            <div onclick="gtag('event', 'click', {
+                'event_category': 'Map Button',
+                'event_label': 'Location icon',
+                'value': 1
+              });"><div id="locateButton"></div></div>
 
-            <div id="latLngScale" class="latLngScale">
+            <div class="latLngScale">
                 <span class="hover-content"> <b>Map scale </b></span>
                 1:<span id="scale"></span> <br>
                 <span class="hover-content"><b>Latitude</b></span>
