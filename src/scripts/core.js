@@ -636,9 +636,9 @@ require([
                         "<b>Site number: </b>" + attr.trend_gages_site_id + "<br/>" +
                         /*"<b>Agency: </b>U.S. Geological Survey<br/>" +*/
                         "<b>Gage class: </b>" + gage_class + "<br/>" +
-                        "<b>Latitude: </b>" + attr.trend_gages_dec_lat_va + "<br/>" +
-                        "<b>Longitude: </b>" + attr.trend_gages_dec_long_va + "<br/>" +
-                        "<b>Drainage area: </b>" + attr.trend_gages_drainSqKm + " (km<sup>2</sup>)<br/>" +
+                        "<b>Latitude: </b>" + Number(attr.trend_gages_dec_lat_va).toFixed(2).toString() + "<br/>" +
+                        "<b>Longitude: </b>" + Number(attr.trend_gages_dec_long_va).toFixed(2).toString() + "<br/>" +
+                        "<b>Drainage area: </b>" + Number(attr.trend_gages_drainSqKm).toFixed(2).toString() + " (km<sup>2</sup>)<br/>" +
                         "<b>Trend: </b>" + trendText);
                 }
 
@@ -755,9 +755,6 @@ require([
 								},
                                 title: {
                                     text: trendConfig[trendLayerForQuery].chartTitle
-                                },
-                                subtitle: {
-                                    text: 'data'
                                 },
                                 credits: {
                                     enabled: false
