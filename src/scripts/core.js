@@ -607,13 +607,25 @@ require([
                 var trend = Number(attr[trendField]);
                 var trendText;
 
-                if (trend < -0.05) {
+                /*if (trend < -0.05) {
                     trendText = "Non-significant trend down";
                 } else if (trend >= -0.05 && trend <= -0.000001) {
                     trendText = "Significant trend down";
                 } else if (trend > -0.000001 && trend < 0.000001) {
                     trendText = "No trend";
                 } else if (trend >= 0.000001 && trend <= 0.05) {
+                    trendText = "Significant trend up";
+                } else if (trend > 0.05) {
+                    trendText = "Non-significant trend up";
+                }*/
+
+                if (trend < -0.05) {
+                    trendText = "Non-significant trend down";
+                } else if (trend >= -0.05 && trend < 0) {
+                    trendText = "Significant trend down";
+                } else if (trend == 0) {
+                    trendText = "No trend";
+                } else if (trend > 0 && trend <= 0.05) {
                     trendText = "Significant trend up";
                 } else if (trend > 0.05) {
                     trendText = "Non-significant trend up";
