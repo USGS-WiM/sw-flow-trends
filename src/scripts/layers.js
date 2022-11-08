@@ -25,7 +25,7 @@ require([
             "includeInLayerList": false,
             "layers": {
                 "Trend Results": {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/swFlowTrends_test/MapServer/30",
+                    "url": "https://gis1.wim.usgs.gov/server/rest/services/SWFlowTrends/swFlowTrends/MapServer/30",
                     "options": {
                         "id": "trendResults",
                         "opacity": 1.00,
@@ -42,7 +42,7 @@ require([
                     }
                 },
                 "For layer info" : {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/swFlowTrends_test/MapServer",
+                    "url": "https://gis1.wim.usgs.gov/server/rest/services/SWFlowTrends/swFlowTrends/MapServer",
                     "options": {
                         "id": "layerInfo",
                         "opacity": 1.00,
@@ -58,7 +58,7 @@ require([
                     }
                 },
                 "trends_by_year" : {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWFlowTrends/trends_by_year/MapServer/",
+                    "url": "https://gis1.wim.usgs.gov/server/rest/services/SWFlowTrends/trends_by_year/MapServer/",
                     "options": {
                         "id": "trendsByYear",
                         "opacity": 0.00,
@@ -74,7 +74,7 @@ require([
                     }
                 },
                 "2012": {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWTrends/lu2012_100515_test/ImageServer",
+                    "url": "https://gis1.wim.usgs.gov/server/rest/services/SWTrends/lu2012_100515_test/ImageServer",
                     "options": {
                         "id": "lu2012",
                         "opacity": 0.5,
@@ -90,7 +90,7 @@ require([
                     }
                 },
                 "2002": {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWTrends/lu2002_100515_test/ImageServer",
+                    "url": "https://gis1.wim.usgs.gov/server/rest/services/SWTrends/lu2002_100515_test/ImageServer",
                     "options": {
                         "id": "lu2002",
                         "opacity": 0.5,
@@ -106,7 +106,7 @@ require([
                     }
                 },
                 "1992": {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWTrends/lu1992_100515_test/ImageServer",
+                    "url": "https://gis1.wim.usgs.gov/server/rest/services/SWTrends/lu1992_100515_test/ImageServer",
                     "options": {
                         "id": "lu1992",
                         "opacity": 0.5,
@@ -122,7 +122,7 @@ require([
                     }
                 },
                 "1982": {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWTrends/lu1982_100515_test/ImageServer",
+                    "url": "https://gis1.wim.usgs.gov/server/rest/services/SWTrends/lu1982_100515_test/ImageServer",
                     "options": {
                         "id": "lu1982",
                         "opacity": 0.5,
@@ -138,7 +138,7 @@ require([
                     }
                 },
                 "1974": {
-                    "url": "https://gis.wim.usgs.gov/arcgis/rest/services/SWTrends/lu1974_100515_test/ImageServer",
+                    "url": "https://gis1.wim.usgs.gov/server/rest/services/SWTrends/lu1974_100515_test/ImageServer",
                     "options": {
                         "id": "lu1974",
                         "opacity": 0.5,

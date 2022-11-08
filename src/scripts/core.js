@@ -1287,7 +1287,7 @@ require([
         var docTitle = template.layoutOptions.titleText;
 
         printParams.template = template;
-        var printMap = new PrintTask("https://gis.wim.usgs.gov/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");
+        var printMap = new PrintTask("https://gis1.wim.usgs.gov/server/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");
         //uncomment when ready to execute print
         //printMap.execute(printParams, printDone, printError);
 
